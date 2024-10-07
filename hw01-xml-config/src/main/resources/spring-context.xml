@@ -14,8 +14,9 @@
         <constructor-arg name="fileNameProvider" ref="appProperties"/>
     </bean>
 
-    <bean id="ioServiceFactory" class="ru.otus.hw.service.IOServiceFactory"/>
-    <bean id="ioService" factory-bean="ioServiceFactory" factory-method="createConsoleIO"/>
+    <bean id="ioService" class="ru.otus.hw.service.StreamsIOService">
+        <constructor-arg name="printStream" value="#{ T(System).out }"/>
+    </bean>
 
     <bean id="testService" class="ru.otus.hw.service.TestServiceImpl">
         <constructor-arg name="ioService" ref="ioService"/>

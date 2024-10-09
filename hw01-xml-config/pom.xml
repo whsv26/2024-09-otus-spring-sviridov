@@ -110,18 +110,9 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ru.otus.hw.Application</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
-                    <minimizeJar>true</minimizeJar>
                     <artifactSet>
                         <excludes>
                             <exclude>org.projectlombok:lombok</exclude>
@@ -135,16 +126,29 @@
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>
-                                <exclude>META-INF/license/**</exclude>
-                                <exclude>META-INF/*</exclude>
-                                <exclude>META-INF/maven/**</exclude>
-                                <exclude>LICENSE</exclude>
-                                <exclude>NOTICE</exclude>
-                                <exclude>/*.txt</exclude>
-                                <exclude>build.properties</exclude>
+                                <exclude>META-INF/spring/*.factories</exclude>
+                                <exclude>META-INF/**/*.tooling</exclude>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
+                                <exclude>META-INF/**/LICENSE</exclude>
+                                <exclude>META-INF/**/NOTICE</exclude>
+                                <exclude>META-INF/**/*.txt</exclude>
                             </excludes>
                         </filter>
                     </filters>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Main-Class>ru.otus.hw.Application</Main-Class>
+                            </manifestEntries>
+                        </transformer>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                            <resource>META-INF/spring.handlers</resource>
+                        </transformer>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                            <resource>META-INF/spring.schemas</resource>
+                        </transformer>
+                    </transformers>
                 </configuration>
             </plugin>
         </plugins>

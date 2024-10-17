@@ -3,9 +3,9 @@ package ru.otu.hw;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Answer;

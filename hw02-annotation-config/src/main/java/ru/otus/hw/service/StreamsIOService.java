@@ -5,10 +5,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Optional;
 import java.util.Scanner;
 
 @Service
 public class StreamsIOService implements IOService {
+
+    private static final int MAX_ATTEMPTS = 10;
 
     private final PrintStream printStream;
 
@@ -27,13 +30,34 @@ public class StreamsIOService implements IOService {
     }
 
     @Override
-    public void printFormattedLine(String s, Object... args) {
-        printStream.printf(s + "%n", args);
+    public String readString() {
+        return scanner.nextLine();
     }
 
     @Override
-    public String readString() {
-        return scanner.nextLine();
+    public int readIntForRange(int min, int max, String errorMessage) {
+        for (int i = 0; i < MAX_ATTEMPTS; i++) {
+            var stringValue = scanner.nextLine();
+            var maybeIntValue = parseIntForRange(stringValue, min, max);;
+
+            if (maybeIntValue.isPresent()) {
+                return maybeIntValue.get();
+            }
+
+            printLine(errorMessage);
+        }
+        throw new IllegalArgumentException("Error during reading int value");
+    }
+
+    private static Optional<Integer> parseIntForRange(String stringValue, int min, int max) {
+        try {
+            int intValue = Integer.parseInt(stringValue);
+            return intValue < min || intValue > max
+                ? Optional.empty()
+                : Optional.of(intValue);
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
     }
 
 }

@@ -3,7 +3,7 @@ package ru.otus.hw.service;
 public interface IOService {
     void printLine(String s);
 
-    void printFormattedLine(String s, Object ...args);
+    int readIntForRange(int min, int max, String errorMessage);
 
     String readString();
 
@@ -12,13 +12,12 @@ public interface IOService {
         return readString();
     }
 
-    default <T> T read(Reader<T> reader) {
-        return reader.read(readString());
+    default void printFormattedLine(String s, Object... args) {
+        printLine(s.formatted(args));
     }
 
-    default <T> T readWithPrompt(Reader<T> reader, String prompt) {
+    default int readIntForRangeWithPrompt(int min, int max, String prompt, String errorMessage) {
         printLine(prompt);
-        return read(reader);
+        return readIntForRange(min, max, errorMessage);
     }
-
 }

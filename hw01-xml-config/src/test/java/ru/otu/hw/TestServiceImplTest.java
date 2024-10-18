@@ -14,7 +14,7 @@ import ru.otus.hw.service.TestServiceImpl;
 
 import java.util.List;
 
-public class TestServiceImplTests {
+public class TestServiceImplTest {
 
     private InMemoryIOService ioService;
 

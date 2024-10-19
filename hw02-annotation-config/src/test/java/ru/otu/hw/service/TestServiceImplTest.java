@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.inOrder;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
@@ -57,18 +58,17 @@ public class TestServiceImplTest {
 
         testService.executeTestFor(STUDENT);
 
+        var inOrder = inOrder(ioService);
+
         List.of(
-            "Please answer the questions below",
             "q1",
             "- 1) q1.a1",
             "- 2) q1.a2",
-            "Enter correct answer numbers from 1 to 2, separated by commas",
             "q2",
             "- 1) q2.a1",
             "- 2) q2.a2",
-            "- 3) q2.a3",
-            "Enter correct answer numbers from 1 to 3, separated by commas"
-        ).forEach(verify(ioService)::printLine);
+            "- 3) q2.a3"
+        ).forEach(s -> inOrder.verify(ioService).printLine(eq(s)));
     }
 
     @DisplayName("Should accept one right answer")

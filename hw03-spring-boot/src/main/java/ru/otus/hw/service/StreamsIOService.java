@@ -1,6 +1,7 @@
 package ru.otus.hw.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -8,6 +9,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 @Service
+@Primary
 public class StreamsIOService implements IOService {
     private static final int MAX_ATTEMPTS = 10;
 
@@ -28,18 +30,7 @@ public class StreamsIOService implements IOService {
     }
 
     @Override
-    public void printFormattedLine(String s, Object... args) {
-        printStream.printf(s + "%n", args);
-    }
-
-    @Override
     public String readString() {
-        return scanner.nextLine();
-    }
-
-    @Override
-    public String readStringWithPrompt(String prompt) {
-        printLine(prompt);
         return scanner.nextLine();
     }
 
@@ -58,11 +49,5 @@ public class StreamsIOService implements IOService {
             }
         }
         throw new IllegalArgumentException("Error during reading int value");
-    }
-
-    @Override
-    public int readIntForRangeWithPrompt(int min, int max, String prompt, String errorMessage) {
-        printLine(prompt);
-        return readIntForRange(min, max, errorMessage);
     }
 }

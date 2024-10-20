@@ -1,13 +1,26 @@
 package ru.otus.hw.service;
 
 public interface LocalizedIOService extends LocalizedMessagesService, IOService {
-    void printLineLocalized(String code);
+    default void printLineLocalized(String code) {
+        printLine(getMessage(code));
+    }
 
-    void printFormattedLineLocalized(String code, Object ...args);
+    default void printFormattedLineLocalized(String code, Object ...args) {
+        printLine(getMessage(code, args));
+    }
 
-    String readStringWithPromptLocalized(String promptCode);
+    default String readStringWithPromptLocalized(String promptCode) {
+        var prompt = getMessage(promptCode);
+        return readStringWithPrompt(prompt);
+    }
 
-    int readIntForRangeLocalized(int min, int max, String errorMessageCode);
+    default int readIntForRangeLocalized(int min, int max, String errorMessageCode) {
+        var errorMessage = getMessage(errorMessageCode);
+        return readIntForRange(min, max, errorMessage);
+    }
 
-    int readIntForRangeWithPromptLocalized(int min, int max, String promptCode, String errorMessageCode);
+    default int readIntForRangeWithPromptLocalized(int min, int max, String promptCode, String errorMessageCode) {
+        printLine(getMessage(promptCode));
+        return readIntForRangeLocalized(min, max, errorMessageCode);
+    }
 }

@@ -1,0 +1,6 @@
+
+q1;a1%true|a2%false|a3%false
+q2;a1%false|a2%true|a3%false
+q3;a1%false|a2%false|a3%true
+q4;a1%true|a2%false
+q5;a1%true

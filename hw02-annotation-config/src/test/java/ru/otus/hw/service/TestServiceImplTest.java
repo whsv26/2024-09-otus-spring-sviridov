@@ -1,7 +1,15 @@
-package ru.otu.hw.service;
+package ru.otus.hw.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.inOrder;
+
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
@@ -11,19 +19,12 @@ import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.domain.Student;
-import ru.otus.hw.service.LocalizedIOService;
+import ru.otus.hw.service.IOService;
 import ru.otus.hw.service.TestServiceImpl;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.inOrder;
 
 @ExtendWith(MockitoExtension.class)
 public class TestServiceImplTest {
@@ -31,7 +32,7 @@ public class TestServiceImplTest {
     public static final Student STUDENT = new Student("Alexander", "Sviridov");
 
     @Mock(answer = Answers.CALLS_REAL_METHODS)
-    private LocalizedIOService ioService;
+    private IOService ioService;
 
     @Mock
     private QuestionDao questionDao;
@@ -42,7 +43,6 @@ public class TestServiceImplTest {
     @DisplayName("Should print questions with answers")
     @Test
     public void shouldPrintQuestionsWithAnswers() {
-        answersShouldBe(1, 1);
         questionsShouldBe(
             new Question("q1", List.of(
                 new Answer("q1.a1", true),
@@ -54,6 +54,7 @@ public class TestServiceImplTest {
                 new Answer("q2.a3", true)
             ))
         );
+        answersShouldBe(1, 1);
 
         testService.executeTestFor(STUDENT);
 
@@ -95,9 +96,10 @@ public class TestServiceImplTest {
     }
 
     private void answersShouldBe(int... answers) {
-        var stub = given(ioService.readIntForRangeLocalized(anyInt(), anyInt(), anyString()));
+        var stub = given(ioService.readIntForRange(anyInt(), anyInt(), anyString()));
         for (var answer : answers) {
             stub = stub.willReturn(answer);
         }
     }
+
 }

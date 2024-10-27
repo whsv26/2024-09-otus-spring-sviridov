@@ -1,4 +1,4 @@
-package ru.otu.hw;
+package ru.otus.hw;
 
 import ru.otus.hw.service.IOService;
 

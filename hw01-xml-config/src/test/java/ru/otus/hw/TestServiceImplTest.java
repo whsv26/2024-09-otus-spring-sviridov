@@ -1,4 +1,4 @@
-package ru.otu.hw;
+package ru.otus.hw;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -26,30 +26,20 @@ public class TestServiceImpl implements TestService {
         var testResult = new TestResult(student);
 
         for (var question : questions) {
-            askQuestion(question);
-            var selectedAnswer = selectAnswer(question);
+            var answerTexts = question.answers().stream().map(Answer::text).toList();
+            var selectedAnswerText = ioService.selectStringWithPrompt(question.text(), answerTexts);
+            var selectedAnswer = findAnswerByText(question, selectedAnswerText);
+
             testResult.applyAnswer(question, selectedAnswer.isCorrect());
         }
 
         return testResult;
     }
 
-    private Answer selectAnswer(Question question) {
-        var min = 1;
-        var max = question.answers().size();
-        var errorCode = "TestService.answer.read.invalid.format";
-        var promptCode = "TestService.answer.read.prompt";
-        var answerOrdinal = ioService.readIntForRangeWithPromptLocalized(min, max, promptCode, errorCode);
-
-        return question.answers().get(answerOrdinal - 1);
+    private static Answer findAnswerByText(Question question, String text) {
+        return question.answers().stream()
+            .filter(answer -> answer.text().equals(text))
+            .findAny()
+            .orElseThrow(() -> new IllegalArgumentException("Unknown answer"));
     }
-
-    private void askQuestion(Question question) {
-        ioService.printLine(question.text());
-        var answerOrdinal = 1;
-        for (var answer : question.answers()) {
-            ioService.printFormattedLine("- %s) %s", answerOrdinal++, answer.text());
-        }
-    }
-
 }

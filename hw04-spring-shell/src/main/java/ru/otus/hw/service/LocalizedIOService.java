@@ -14,14 +14,4 @@ public interface LocalizedIOService extends LocalizedMessagesService, IOService 
         var prompt = getMessage(promptCode);
         return readStringWithPrompt(prompt);
     }
-
-    default int readIntForRangeLocalized(int min, int max, String errorMessageCode) {
-        var errorMessage = getMessage(errorMessageCode);
-        return readIntForRange(min, max, errorMessage);
-    }
-
-    default int readIntForRangeWithPromptLocalized(int min, int max, String promptCode, String errorMessageCode) {
-        printLine(getMessage(promptCode));
-        return readIntForRangeLocalized(min, max, errorMessageCode);
-    }
 }

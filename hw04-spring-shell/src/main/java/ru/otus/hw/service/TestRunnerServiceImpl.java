@@ -1,29 +1,23 @@
 package ru.otus.hw.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Service;
+import ru.otus.hw.security.StudentContext;
 
 @Service
 @RequiredArgsConstructor
-public class TestRunnerServiceImpl implements TestRunnerService, ApplicationRunner {
+public class TestRunnerServiceImpl implements TestRunnerService {
 
     private final TestService testService;
 
-    private final StudentService studentService;
+    private final StudentContext studentContext;
 
     private final ResultService resultService;
 
     @Override
     public void run() {
-        var student = studentService.determineCurrentStudent();
+        var student = studentContext.getStudent();
         var testResult = testService.executeTestFor(student);
         resultService.showResult(testResult);
-    }
-
-    @Override
-    public void run(ApplicationArguments args) {
-        run();
     }
 }

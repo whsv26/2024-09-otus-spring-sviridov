@@ -3,6 +3,8 @@ package ru.otus.hw.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class LocalizedIOServiceImpl implements LocalizedIOService {
@@ -17,13 +19,13 @@ public class LocalizedIOServiceImpl implements LocalizedIOService {
     }
 
     @Override
-    public String readString() {
-        return ioService.readString();
+    public String readStringWithPrompt(String prompt) {
+        return ioService.readStringWithPrompt(prompt);
     }
 
     @Override
-    public int readIntForRange(int min, int max, String errorMessage) {
-        return ioService.readIntForRange(min, max, errorMessage);
+    public String selectStringWithPrompt(String prompt, List<String> items) {
+        return ioService.selectStringWithPrompt(prompt, items);
     }
 
     @Override

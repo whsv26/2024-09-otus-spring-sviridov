@@ -16,7 +16,7 @@ public class GenreCommands {
 
     private final GenreConverter genreConverter;
 
-    @ShellMethod(value = "Find all genres", key = "ag")
+    @ShellMethod(value = "Find all genres", key = {"find-all-genres", "ag"})
     public String findAllGenres() {
         return genreService.findAll().stream()
                 .map(genreConverter::genreToString)

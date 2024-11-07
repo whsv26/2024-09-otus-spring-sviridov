@@ -16,7 +16,7 @@ public class AuthorCommands {
 
     private final AuthorConverter authorConverter;
 
-    @ShellMethod(value = "Find all authors", key = "aa")
+    @ShellMethod(value = "Find all authors", key = {"find-all-authors", "aa"})
     public String findAllAuthors() {
         return authorService.findAll().stream()
                 .map(authorConverter::authorToString)

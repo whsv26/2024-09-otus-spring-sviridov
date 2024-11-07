@@ -18,14 +18,14 @@ public class BookCommands {
 
     private final BookConverter bookConverter;
 
-    @ShellMethod(value = "Find all books", key = "ab")
+    @ShellMethod(value = "Find all books", key = {"find-all-books", "ab"})
     public String findAllBooks() {
         return bookService.findAll().stream()
                 .map(bookConverter::bookToString)
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
-    @ShellMethod(value = "Find book by id", key = "bbid")
+    @ShellMethod(value = "Find book by id", key = {"find-book-by-id", "bbid"})
     public String findBookById(long id) {
         return bookService.findById(id)
                 .map(bookConverter::bookToString)
@@ -33,21 +33,21 @@ public class BookCommands {
     }
 
     // bins newBook 1 1,6
-    @ShellMethod(value = "Insert book", key = "bins")
+    @ShellMethod(value = "Insert book", key = {"insert-book", "bins"})
     public String insertBook(String title, long authorId, Set<Long> genresIds) {
         var savedBook = bookService.insert(title, authorId, genresIds);
         return bookConverter.bookToString(savedBook);
     }
 
     // bupd 4 editedBook 3 2,5
-    @ShellMethod(value = "Update book", key = "bupd")
+    @ShellMethod(value = "Update book", key = {"update-book", "bupd"})
     public String updateBook(long id, String title, long authorId, Set<Long> genresIds) {
         var savedBook = bookService.update(id, title, authorId, genresIds);
         return bookConverter.bookToString(savedBook);
     }
 
     // bdel 4
-    @ShellMethod(value = "Delete book by id", key = "bdel")
+    @ShellMethod(value = "Delete book by id", key = {"delete-book", "bdel"})
     public void deleteBook(long id) {
         bookService.deleteById(id);
     }

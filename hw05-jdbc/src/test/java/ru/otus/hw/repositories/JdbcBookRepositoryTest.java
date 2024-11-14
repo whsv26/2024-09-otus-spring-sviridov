@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DisplayName("Репозиторий на основе JDBC для работы с книгами ")
 @JdbcTest
@@ -96,12 +98,23 @@ class JdbcBookRepositoryTest {
                 .isEqualTo(returnedBook);
     }
 
-    @DisplayName("должен удалять книгу по id ")
+    @DisplayName("должен удалять книгу по id")
     @Test
     void shouldDeleteBook() {
         assertThat(repositoryJdbc.findById(1L)).isPresent();
         repositoryJdbc.deleteById(1L);
         assertThat(repositoryJdbc.findById(1L)).isEmpty();
+    }
+
+    @DisplayName("должен возвращать ошибку при попытке обновить несуществующую книгу")
+    @Test
+    void shouldFailToUpdateNonExistingBook() {
+        var author = getDbAuthors().stream().findFirst().orElseThrow();
+        var genres = getDbGenres().stream().limit(1).toList();
+        var book = new Book(-1, "book", author, genres);
+
+        assertThatExceptionOfType(EntityNotFoundException.class)
+            .isThrownBy(() -> repositoryJdbc.save(book));
     }
 
     private static List<Author> getDbAuthors() {

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,5 +17,5 @@ public class Book {
 
     private Author author;
 
-    private List<Genre> genres = new ArrayList<>();
+    private List<Genre> genres;
 }

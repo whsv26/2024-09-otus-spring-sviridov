@@ -1,6 +1,7 @@
 package ru.otus.hw.repositories;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
@@ -26,9 +27,14 @@ public class JdbcAuthorRepository implements AuthorRepository {
 
     @Override
     public Optional<Author> findById(long id) {
-        var sql = "select id, full_name from authors where id = :id";
-        var params = Map.of("id", id);
-        return jdbc.query(sql, params, new AuthorRowMapper()).stream().findFirst();
+        try {
+            var sql = "select id, full_name from authors where id = :id";
+            var params = Map.of("id", id);
+            var author = jdbc.queryForObject(sql, params, new AuthorRowMapper());
+            return Optional.ofNullable(author);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     private static class AuthorRowMapper implements RowMapper<Author> {

@@ -16,6 +16,7 @@ import ru.otus.hw.models.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -223,6 +224,7 @@ public class JdbcBookRepository implements BookRepository {
                     extractGenre(rs, book);
                 } else {
                     book = new Book();
+                    book.setGenres(new ArrayList<>());
                     book.setId(bookId);
                     extractTitle(rs, book);
                     extractAuthor(rs, book);

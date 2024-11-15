@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Component
 public class BookConverter {
+    
     private final AuthorConverter authorConverter;
 
     private final GenreConverter genreConverter;

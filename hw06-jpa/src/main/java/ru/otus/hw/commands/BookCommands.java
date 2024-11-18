@@ -21,29 +21,29 @@ public class BookCommands {
     @ShellMethod(value = "Find all books", key = {"find-all-books", "ab"})
     public String findAllBooks() {
         return bookService.findAll().stream()
-                .map(bookConverter::bookToString)
-                .collect(Collectors.joining("," + System.lineSeparator()));
+            .map(bookConverter::dtoToString)
+            .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
     @ShellMethod(value = "Find book by id", key = {"find-book-by-id", "bbid"})
     public String findBookById(long id) {
         return bookService.findById(id)
-                .map(bookConverter::bookToString)
-                .orElse("Book with id %d not found".formatted(id));
+            .map(bookConverter::dtoToString)
+            .orElse("Book with id %d not found".formatted(id));
     }
 
     // bins newBook 1 1,6
     @ShellMethod(value = "Insert book", key = {"insert-book", "bins"})
     public String insertBook(String title, long authorId, Set<Long> genresIds) {
         var savedBook = bookService.insert(title, authorId, genresIds);
-        return bookConverter.bookToString(savedBook);
+        return bookConverter.dtoToString(savedBook);
     }
 
     // bupd 4 editedBook 3 2,5
     @ShellMethod(value = "Update book", key = {"update-book", "bupd"})
     public String updateBook(long id, String title, long authorId, Set<Long> genresIds) {
         var savedBook = bookService.update(id, title, authorId, genresIds);
-        return bookConverter.bookToString(savedBook);
+        return bookConverter.dtoToString(savedBook);
     }
 
     // bdel 4

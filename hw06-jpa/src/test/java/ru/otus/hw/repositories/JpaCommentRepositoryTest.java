@@ -27,15 +27,14 @@ public class JpaCommentRepositoryTest {
     @DisplayName("должен находить комментарий по id")
     @Test
     void shouldReturnCommentById() {
-        var expectedBook = em.find(Book.class, 1L);
-        var expectedComment = new Comment(1L, expectedBook, "comment_1");
+        var expectedBook = em.find(Book.class, 1);
+        var expectedComment = new Comment(1, expectedBook, "comment_1");
         var actualComment = commentRepository.findById(expectedComment.getId());
 
         assertThat(actualComment)
             .isPresent()
             .get()
             .usingRecursiveComparison()
-            .ignoringExpectedNullFields()
             .isEqualTo(expectedComment);
     }
 
@@ -44,9 +43,15 @@ public class JpaCommentRepositoryTest {
     void shouldFindCommentsByBook() {
         var bookId = 1L;
         var book = em.find(Book.class, bookId);
-        var actualCommentIds = commentRepository.findAllFor(book).stream().map(Comment::getId);
-        var expectedCommentIds = List.of(1L, 2L);
-        assertThat(actualCommentIds).containsExactlyInAnyOrderElementsOf(expectedCommentIds);
+        var actualComments = commentRepository.findAllFor(book);
+        var expectedComments = List.of(
+            new Comment(1, book, "comment_1"),
+            new Comment(2, book, "comment_2")
+        );
+
+        assertThat(actualComments)
+            .usingRecursiveFieldByFieldElementComparator()
+            .containsExactlyInAnyOrderElementsOf(expectedComments);
     }
 
     @DisplayName("должен сохранять новый комментарий")
@@ -56,7 +61,9 @@ public class JpaCommentRepositoryTest {
         var book = em.find(Book.class, bookId);
         var comment = new Comment(0, book, "comment");
         commentRepository.save(comment);
-        assertThat(em.find(Comment.class, comment.getId())).isNotNull();
+        var actualComment = em.find(Comment.class, comment.getId());
+
+        assertThat(actualComment).isNotNull();
     }
 
     @DisplayName("должен сохранять измененный комментарий")

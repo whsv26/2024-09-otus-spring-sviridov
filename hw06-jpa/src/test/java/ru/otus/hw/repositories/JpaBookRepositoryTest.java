@@ -81,7 +81,7 @@ class JpaBookRepositoryTest {
     @DisplayName("должен сохранять измененную книгу")
     @Test
     void shouldSaveUpdatedBook() {
-        var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2),
+        var expectedBook = new Book(1, "BookTitle_10500", dbAuthors.get(2),
             List.of(dbGenres.get(4), dbGenres.get(5)));
 
         assertThat(bookRepository.findById(expectedBook.getId()))

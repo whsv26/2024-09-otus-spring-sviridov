@@ -13,12 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.GenreDto;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DisplayName("Сервис для работы с книгами ")
 @SpringBootTest
@@ -65,7 +69,7 @@ class BookServiceImplTest {
             .containsExactlyInAnyOrderElementsOf(expectedBooks);
     }
 
-    @DisplayName("должен сохранять новую книгу")
+    @DisplayName("должен создавать новую книгу")
     @DirtiesContext
     @Test
     void shouldSaveNewBook() {
@@ -89,7 +93,43 @@ class BookServiceImplTest {
             .isEqualTo(returnedBook);
     }
 
-    @DisplayName("должен сохранять измененную книгу")
+    @DisplayName("должен возвращать ошибку при попытке создать книгу с несуществующим автором")
+    @Test
+    void shouldFailToSaveNewBookWithNonExistingAuthor() {
+        var authorId = 999;
+        var title = "BookTitle_10500";
+        var genres = List.of(dbGenres.get(0), dbGenres.get(2));
+        var genreIds = genres.stream().map(GenreDto::id).collect(Collectors.toSet());
+
+        assertThatExceptionOfType(EntityNotFoundException.class)
+            .describedAs("Author with id %d not found".formatted(authorId))
+            .isThrownBy(() -> bookService.insert(title, authorId, genreIds));
+    }
+
+    @DisplayName("должен возвращать ошибку при попытке создать книгу без жанров")
+    @Test
+    void shouldFailToSaveNewBookWithoutAnyGenre() {
+        var title = "BookTitle_10500";
+        var author = dbAuthors.get(0);
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .describedAs("Genres ids must not be null")
+            .isThrownBy(() -> bookService.insert(title, author.id(), Collections.emptySet()));
+    }
+
+    @DisplayName("должен возвращать ошибку при попытке создать книгу с несуществующим жанром")
+    @Test
+    void shouldFailToSaveNewBookWithNonExistingGenre() {
+        var title = "BookTitle_10500";
+        var author = dbAuthors.get(0);
+        var genreIds = Set.of(1L, 999L);
+
+        assertThatExceptionOfType(EntityNotFoundException.class)
+            .describedAs("One or all genres with ids %s not found".formatted(genreIds))
+            .isThrownBy(() -> bookService.insert(title, author.id(), genreIds));
+    }
+
+    @DisplayName("должен изменять существующую книгу")
     @DirtiesContext
     @Test
     void shouldSaveUpdatedBook() {

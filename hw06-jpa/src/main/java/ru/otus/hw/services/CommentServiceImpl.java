@@ -33,8 +33,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     @Override
     public List<CommentDto> findAllFor(long bookId) {
-        var book = findBook(bookId);
-        return commentRepository.findAllFor(book)
+        return commentRepository.findAllFor(bookId)
             .stream()
             .map(commentConverter::commentToDto)
             .toList();

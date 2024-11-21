@@ -43,7 +43,7 @@ public class JpaCommentRepositoryTest {
     void shouldFindCommentsByBook() {
         var bookId = 1L;
         var book = em.find(Book.class, bookId);
-        var actualComments = commentRepository.findAllFor(book);
+        var actualComments = commentRepository.findAllFor(bookId);
         var expectedComments = List.of(
             new Comment(1, book, "comment_1"),
             new Comment(2, book, "comment_2")

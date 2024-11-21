@@ -1,6 +1,5 @@
 package ru.otus.hw.repositories;
 
-import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 
 import java.util.List;
@@ -10,7 +9,7 @@ public interface CommentRepository {
 
     Optional<Comment> findById(long id);
 
-    List<Comment> findAllFor(Book book);
+    List<Comment> findAllFor(long bookId);
 
     Comment save(Comment comment);
 

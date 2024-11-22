@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.otus.hw.models.Genre;
 
 import java.util.List;
@@ -16,11 +15,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий на основе JDBC для работы с жанрами книг ")
 @DataJpaTest
-@Import(JpaGenreRepository.class)
 public class JpaGenreRepositoryTest {
 
     @Autowired
-    private JpaGenreRepository genreRepository;
+    private GenreRepository genreRepository;
 
     @Autowired
     private TestEntityManager em;
@@ -38,7 +36,7 @@ public class JpaGenreRepositoryTest {
     void shouldReturnCorrectGenresListByIds() {
         var genreIds = Set.of(1L, 3L);
         var expectedGenres = genreIds.stream().map(id -> em.find(Genre.class, id)).toList();
-        var actualGenres = genreRepository.findAllByIds(genreIds);
+        var actualGenres = genreRepository.findAllById(genreIds);
 
         assertThat(actualGenres).containsExactlyInAnyOrderElementsOf(expectedGenres);
     }

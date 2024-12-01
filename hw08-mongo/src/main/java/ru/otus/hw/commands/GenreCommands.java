@@ -19,7 +19,7 @@ public class GenreCommands {
     @ShellMethod(value = "Find all genres", key = {"find-all-genres", "ag"})
     public String findAllGenres() {
         return genreService.findAll().stream()
-            .map(genreConverter::dtoToString)
+            .map(genreConverter::genreToString)
             .collect(Collectors.joining("," + System.lineSeparator()));
     }
 }

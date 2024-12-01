@@ -1,12 +1,17 @@
 spring:
-  datasource:
-    url: jdbc:h2:mem:maindb
-  h2:
-    console:
+  shell:
+    interactive:
       enabled: true
-  liquibase:
-    enabled: true
-  jpa:
-    generate-ddl: false
-    hibernate:
-      ddl-auto: none
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: library
+mongock:
+  runner-type: InitializingBean
+  migration-scan-package:
+    - ru.otus.hw.changelogs
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local

@@ -8,15 +8,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.dto.GenreDto;
+import ru.otus.hw.models.Author;
+import ru.otus.hw.models.Book;
+import ru.otus.hw.models.Genre;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -26,17 +25,16 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DisplayName("Сервис для работы с книгами ")
 @SpringBootTest
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
 class BookServiceImplTest {
 
     @Autowired
     private BookServiceImpl bookService;
 
-    private List<AuthorDto> dbAuthors;
+    private List<Author> dbAuthors;
 
-    private List<GenreDto> dbGenres;
+    private List<Genre> dbGenres;
 
-    private List<BookDto> dbBooks;
+    private List<Book> dbBooks;
 
     @BeforeEach
     void setUp() {
@@ -48,8 +46,8 @@ class BookServiceImplTest {
     @DisplayName("должен находить книгу по ее id")
     @ParameterizedTest
     @MethodSource("getDbBooks")
-    void shouldReturnBookById(BookDto expectedBook) {
-        var actualBook = bookService.findById(expectedBook.id());
+    void shouldReturnBookById(Book expectedBook) {
+        var actualBook = bookService.findById(expectedBook.getId());
 
         assertThat(actualBook)
             .isPresent()
@@ -76,17 +74,17 @@ class BookServiceImplTest {
         var title = "BookTitle_10500";
         var author = dbAuthors.get(0);
         var genres = List.of(dbGenres.get(0), dbGenres.get(2));
-        var genreIds = genres.stream().map(GenreDto::id).collect(Collectors.toSet());
-        var expectedBook = new BookDto(0, title, author, genres);
-        var returnedBook = bookService.insert(title, author.id(), genreIds);
+        var genreIds = genres.stream().map(Genre::getId).collect(Collectors.toSet());
+        var expectedBook = new Book(null, title, author, genres);
+        var returnedBook = bookService.insert(title, author.getId(), genreIds);
 
         assertThat(returnedBook).isNotNull()
-            .matches(book -> book.id() > 0)
+            .matches(book -> Objects.nonNull(book.getId()))
             .usingRecursiveComparison()
             .ignoringFields("id")
             .isEqualTo(expectedBook);
 
-        assertThat(bookService.findById(returnedBook.id()))
+        assertThat(bookService.findById(returnedBook.getId()))
             .isPresent()
             .get()
             .usingRecursiveComparison()
@@ -96,13 +94,13 @@ class BookServiceImplTest {
     @DisplayName("должен возвращать ошибку при попытке создать книгу с несуществующим автором")
     @Test
     void shouldFailToSaveNewBookWithNonExistingAuthor() {
-        var authorId = 999;
+        var authorId = "999";
         var title = "BookTitle_10500";
         var genres = List.of(dbGenres.get(0), dbGenres.get(2));
-        var genreIds = genres.stream().map(GenreDto::id).collect(Collectors.toSet());
+        var genreIds = genres.stream().map(Genre::getId).collect(Collectors.toSet());
 
         assertThatExceptionOfType(EntityNotFoundException.class)
-            .describedAs("Author with id %d not found".formatted(authorId))
+            .describedAs("Author with id %s not found".formatted(authorId))
             .isThrownBy(() -> bookService.insert(title, authorId, genreIds));
     }
 
@@ -114,7 +112,7 @@ class BookServiceImplTest {
 
         assertThatExceptionOfType(IllegalArgumentException.class)
             .describedAs("Genres ids must not be null")
-            .isThrownBy(() -> bookService.insert(title, author.id(), Collections.emptySet()));
+            .isThrownBy(() -> bookService.insert(title, author.getId(), Collections.emptySet()));
     }
 
     @DisplayName("должен возвращать ошибку при попытке создать книгу с несуществующим жанром")
@@ -122,11 +120,11 @@ class BookServiceImplTest {
     void shouldFailToSaveNewBookWithNonExistingGenre() {
         var title = "BookTitle_10500";
         var author = dbAuthors.get(0);
-        var genreIds = Set.of(1L, 999L);
+        var genreIds = Set.of("1", "999");
 
         assertThatExceptionOfType(EntityNotFoundException.class)
             .describedAs("One or all genres with ids %s not found".formatted(genreIds))
-            .isThrownBy(() -> bookService.insert(title, author.id(), genreIds));
+            .isThrownBy(() -> bookService.insert(title, author.getId(), genreIds));
     }
 
     @DisplayName("должен изменять существующую книгу")
@@ -136,24 +134,24 @@ class BookServiceImplTest {
         var title = "BookTitle_10500";
         var author = dbAuthors.get(2);
         var genres = List.of(dbGenres.get(4), dbGenres.get(5));
-        var genreIds = genres.stream().map(GenreDto::id).collect(Collectors.toSet());
-        var bookId = 1;
-        var expectedBook = new BookDto(bookId, title, author, genres);
+        var genreIds = genres.stream().map(Genre::getId).collect(Collectors.toSet());
+        var bookId = "1";
+        var expectedBook = new Book(bookId, title, author, genres);
 
-        assertThat(bookService.findById(expectedBook.id()))
+        assertThat(bookService.findById(expectedBook.getId()))
             .isPresent()
             .get()
             .usingRecursiveComparison()
             .isNotEqualTo(expectedBook);
 
-        var returnedBook = bookService.update(bookId, title, author.id(), genreIds);
+        var returnedBook = bookService.update(bookId, title, author.getId(), genreIds);
         assertThat(returnedBook)
             .isNotNull()
-            .matches(book -> book.id() > 0)
+            .matches(book -> Objects.nonNull(book.getId()))
             .usingRecursiveComparison()
             .isEqualTo(expectedBook);
 
-        assertThat(bookService.findById(returnedBook.id()))
+        assertThat(bookService.findById(returnedBook.getId()))
             .isPresent()
             .get()
             .usingRecursiveComparison()
@@ -164,28 +162,29 @@ class BookServiceImplTest {
     @DirtiesContext
     @Test
     void shouldDeleteBook() {
-        var bookId = 1L;
+        var bookId = "1";
         var book = bookService.findById(bookId);
         assertThat(book).isNotNull();
         bookService.deleteById(bookId);
         assertThat(bookService.findById(bookId)).isEmpty();
     }
 
-    private static List<AuthorDto> getDbAuthors() {
+    private static List<Author> getDbAuthors() {
         return IntStream.range(1, 4).boxed()
-            .map(id -> new AuthorDto(id, "Author_" + id))
+            .map(id -> new Author(String.valueOf(id), "Author_" + id))
             .toList();
     }
 
-    private static List<GenreDto> getDbGenres() {
+    private static List<Genre> getDbGenres() {
         return IntStream.range(1, 7).boxed()
-            .map(id -> new GenreDto(id, "Genre_" + id))
+            .map(id -> new Genre(String.valueOf(id), "Genre_" + id))
             .toList();
     }
 
-    private static List<BookDto> getDbBooks(List<AuthorDto> dbAuthors, List<GenreDto> dbGenres) {
+    private static List<Book> getDbBooks(List<Author> dbAuthors, List<Genre> dbGenres) {
         return IntStream.range(1, 4).boxed()
-            .map(id -> new BookDto(id,
+            .map(id -> new Book(
+                String.valueOf(id),
                 "BookTitle_" + id,
                 dbAuthors.get(id - 1),
                 dbGenres.subList((id - 1) * 2, (id - 1) * 2 + 2)
@@ -193,7 +192,7 @@ class BookServiceImplTest {
             .toList();
     }
 
-    private static List<BookDto> getDbBooks() {
+    private static List<Book> getDbBooks() {
         var dbAuthors = getDbAuthors();
         var dbGenres = getDbGenres();
         return getDbBooks(dbAuthors, dbGenres);

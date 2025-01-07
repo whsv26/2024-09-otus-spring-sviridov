@@ -1,23 +1,28 @@
-package ru.otus.hw.models;
+package ru.otus.hw.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Document
-public class Author {
+public class Comment {
 
     @Id
     private String id;
 
-    private String fullName;
+    @DocumentReference
+    private Book book;
 
-    public Author(String fullName) {
-        this.fullName = fullName;
+    private String text;
+
+    public Comment(Book book, String text) {
+        this.book = book;
+        this.text = text;
     }
 }

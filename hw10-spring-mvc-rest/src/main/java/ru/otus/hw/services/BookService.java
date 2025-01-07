@@ -1,6 +1,6 @@
 package ru.otus.hw.services;
 
-import ru.otus.hw.models.Book;
+import ru.otus.hw.domain.Book;
 
 import java.util.List;
 import java.util.Optional;

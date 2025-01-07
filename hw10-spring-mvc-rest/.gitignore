@@ -29,3 +29,5 @@ HELP.md
 .vscode/
 
 spring-shell.log
+node
+node_modules

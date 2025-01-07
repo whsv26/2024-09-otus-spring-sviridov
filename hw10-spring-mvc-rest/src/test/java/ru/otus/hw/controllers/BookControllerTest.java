@@ -1,5 +1,6 @@
 package ru.otus.hw.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,52 +11,47 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dtos.AuthorDto;
 import ru.otus.hw.dtos.BookDto;
-import ru.otus.hw.dtos.BookFormDto;
+import ru.otus.hw.dtos.BookUpsertDto;
 import ru.otus.hw.dtos.GenreDto;
-import ru.otus.hw.exceptions.BookNotFoundException;
-import ru.otus.hw.mappers.AuthorMapperImpl;
 import ru.otus.hw.mappers.BookMapperImpl;
-import ru.otus.hw.mappers.GenreMapperImpl;
-import ru.otus.hw.models.Author;
-import ru.otus.hw.models.Book;
-import ru.otus.hw.models.Genre;
-import ru.otus.hw.services.AuthorService;
+import ru.otus.hw.domain.Author;
+import ru.otus.hw.domain.Book;
+import ru.otus.hw.domain.Genre;
 import ru.otus.hw.services.BookService;
-import ru.otus.hw.services.GenreService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @WebMvcTest(BookController.class)
-@Import({BookMapperImpl.class, AuthorMapperImpl.class, GenreMapperImpl.class})
+@Import(BookMapperImpl.class)
 @TestPropertySource(properties = "mongock.enabled=false")
 public class BookControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     @MockBean
     private BookService bookService;
 
-    @MockBean
-    private AuthorService authorService;
-
-    @MockBean
-    private GenreService genreService;
-
     @Test
-    @DisplayName("Should render list page with correct view and model attributes")
-    void shouldRenderListPageWithCorrectViewAndModelAttributes() throws Exception {
+    @DisplayName("Should list all books")
+    void shouldListAllBooks() throws Exception {
         var author = new Author("a1", "Author");
         var genre = new Genre("g1", "Genre");
         var books = List.of(new Book("b1", "Book", author, List.of(genre)));
@@ -67,104 +63,113 @@ public class BookControllerTest {
         var expectedBook = new BookDto("b1", "Book", expectedAuthor, List.of(expectedGenre));
         var expectedBooks = List.of(expectedBook);
 
-        mvc.perform(get("/books"))
-            .andExpect(view().name("listBooks"))
-            .andExpect(model().attribute("books", expectedBooks))
-            .andExpect(status().isOk());
+        mvc.perform(get("/api/v1/books"))
+            .andExpect(status().isOk())
+            .andExpect(content().json(mapper.writeValueAsString(expectedBooks)));
     }
 
     @Test
-    @DisplayName("Should render edit page with correct view and model attributes")
-    void shouldRenderEditPageWithCorrectViewAndModelAttributes() throws Exception {
-        var authorId = "a1";
-        var authorName = "Author";
-        var author = new Author(authorId, authorName);
-
-        var genreId = "g1";
-        var genreName = "Genre";
-        var genre = new Genre(genreId, genreName);
-
+    @DisplayName("Should view book")
+    void shouldViewBook() throws Exception {
+        var author = new Author("a1", "Author");
+        var genre = new Genre("g1", "Genre");
         var bookId = "b1";
-        var bookTitle = "Book";
-        var book = new Book(bookId, bookTitle, author, List.of(genre));
+        var book = new Book(bookId, "Book", author, List.of(genre));
 
-        when(authorService.findAll()).thenReturn(List.of(author));
-        when(genreService.findAll()).thenReturn(List.of(genre));
         when(bookService.findById(bookId)).thenReturn(Optional.of(book));
 
-        var expectedAuthors = List.of(new AuthorDto(authorId, authorName));
-        var expectedGenres = List.of(new GenreDto(genreId, genreName));
-        var expectedBook = new BookFormDto(bookTitle, authorId, Set.of(genreId));
+        var expectedAuthor = new AuthorDto("a1", "Author");
+        var expectedGenre = new GenreDto("g1", "Genre");
+        var expectedBook = new BookDto(bookId, "Book", expectedAuthor, List.of(expectedGenre));
 
-        mvc.perform(get("/books/edit/" + bookId))
-            .andExpect(view().name("editBook"))
-            .andExpect(model().attribute("bookId", bookId))
-            .andExpect(model().attribute("book", expectedBook))
-            .andExpect(model().attribute("authors", expectedAuthors))
-            .andExpect(model().attribute("genres", expectedGenres))
-            .andExpect(status().isOk());
+        mvc.perform(get("/api/v1/books/" + bookId))
+            .andExpect(status().isOk())
+            .andExpect(content().json(mapper.writeValueAsString(expectedBook), true));
     }
 
     @Test
-    @DisplayName("Should render error page when book not found")
-    void shouldRenderErrorPageWhenBookNotFound() throws Exception {
+    @DisplayName("Should return error when book is not found")
+    void shouldReturnErrorWhenBookIsNotFound() throws Exception {
         var bookId = "b1";
 
-        when(bookService.findById(bookId)).thenThrow(new BookNotFoundException(bookId));
+        when(bookService.findById(bookId)).thenReturn(Optional.empty());
 
-        mvc.perform(get("/books/edit/" + bookId))
-            .andExpect(view().name("customError"))
-            .andExpect(status().isOk());
+        var expectedError = new ErrorInfo(
+            "BOOK_NOT_FOUND",
+            "Book is not found",
+            Map.of("id", bookId)
+        );
+
+        mvc.perform(get("/api/v1/books/" + bookId))
+            .andExpect(status().isNotFound())
+            .andExpect(content().json(mapper.writeValueAsString(expectedError), true));
     }
 
     @Test
-    @DisplayName("Should create book and redirect to listing page")
-    void shouldCreateBookAndRedirectToListingPage() throws Exception {
+    @DisplayName("Should create book")
+    void shouldCreateBook() throws Exception {
+        var authorId = "a1";
+        var author = new Author(authorId, "Author");
+        var genreId = "g1";
+        var genre = new Genre(genreId, "Genre");
         var title = "Book";
-        var author = "a1";
-        var genres = Set.of("g1");
-        var request = post("/books/create")
-            .param("title", title)
-            .param("authorId", author)
-            .param("genreIds", genres.toArray(String[]::new));
+        var book = new Book("b1", title, author, List.of(genre));
+        var requestBody = new BookUpsertDto(title, authorId, Set.of(genreId));
+        var request = post("/api/v1/books")
+            .contentType(APPLICATION_JSON)
+            .content(mapper.writeValueAsString(requestBody));
+
+        when(bookService.insert(title, authorId, Set.of(genreId))).thenReturn(book);
+
+        var expectedAuthor = new AuthorDto(authorId, "Author");
+        var expectedGenre = new GenreDto(genreId, "Genre");
+        var expectedBook = new BookDto("b1", title, expectedAuthor, List.of(expectedGenre));
 
         mvc.perform(request)
-            .andExpect(view().name("redirect:/books"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().isOk())
+            .andExpect(content().json(mapper.writeValueAsString(expectedBook), true));
 
         verify(bookService, times(1))
-            .insert(title, author, genres);
+            .insert(title, authorId, Set.of(genreId));
     }
 
     @Test
-    @DisplayName("Should update book and redirect to listing page")
-    void shouldUpdateBookAndRedirectToListingPage() throws Exception {
+    @DisplayName("Should update book")
+    void shouldUpdateBook() throws Exception {
+        var authorId = "a1";
+        var author = new Author(authorId, "Author");
+        var genreId = "g1";
+        var genre = new Genre(genreId, "Genre");
+        var title = "Book";
         var bookId = "b1";
-        var updatedTitle = "Updated Book";
-        var updatedAuthor = "a2";
-        var updatedGenres = Set.of("g1", "g2");
-        var request = post("/books/edit/" + bookId)
-            .param("title", updatedTitle)
-            .param("authorId", updatedAuthor)
-            .param("genreIds", updatedGenres.toArray(String[]::new));
+        var book = new Book(bookId, title, author, List.of(genre));
+        var requestBody = new BookUpsertDto(title, authorId, Set.of(genreId));
+        var request = put("/api/v1/books/" + bookId)
+            .contentType(APPLICATION_JSON)
+            .content(mapper.writeValueAsString(requestBody));
+
+        when(bookService.update(bookId, title, authorId, Set.of(genreId))).thenReturn(book);
+
+        var expectedAuthor = new AuthorDto(authorId, "Author");
+        var expectedGenre = new GenreDto(genreId, "Genre");
+        var expectedBook = new BookDto(bookId, title, expectedAuthor, List.of(expectedGenre));
 
         mvc.perform(request)
-            .andExpect(view().name("redirect:/books"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().isOk())
+            .andExpect(content().json(mapper.writeValueAsString(expectedBook), true));
 
         verify(bookService, times(1))
-            .update(bookId, updatedTitle, updatedAuthor, updatedGenres);
+            .update(bookId, title, authorId, Set.of(genreId));
     }
 
     @Test
-    @DisplayName("Should delete book and redirect to listing page")
-    void shouldDeleteBookAndRedirectToListingPage() throws Exception {
+    @DisplayName("Should delete book")
+    void shouldDeleteBook() throws Exception {
         var bookId = "b1";
-        var request = post("/books/delete/" + bookId);
+        var request = delete("/api/v1/books/" + bookId);
 
         mvc.perform(request)
-            .andExpect(view().name("redirect:/books"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().isOk());
 
         verify(bookService, times(1))
             .deleteById(bookId);

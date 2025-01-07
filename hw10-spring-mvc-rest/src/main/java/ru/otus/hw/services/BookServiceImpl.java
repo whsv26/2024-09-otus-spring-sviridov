@@ -1,9 +1,12 @@
 package ru.otus.hw.services;
 
+import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.exceptions.EntityNotFoundException;
-import ru.otus.hw.models.Book;
+import ru.otus.hw.domain.Book;
+import ru.otus.hw.domain.Genre;
+import ru.otus.hw.exceptions.AuthorNotFoundException;
+import ru.otus.hw.exceptions.GenreNotFoundException;
 import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.GenreRepository;
@@ -11,6 +14,7 @@ import ru.otus.hw.repositories.GenreRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
@@ -56,11 +60,15 @@ public class BookServiceImpl implements BookService {
             throw new IllegalArgumentException("Genres ids must not be null");
         }
 
-        var author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new EntityNotFoundException("Author with id %s not found".formatted(authorId)));
+        var author = authorRepository.findById(authorId).orElseThrow(() -> new AuthorNotFoundException(authorId));
         var genres = genreRepository.findAllById(genresIds);
-        if (isEmpty(genres) || genresIds.size() != genres.size()) {
-            throw new EntityNotFoundException("One or all genres with ids %s not found".formatted(genresIds));
+
+        var foundGenreIds = genres.stream().map(Genre::getId).collect(Collectors.toSet());
+        var notFoundGenreIds = Sets.difference(genresIds, foundGenreIds);
+
+        if (!isEmpty(notFoundGenreIds)) {
+            var notFoundGenreId = notFoundGenreIds.stream().findAny().get();
+            throw new GenreNotFoundException(notFoundGenreId);
         }
 
         var book = new Book(id, title, author, genres);

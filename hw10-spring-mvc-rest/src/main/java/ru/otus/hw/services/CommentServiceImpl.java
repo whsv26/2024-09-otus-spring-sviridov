@@ -2,9 +2,10 @@ package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.exceptions.EntityNotFoundException;
-import ru.otus.hw.models.Book;
-import ru.otus.hw.models.Comment;
+import ru.otus.hw.domain.Book;
+import ru.otus.hw.domain.Comment;
+import ru.otus.hw.exceptions.BookNotFoundException;
+import ru.otus.hw.exceptions.CommentNotFoundException;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.CommentRepository;
 
@@ -53,13 +54,13 @@ public class CommentServiceImpl implements CommentService {
 
     private Book findBook(String bookId) {
         return bookRepository.findById(bookId).orElseThrow(() ->
-            new EntityNotFoundException("Book with %s id not found".formatted(bookId))
+            new BookNotFoundException(bookId)
         );
     }
 
     private Comment findComment(String commentId) {
         return commentRepository.findById(commentId).orElseThrow(() ->
-            new EntityNotFoundException("Comment with %s id not found".formatted(commentId))
+            new CommentNotFoundException(commentId)
         );
     }
 }

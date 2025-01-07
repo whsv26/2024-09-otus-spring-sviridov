@@ -1,7 +1,14 @@
 package ru.otus.hw.exceptions;
 
-public class BookNotFoundException extends EntityNotFoundException {
+import lombok.Getter;
+
+@Getter
+public class BookNotFoundException extends RuntimeException {
+
+    private final String bookId;
+
     public BookNotFoundException(String bookId) {
-        super("Book with id " + bookId + " not found");
+        super("Book is not found");
+        this.bookId = bookId;
     }
 }

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.Set;
 
-public record BookFormDto (
+public record BookUpsertDto(
     @NotBlank
     @Size(max = 255)
     String title,

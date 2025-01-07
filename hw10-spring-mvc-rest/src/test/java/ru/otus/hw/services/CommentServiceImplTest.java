@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import ru.otus.hw.models.Author;
-import ru.otus.hw.models.Book;
-import ru.otus.hw.models.Comment;
-import ru.otus.hw.models.Genre;
+import ru.otus.hw.domain.Author;
+import ru.otus.hw.domain.Book;
+import ru.otus.hw.domain.Comment;
+import ru.otus.hw.domain.Genre;
 
 import java.util.List;
 import java.util.Objects;

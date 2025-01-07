@@ -1,7 +1,7 @@
 package ru.otus.hw.repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ru.otus.hw.models.Comment;
+import ru.otus.hw.domain.Comment;
 
 import java.util.List;
 

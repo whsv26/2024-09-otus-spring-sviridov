@@ -8,10 +8,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import ru.otus.hw.models.Author;
-import ru.otus.hw.models.Book;
-import ru.otus.hw.models.Genre;
-import ru.otus.hw.exceptions.EntityNotFoundException;
+import ru.otus.hw.domain.Author;
+import ru.otus.hw.domain.Book;
+import ru.otus.hw.domain.Genre;
+import ru.otus.hw.exceptions.AuthorNotFoundException;
+import ru.otus.hw.exceptions.GenreNotFoundException;
 
 import java.util.Collections;
 import java.util.List;
@@ -99,8 +100,7 @@ class BookServiceImplTest {
         var genres = List.of(dbGenres.get(0), dbGenres.get(2));
         var genreIds = genres.stream().map(Genre::getId).collect(Collectors.toSet());
 
-        assertThatExceptionOfType(EntityNotFoundException.class)
-            .describedAs("Author with id %s not found".formatted(authorId))
+        assertThatExceptionOfType(AuthorNotFoundException.class)
             .isThrownBy(() -> bookService.insert(title, authorId, genreIds));
     }
 
@@ -122,8 +122,7 @@ class BookServiceImplTest {
         var author = dbAuthors.get(0);
         var genreIds = Set.of("1", "999");
 
-        assertThatExceptionOfType(EntityNotFoundException.class)
-            .describedAs("One or all genres with ids %s not found".formatted(genreIds))
+        assertThatExceptionOfType(GenreNotFoundException.class)
             .isThrownBy(() -> bookService.insert(title, author.getId(), genreIds));
     }
 

@@ -20,5 +20,6 @@
         <module>hw07-data-jpa</module>
         <module>hw08-mongo</module>
         <module>hw09-spring-mvc</module>
+        <module>hw10-spring-mvc-rest</module>
     </modules>
 </project>

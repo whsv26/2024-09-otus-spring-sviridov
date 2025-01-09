@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Create book</title>
+</head>
+<body>
+
+<form id="edit-form" action="createBook.html" th:action="@{/books/create}" th:method="post" th:object="${book}">
+    <h3>Book Info:</h3>
+
+    <div class="row">
+        <label for="book-title-input">Title:</label>
+        <input id="book-title-input" name="title" type="text" th:value="*{title}" value="Spring in action"/>
+        <div class="errors" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Wrong book title error</div>
+    </div>
+
+    <div class="row">
+        <label for="book-author-select">Author:</label>
+        <select id="book-author-select" name="authorId">
+            <option
+                    th:each="author : ${authors}"
+                    th:value="${author.id}"
+                    value="1"
+                    th:text="${author.fullName}"
+                    th:selected="${book.authorId == author.id}"
+            >Craig Walls</option>
+        </select>
+        <div class="errors" th:if="${#fields.hasErrors('authorId')}" th:errors="*{authorId}">Wrong book author error</div>
+    </div>
+
+    <div class="row">
+        <label for="book-genres-select">Genres:</label>
+        <select id="book-genres-select" name="genreIds" multiple>
+            <option
+                    th:each="genre : ${genres}"
+                    th:value="${genre.id}"
+                    value="1"
+                    th:text="${genre.name}"
+                    th:selected="${book.genreIds() != null && book.genreIds().contains(genre.id)}"
+            >Programming</option>
+        </select>
+        <div class="errors" th:if="${#fields.hasErrors('genreIds')}" th:errors="*{genreIds}">Wrong book genres error</div>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+        <a href="listBooks.html" th:href="@{/books}"><button type="button">Cancel</button></a>
+    </div>
+</form>
+
+</body>
+</html>

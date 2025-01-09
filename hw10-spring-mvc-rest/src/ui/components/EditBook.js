@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from 'react-router-dom';
+import {findBook, useApi, updateBook} from "./Api";
 
 const bookToForm = (book) => {
     return {
@@ -16,26 +17,22 @@ const EditBook = (props) => {
     const { bookId } = params;
     const { genres, authors } = props;
 
-    const [bookForm, setBookForm] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [bookLoading, bookError, book] = useApi(() => findBook(bookId));
 
-    const fetchBook = (id) => {
-        fetch('/api/v1/books/' + id)
-            .then(response => response.json())
-            .then(book => setBookForm(bookToForm(book)))
-            .catch(error => setError(error))
-            .finally(() => setLoading(false));
-    }
+    const [bookForm, setBookForm] = useState(null)
 
-    useEffect(() => fetchBook(bookId), []);
+    useEffect(() => {
+        if (book) {
+            setBookForm(bookToForm(book));
+        }
+    }, [book]);
 
-    if (loading) {
+    if (bookLoading) {
         return <div>Loading...</div>;
     }
 
-    if (error) {
-        return <div>Error: {error}</div>;
+    if (bookError) {
+        return <div>Error: {bookError}</div>;
     }
 
     const handleChange = (e) => {
@@ -58,11 +55,8 @@ const EditBook = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await fetch("/api/v1/books/" + bookId, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(bookForm),
-        }).then(() => navigate('/'));
+        await updateBook(bookId, bookForm)
+            .then(() => navigate('/'));
     }
 
     return (

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {useNavigate} from 'react-router-dom';
+import {createBook} from './Api'
 
 const BookEditing = (props) => {
     const navigate = useNavigate();
@@ -32,11 +33,8 @@ const BookEditing = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await fetch("/api/v1/books", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(bookForm),
-        }).then(() => navigate('/'));
+        await createBook(bookForm)
+            .then(() => navigate('/'));
     }
 
     return (

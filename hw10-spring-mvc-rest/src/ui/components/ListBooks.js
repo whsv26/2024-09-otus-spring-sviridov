@@ -1,30 +1,20 @@
 import React, {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
+import {useApi, findAllBooks, deleteBook} from "./Api";
 
 const ListBooks = () => {
-
     const navigate = useNavigate();
     const goToEditPage = (bookId) => navigate('/edit/' + bookId);
     const goToCreatePage = () => navigate('/create');
 
+    const [loading, error, initialBooks] = useApi(findAllBooks);
     const [books, setBooks] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
-    const fetchBooks = () => {
-        fetch('/api/v1/books')
-            .then(response => response.json())
-            .then(books => setBooks(books))
-            .catch(error => setError(error))
-            .finally(() => setLoading(false));
-    }
-
-    useEffect(fetchBooks, []);
-
-    const deleteBook = async (bookId) => {
-        await fetch("/api/v1/books/" + bookId, { method: "DELETE" });
-        setBooks(books.filter((book) => book.id !== bookId));
-    }
+    useEffect(() => {
+        if (initialBooks) {
+            setBooks(initialBooks);
+        }
+    }, [initialBooks]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -32,6 +22,12 @@ const ListBooks = () => {
 
     if (error) {
         return <div>Error: {error}</div>;
+    }
+
+    const handleDeleteBook = async (bookId) => {
+        deleteBook(bookId).then(() => {
+            setBooks(books.filter((book) => book.id !== bookId));
+        })
     }
 
     return (
@@ -59,7 +55,7 @@ const ListBooks = () => {
                                     <button onClick={() => goToEditPage(book.id)}>Edit</button>
                                 </td>
                                 <td>
-                                    <button onClick={() => deleteBook(book.id)}>Delete</button>
+                                    <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
                                 </td>
                             </tr>
                         ))

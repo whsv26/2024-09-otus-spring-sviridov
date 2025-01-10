@@ -1,9 +1,8 @@
 package ru.otus.hw.services;
 
+import reactor.core.publisher.Flux;
 import ru.otus.hw.domain.Genre;
 
-import java.util.List;
-
 public interface GenreService {
-    List<Genre> findAll();
+    Flux<Genre> findAll();
 }

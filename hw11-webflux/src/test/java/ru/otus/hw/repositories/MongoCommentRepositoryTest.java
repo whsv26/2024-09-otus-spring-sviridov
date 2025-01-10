@@ -5,38 +5,29 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import ru.otus.hw.domain.Book;
+import reactor.test.StepVerifier;
+import ru.otus.hw.MongockTestConfig;
 import ru.otus.hw.domain.Comment;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Comparator;
 
 @DisplayName("Репозиторий на основе JDBC для работы с комментариями книг ")
 @DataMongoTest
-@Import(MongockConfig.class)
+@Import(MongockTestConfig.class)
 public class MongoCommentRepositoryTest {
 
     @Autowired
     private CommentRepository commentRepository;
 
-    @Autowired
-    private MongoTemplate template;
-
     @DisplayName("должен находить комментарии книги")
     @Test
     void shouldFindCommentsByBook() {
         var bookId = "1";
-        var book = template.findById(bookId, Book.class);
-        var actualComments = commentRepository.findByBookId(bookId);
-        var expectedComments = List.of(
-            new Comment("1", book, "comment_1"),
-            new Comment("2", book, "comment_2")
-        );
+        var actualComments = commentRepository.findByBookId(bookId).sort(Comparator.comparing(Comment::getId));
 
-        assertThat(actualComments)
-            .usingRecursiveFieldByFieldElementComparator()
-            .containsExactlyInAnyOrderElementsOf(expectedComments);
+        StepVerifier.create(actualComments)
+            .expectNext(new Comment("1", bookId, "comment_1"))
+            .expectNext(new Comment("2", bookId, "comment_2"))
+            .verifyComplete();
     }
 }

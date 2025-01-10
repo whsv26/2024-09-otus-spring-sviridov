@@ -2,15 +2,14 @@ package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.hw.domain.Book;
 import ru.otus.hw.domain.Comment;
 import ru.otus.hw.exceptions.BookNotFoundException;
 import ru.otus.hw.exceptions.CommentNotFoundException;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.CommentRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,46 +20,46 @@ public class CommentServiceImpl implements CommentService {
     private final BookRepository bookRepository;
 
     @Override
-    public Optional<Comment> findById(String id) {
+    public Mono<Comment> findById(String id) {
         return commentRepository.findById(id);
     }
 
     @Override
-    public List<Comment> findAllFor(String bookId) {
-        return commentRepository.findByBookId(bookId)
-            .stream()
-            .toList();
+    public Flux<Comment> findAllFor(String bookId) {
+        return commentRepository.findByBookId(bookId);
     }
 
     @Override
-    public Comment insert(String text, String bookId) {
-        var book = findBook(bookId);
-        var comment = new Comment(null, book, text);
-        return commentRepository.save(comment);
+    public Mono<Comment> insert(String text, String bookId) {
+        return findBook(bookId).flatMap(book -> {
+            var comment = new Comment(null, book.getId(), text);
+            return commentRepository.save(comment);
+        });
     }
 
     @Override
-    public Comment update(String id, String text) {
-        var comment = findComment(id);
-        comment.setText(text);
-        return commentRepository.save(comment);
+    public Mono<Comment> update(String id, String text) {
+        return findComment(id).flatMap(comment -> {
+            comment.setText(text);
+            return commentRepository.save(comment);
+        });
     }
 
 
     @Override
-    public void deleteById(String id) {
-        commentRepository.deleteById(id);
+    public Mono<Void> deleteById(String id) {
+        return commentRepository.deleteById(id);
     }
 
-    private Book findBook(String bookId) {
-        return bookRepository.findById(bookId).orElseThrow(() ->
-            new BookNotFoundException(bookId)
+    private Mono<Book> findBook(String bookId) {
+        return bookRepository.findById(bookId).switchIfEmpty(
+            Mono.error(new BookNotFoundException(bookId))
         );
     }
 
-    private Comment findComment(String commentId) {
-        return commentRepository.findById(commentId).orElseThrow(() ->
-            new CommentNotFoundException(commentId)
+    private Mono<Comment> findComment(String commentId) {
+        return commentRepository.findById(commentId).switchIfEmpty(
+            Mono.error(new CommentNotFoundException(commentId))
         );
     }
 }

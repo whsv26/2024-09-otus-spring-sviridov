@@ -1,12 +1,6 @@
 spring:
   main:
     banner-mode: off
-  shell:
-    interactive:
-      enabled: false
-    command:
-      version:
-        enabled: false
   data:
     mongodb:
       port: 0
@@ -21,7 +15,3 @@ mongock:
   runner-type: InitializingBean
   migration-scan-package:
     - ru.otus.hw.changelogs
-  mongo-db:
-    write-concern:
-      journal: false # journal is not supported by embedded mongodb
-    read-concern: local

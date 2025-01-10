@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.otus.hw.exceptions.AuthorNotFoundException;
 import ru.otus.hw.exceptions.BookNotFoundException;
 import ru.otus.hw.exceptions.CommentNotFoundException;
-import ru.otus.hw.exceptions.GenreNotFoundException;
+import ru.otus.hw.exceptions.GenresNotFoundException;
 
 import java.util.Map;
 
@@ -48,13 +48,13 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler(GenreNotFoundException.class)
+    @ExceptionHandler(GenresNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    ErrorInfo handleGenreNotFoundException(GenreNotFoundException ex) {
+    ErrorInfo handleGenreNotFoundException(GenresNotFoundException ex) {
         return new ErrorInfo(
             "GENRE_NOT_FOUND",
             ex.getMessage(),
-            Map.of("id", ex.getGenreId())
+            Map.of("ids", ex.getGenreIds())
         );
     }
 

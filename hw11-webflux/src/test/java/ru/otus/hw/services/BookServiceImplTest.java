@@ -7,14 +7,21 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.util.Pair;
 import org.springframework.test.annotation.DirtiesContext;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
+import reactor.util.function.Tuple2;
 import ru.otus.hw.domain.Author;
 import ru.otus.hw.domain.Book;
 import ru.otus.hw.domain.Genre;
 import ru.otus.hw.exceptions.AuthorNotFoundException;
-import ru.otus.hw.exceptions.GenreNotFoundException;
+import ru.otus.hw.exceptions.GenresNotFoundException;
+import ru.otus.hw.MongockTestConfig;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -22,10 +29,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DisplayName("Сервис для работы с книгами ")
 @SpringBootTest
+@Import(MongockTestConfig.class)
 class BookServiceImplTest {
 
     @Autowired
@@ -48,24 +55,31 @@ class BookServiceImplTest {
     @ParameterizedTest
     @MethodSource("getDbBooks")
     void shouldReturnBookById(Book expectedBook) {
-        var actualBook = bookService.findById(expectedBook.getId());
-
-        assertThat(actualBook)
-            .isPresent()
-            .get()
-            .usingRecursiveComparison()
-            .isEqualTo(expectedBook);
+        StepVerifier
+            .create(bookService.findById(expectedBook.getId()))
+            .assertNext(book -> assertThat(book)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedBook)
+            )
+            .verifyComplete();
     }
 
     @DisplayName("должен находить все книги")
     @Test
     void shouldReturnAllBooks() {
         var expectedBooks = dbBooks;
-        var actualBooks =  bookService.findAll();
+        var actualBooks = bookService.findAll().sort(Comparator.comparing(Book::getId));
+        var verifier = StepVerifier.create(actualBooks);
 
-        assertThat(actualBooks)
-            .usingRecursiveFieldByFieldElementComparator()
-            .containsExactlyInAnyOrderElementsOf(expectedBooks);
+        expectedBooks.forEach(expectedBook ->
+            verifier.assertNext(actualBook ->
+                assertThat(actualBook)
+                    .usingRecursiveComparison()
+                    .isEqualTo(expectedBook)
+            )
+        );
+
+        verifier.verifyComplete();
     }
 
     @DisplayName("должен создавать новую книгу")
@@ -77,19 +91,31 @@ class BookServiceImplTest {
         var genres = List.of(dbGenres.get(0), dbGenres.get(2));
         var genreIds = genres.stream().map(Genre::getId).collect(Collectors.toSet());
         var expectedBook = new Book(null, title, author, genres);
-        var returnedBook = bookService.insert(title, author.getId(), genreIds);
 
-        assertThat(returnedBook).isNotNull()
-            .matches(book -> Objects.nonNull(book.getId()))
-            .usingRecursiveComparison()
-            .ignoringFields("id")
-            .isEqualTo(expectedBook);
+        var insertMono = bookService.insert(title, author.getId(), genreIds);
 
-        assertThat(bookService.findById(returnedBook.getId()))
-            .isPresent()
-            .get()
-            .usingRecursiveComparison()
-            .isEqualTo(returnedBook);
+        StepVerifier.create(insertMono)
+            .assertNext(returnedBook ->
+                assertThat(returnedBook).isNotNull()
+                    .matches(book -> Objects.nonNull(book.getId()))
+                    .usingRecursiveComparison()
+                    .ignoringFields("id")
+                    .isEqualTo(expectedBook)
+            )
+            .verifyComplete();
+
+        var returnedWithActualMono = insertMono.flatMap(returnedBook ->
+            bookService.findById(returnedBook.getId())
+                .map(actualBook -> Pair.of(returnedBook, actualBook))
+        );
+
+        StepVerifier.create(returnedWithActualMono)
+            .assertNext(returnedWithActual ->
+                assertThat(returnedWithActual.getSecond())
+                    .usingRecursiveComparison()
+                    .isEqualTo(returnedWithActual.getFirst())
+            )
+            .verifyComplete();
     }
 
     @DisplayName("должен возвращать ошибку при попытке создать книгу с несуществующим автором")
@@ -100,8 +126,9 @@ class BookServiceImplTest {
         var genres = List.of(dbGenres.get(0), dbGenres.get(2));
         var genreIds = genres.stream().map(Genre::getId).collect(Collectors.toSet());
 
-        assertThatExceptionOfType(AuthorNotFoundException.class)
-            .isThrownBy(() -> bookService.insert(title, authorId, genreIds));
+        StepVerifier.create(bookService.insert(title, authorId, genreIds))
+            .expectError(AuthorNotFoundException.class)
+            .verify();
     }
 
     @DisplayName("должен возвращать ошибку при попытке создать книгу без жанров")
@@ -110,9 +137,9 @@ class BookServiceImplTest {
         var title = "BookTitle_10500";
         var author = dbAuthors.get(0);
 
-        assertThatExceptionOfType(IllegalArgumentException.class)
-            .describedAs("Genres ids must not be null")
-            .isThrownBy(() -> bookService.insert(title, author.getId(), Collections.emptySet()));
+        StepVerifier.create(bookService.insert(title, author.getId(), Collections.emptySet()))
+            .expectErrorMessage("Genres ids must not be null")
+            .verify();
     }
 
     @DisplayName("должен возвращать ошибку при попытке создать книгу с несуществующим жанром")
@@ -122,8 +149,9 @@ class BookServiceImplTest {
         var author = dbAuthors.get(0);
         var genreIds = Set.of("1", "999");
 
-        assertThatExceptionOfType(GenreNotFoundException.class)
-            .isThrownBy(() -> bookService.insert(title, author.getId(), genreIds));
+        StepVerifier.create(bookService.insert(title, author.getId(), genreIds))
+            .expectError(GenresNotFoundException.class)
+            .verify();
     }
 
     @DisplayName("должен изменять существующую книгу")
@@ -137,24 +165,35 @@ class BookServiceImplTest {
         var bookId = "1";
         var expectedBook = new Book(bookId, title, author, genres);
 
-        assertThat(bookService.findById(expectedBook.getId()))
-            .isPresent()
-            .get()
-            .usingRecursiveComparison()
-            .isNotEqualTo(expectedBook);
+        StepVerifier.create(bookService.findById(bookId))
+            .assertNext(book -> assertThat(book)
+                .usingRecursiveComparison()
+                .isNotEqualTo(expectedBook)
+            )
+            .verifyComplete();
 
-        var returnedBook = bookService.update(bookId, title, author.getId(), genreIds);
-        assertThat(returnedBook)
-            .isNotNull()
-            .matches(book -> Objects.nonNull(book.getId()))
-            .usingRecursiveComparison()
-            .isEqualTo(expectedBook);
+        Mono<Book> returnedBookMono = bookService.update(bookId, title, author.getId(), genreIds);
+        StepVerifier.create(returnedBookMono)
+            .assertNext(returnedBook -> assertThat(returnedBook)
+                .isNotNull()
+                .matches(book -> Objects.nonNull(book.getId()))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedBook)
+            )
+            .verifyComplete();
 
-        assertThat(bookService.findById(returnedBook.getId()))
-            .isPresent()
-            .get()
-            .usingRecursiveComparison()
-            .isEqualTo(returnedBook);
+        var returnedWIthActualBookMono = returnedBookMono.flatMap(returnedBook ->
+            bookService.findById(returnedBook.getId())
+                .map(actualBook -> Pair.of(returnedBook, actualBook))
+        );
+
+        StepVerifier.create(returnedWIthActualBookMono)
+            .assertNext(returnedWIthActualBook ->
+                assertThat(returnedWIthActualBook.getSecond())
+                    .usingRecursiveComparison()
+                    .isEqualTo(returnedWIthActualBook.getFirst())
+            )
+            .verifyComplete();
     }
 
     @DisplayName("должен удалять книгу по id")
@@ -162,10 +201,16 @@ class BookServiceImplTest {
     @Test
     void shouldDeleteBook() {
         var bookId = "1";
-        var book = bookService.findById(bookId);
-        assertThat(book).isNotNull();
-        bookService.deleteById(bookId);
-        assertThat(bookService.findById(bookId)).isEmpty();
+
+        StepVerifier.create(bookService.findById(bookId))
+            .expectNextCount(1)
+            .verifyComplete();
+
+        StepVerifier.create(
+            bookService.deleteById(bookId)
+                .zipWith(bookService.findById(bookId))
+                .map(Tuple2::getT2)
+        ).verifyComplete();
     }
 
     private static List<Author> getDbAuthors() {

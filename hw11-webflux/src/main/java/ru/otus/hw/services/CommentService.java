@@ -1,19 +1,18 @@
 package ru.otus.hw.services;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.hw.domain.Comment;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface CommentService {
 
-    Optional<Comment> findById(String id);
+    Mono<Comment> findById(String id);
 
-    List<Comment> findAllFor(String bookId);
+    Flux<Comment> findAllFor(String bookId);
 
-    Comment insert(String text, String bookId);
+    Mono<Comment> insert(String text, String bookId);
 
-    Comment update(String id, String text);
+    Mono<Comment> update(String id, String text);
 
-    void deleteById(String id);
+    Mono<Void> deleteById(String id);
 }

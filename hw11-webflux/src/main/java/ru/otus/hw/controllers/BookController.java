@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.hw.dtos.BookDto;
 import ru.otus.hw.dtos.BookUpsertDto;
 import ru.otus.hw.exceptions.BookNotFoundException;
 import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.services.BookService;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,57 +26,49 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/api/v1/books")
-    public List<BookDto> listBooks() {
-        return bookService.findAll().stream()
-            .map(bookMapper::toDto)
-            .toList();
+    public Flux<BookDto> listBooks() {
+        return bookService.findAll()
+            .map(bookMapper::toDto);
     }
 
     @GetMapping("/api/v1/books/{id}")
-    public BookDto viewBook(@PathVariable("id") String bookId) {
+    public Mono<BookDto> viewBook(@PathVariable("id") String bookId) {
         return bookService.findById(bookId)
             .map(bookMapper::toDto)
-            .orElseThrow(() -> new BookNotFoundException(bookId));
+            .switchIfEmpty(
+                Mono.error(new BookNotFoundException(bookId))
+            );
     }
 
     @PostMapping("/api/v1/books")
-    public BookDto createBook(
+    public Mono<BookDto> createBook(
         @Valid
         @RequestBody
         BookUpsertDto bookDto
     ) {
-        var book = bookService.insert(
-            bookDto.title(),
-            bookDto.authorId(),
-            bookDto.genreIds()
-        );
-
-        return bookMapper.toDto(book);
+        return bookService
+            .insert(bookDto.title(), bookDto.authorId(), bookDto.genreIds())
+            .map(bookMapper::toDto);
     }
 
     @PutMapping("/api/v1/books/{id}")
-    public BookDto updateBook(
+    public Mono<BookDto> updateBook(
         @PathVariable("id")
         String bookId,
         @Valid
         @RequestBody
         BookUpsertDto bookDto
     ) {
-        var book = bookService.update(
-            bookId,
-            bookDto.title(),
-            bookDto.authorId(),
-            bookDto.genreIds()
-        );
-
-        return bookMapper.toDto(book);
+        return bookService
+            .update(bookId, bookDto.title(), bookDto.authorId(), bookDto.genreIds())
+            .map(bookMapper::toDto);
     }
 
     @DeleteMapping("/api/v1/books/{id}")
-    public void deleteBook(
+    public Mono<Void> deleteBook(
         @PathVariable("id")
         String bookId
     ) {
-        bookService.deleteById(bookId);
+        return bookService.deleteById(bookId);
     }
 }

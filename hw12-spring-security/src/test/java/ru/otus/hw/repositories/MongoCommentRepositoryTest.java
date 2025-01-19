@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе JDBC для работы с комментариями книг ")
+@DisplayName("Репозиторий для работы с комментариями книг ")
 @DataMongoTest
 @Import(MongockConfig.class)
 public class MongoCommentRepositoryTest {

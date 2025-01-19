@@ -30,6 +30,8 @@ import java.util.Set;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -67,7 +69,7 @@ public class BookControllerTest {
         var expectedBook = new BookDto("b1", "Book", expectedAuthor, List.of(expectedGenre));
         var expectedBooks = List.of(expectedBook);
 
-        mvc.perform(get("/books"))
+        mvc.perform(get("/books").with(user("admin")))
             .andExpect(view().name("listBooks"))
             .andExpect(model().attribute("books", expectedBooks))
             .andExpect(status().isOk());
@@ -96,7 +98,7 @@ public class BookControllerTest {
         var expectedGenres = List.of(new GenreDto(genreId, genreName));
         var expectedBook = new BookFormDto(bookTitle, authorId, Set.of(genreId));
 
-        mvc.perform(get("/books/edit/" + bookId))
+        mvc.perform(get("/books/edit/" + bookId).with(user("admin")))
             .andExpect(view().name("editBook"))
             .andExpect(model().attribute("bookId", bookId))
             .andExpect(model().attribute("book", expectedBook))
@@ -112,7 +114,7 @@ public class BookControllerTest {
 
         when(bookService.findById(bookId)).thenThrow(new BookNotFoundException(bookId));
 
-        mvc.perform(get("/books/edit/" + bookId))
+        mvc.perform(get("/books/edit/" + bookId).with(user("admin")))
             .andExpect(view().name("customError"))
             .andExpect(status().isOk());
     }
@@ -128,7 +130,7 @@ public class BookControllerTest {
             .param("authorId", author)
             .param("genreIds", genres.toArray(String[]::new));
 
-        mvc.perform(request)
+        mvc.perform(request.with(user("admin")).with(csrf()))
             .andExpect(view().name("redirect:/books"))
             .andExpect(status().is3xxRedirection());
 
@@ -148,7 +150,7 @@ public class BookControllerTest {
             .param("authorId", updatedAuthor)
             .param("genreIds", updatedGenres.toArray(String[]::new));
 
-        mvc.perform(request)
+        mvc.perform(request.with(user("admin")).with(csrf()))
             .andExpect(view().name("redirect:/books"))
             .andExpect(status().is3xxRedirection());
 
@@ -160,9 +162,9 @@ public class BookControllerTest {
     @DisplayName("Should delete book and redirect to listing page")
     void shouldDeleteBookAndRedirectToListingPage() throws Exception {
         var bookId = "b1";
-        var request = post("/books/delete/" + bookId);
+        var request = post("/books/delete/" + bookId).with(csrf());
 
-        mvc.perform(request)
+        mvc.perform(request.with(user("admin")))
             .andExpect(view().name("redirect:/books"))
             .andExpect(status().is3xxRedirection());
 

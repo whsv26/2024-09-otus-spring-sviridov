@@ -1,0 +1,17 @@
+spring:
+  main:
+    banner-mode: off
+  data:
+    mongodb:
+      port: 0
+      database: test
+      host: localhost
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.4.0
+mongock:
+  runner-type: InitializingBean
+  migration-scan-package:
+    - ru.otus.hw.changelogs

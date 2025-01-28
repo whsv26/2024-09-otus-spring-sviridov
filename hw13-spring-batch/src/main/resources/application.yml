@@ -1,0 +1,19 @@
+spring:
+  shell:
+    interactive:
+      enabled: true
+  batch:
+    job:
+      enabled: false
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/library?retryWrites=false
+mongock:
+  transactional: false
+  runner-type: InitializingBean
+  migration-scan-package:
+    - ru.otus.hw.changelogs
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local

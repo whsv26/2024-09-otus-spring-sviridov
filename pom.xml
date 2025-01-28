@@ -23,5 +23,6 @@
         <module>hw10-spring-mvc-rest</module>
         <module>hw11-webflux</module>
         <module>hw12-spring-security</module>
+        <module>hw13-spring-batch</module>
     </modules>
 </project>

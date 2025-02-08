@@ -1,40 +1,35 @@
 package ru.otus.hw.batch;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.batch.item.Chunk;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.otus.hw.models.Genre;
 
 import javax.sql.DataSource;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Map;
 
 @Component
 @StepScope
-public class GenreWriter extends AbstractJDBCWriter<Genre> {
+@RequiredArgsConstructor
+public class GenreWriter implements ItemWriter<Genre> {
 
     private final KeyMappingRepository<String, Long> keyMappingRepository;
 
-    @Autowired
-    public GenreWriter(DataSource dataSource, KeyMappingRepository<String, Long> keyMappingRepository) {
-        super(dataSource);
-        this.keyMappingRepository = keyMappingRepository;
-    }
+    private final DataSource dataSource;
 
     @Override
-    public String getSQL() {
-        return "INSERT INTO genres(name) VALUES (?)";
-    }
+    public void write(Chunk<? extends Genre> chunk) {
+        var simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+            .withTableName("genres")
+            .usingGeneratedKeyColumns("id");
 
-    @Override
-    public void setParameters(PreparedStatement statement, Genre item) throws SQLException {
-        statement.setString(1, item.getName());
-    }
-
-    @Override
-    public void setGeneratedKeys(Genre item, ResultSet generated) throws SQLException {
-        long targetKey = generated.getLong(1);
-        keyMappingRepository.set(item.getId(), targetKey, Genre.class);
+        for (var genre : chunk) {
+            var params = Map.of("name", genre.getName());
+            var targetKey = simpleJdbcInsert.executeAndReturnKey(params).longValue();
+            keyMappingRepository.set(genre.getId(), targetKey, Genre.class);
+        }
     }
 }

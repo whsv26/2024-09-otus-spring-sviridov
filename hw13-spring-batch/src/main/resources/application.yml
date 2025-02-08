@@ -2,9 +2,17 @@ spring:
   shell:
     interactive:
       enabled: true
+  h2:
+    console:
+      enabled: true
   batch:
     job:
       enabled: false
+  datasource:
+    url: jdbc:h2:mem:library
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
   data:
     mongodb:
       uri: mongodb://localhost:27017/library?retryWrites=false

@@ -1,0 +1,36 @@
+spring:
+  main:
+    banner-mode: off
+  shell:
+    interactive:
+      enabled: false
+    command:
+      version:
+        enabled: false
+  batch:
+    job:
+      enabled: false
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  data:
+    mongodb:
+      port: 0
+      database: test
+      host: localhost
+#      uri: "mongodb://localhost:0/test?retryWrites=false"
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.4.0
+mongock:
+  runner-type: InitializingBean
+  migration-scan-package:
+    - ru.otus.hw.changelogs
+  mongo-db:
+    write-concern:
+      journal: false # journal is not supported by embedded mongodb
+    read-concern: local

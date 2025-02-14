@@ -7,6 +7,7 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.otus.hw.models.Author;
+import ru.otus.hw.repositories.KeyMappingRepository;
 
 import javax.sql.DataSource;
 import java.util.Map;

@@ -7,6 +7,7 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
+import ru.otus.hw.repositories.KeyMappingRepository;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;

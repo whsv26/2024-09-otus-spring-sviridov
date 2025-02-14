@@ -1,4 +1,4 @@
-package ru.otus.hw.batch;
+package ru.otus.hw.repositories;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

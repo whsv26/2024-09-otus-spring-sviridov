@@ -1,4 +1,4 @@
-package ru.otus.hw.batch;
+package ru.otus.hw.repositories;
 
 public interface KeyMappingRepository<S, T> {
 

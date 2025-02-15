@@ -1,0 +1,57 @@
+package ru.otus.hw.controllers;
+
+import java.time.Instant;
+import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+
+@RestController
+@RequiredArgsConstructor
+public class TokenController {
+
+    private final JwtEncoder jwtEncoder;
+
+    private final AuthenticationManager authenticationManager;
+
+    @PostMapping("/api/v1/token")
+    public String generateToken(@RequestBody AuthRequest request) {
+        var username = request.username;
+        var password = request.password;
+        var user = new UsernamePasswordAuthenticationToken(username, password);
+        var authentication = authenticationManager.authenticate(user);
+        var issuedAt = Instant.now();
+        var expiresAt = issuedAt.plusSeconds(3600);
+        var authorities = buildAuthorities(authentication);
+        var claims = JwtClaimsSet.builder()
+            .issuer("http://localhost:8080")
+            .issuedAt(issuedAt)
+            .expiresAt(expiresAt)
+            .subject(username)
+            .claim("authorities", authorities)
+            .build();
+
+        var encoderParameters = JwtEncoderParameters.from(claims);
+        return jwtEncoder.encode(encoderParameters).getTokenValue();
+    }
+
+    private static String buildAuthorities(Authentication authentication) {
+        return authentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(" "));
+    }
+
+    public static class AuthRequest {
+        public String username;
+        public String password;
+    }
+}

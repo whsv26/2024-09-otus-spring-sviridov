@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import ru.otus.hw.config.AuthConfig;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +24,8 @@ public class TokenController {
 
     private final AuthenticationManager authenticationManager;
 
+    private final AuthConfig authConfig;
+
     @PostMapping("/api/v1/token")
     public String generateToken(@RequestBody AuthRequest request) {
         var username = request.username;
@@ -30,10 +33,10 @@ public class TokenController {
         var user = new UsernamePasswordAuthenticationToken(username, password);
         var authentication = authenticationManager.authenticate(user);
         var issuedAt = Instant.now();
-        var expiresAt = issuedAt.plusSeconds(3600);
+        var expiresAt = issuedAt.plusSeconds(authConfig.getTokenTtl());
         var authorities = buildAuthorities(authentication);
         var claims = JwtClaimsSet.builder()
-            .issuer("http://localhost:8080")
+            .issuer(authConfig.getTokenIssuer().toString())
             .issuedAt(issuedAt)
             .expiresAt(expiresAt)
             .subject(username)

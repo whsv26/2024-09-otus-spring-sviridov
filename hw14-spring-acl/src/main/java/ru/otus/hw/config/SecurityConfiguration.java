@@ -73,12 +73,12 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public JwtEncoder jwtEncoder(KeyPair keyPair) {
+    public JwtEncoder jwtEncoder(KeyPair keyPair, AuthConfig config) {
         var publicKey = (RSAPublicKey) keyPair.getPublic();
         var privateKey = (RSAPrivateKey) keyPair.getPrivate();
         var rsaKey = new RSAKey.Builder(publicKey)
             .privateKey(privateKey)
-            .keyID("token-key")
+            .keyID(config.getKeyId())
             .build();
         var jwkSource = new ImmutableJWKSet<>(new JWKSet(rsaKey));
         return new NimbusJwtEncoder(jwkSource);

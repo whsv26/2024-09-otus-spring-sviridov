@@ -26,7 +26,7 @@ public class TokenController {
 
     private final AuthConfig authConfig;
 
-    @PostMapping("/api/v1/token")
+    @PostMapping("/token")
     public String generateToken(@RequestBody AuthRequest request) {
         var username = request.username;
         var password = request.password;

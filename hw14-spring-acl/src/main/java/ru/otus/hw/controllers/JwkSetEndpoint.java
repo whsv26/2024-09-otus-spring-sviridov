@@ -19,7 +19,7 @@ public class JwkSetEndpoint {
 
     private final AuthConfig authConfig;
 
-    @GetMapping("/.well-known/jwks.json")
+    @GetMapping("/jwks")
     public Map<String, Object> getKey() {
         var publicKey = (RSAPublicKey) keyPair.getPublic();
         var rsaKey = new RSAKey.Builder(publicKey)

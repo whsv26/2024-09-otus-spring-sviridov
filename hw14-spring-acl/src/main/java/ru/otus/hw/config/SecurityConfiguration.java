@@ -37,28 +37,21 @@ public class SecurityConfiguration {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.POST, "/api/v1/token").permitAll()
-                .requestMatchers(HttpMethod.GET, "/.well-known/jwks.json").permitAll()
+                .requestMatchers(HttpMethod.GET, "/jwks").permitAll()
+                .requestMatchers(HttpMethod.POST, "/token").permitAll()
 
-                .requestMatchers(HttpMethod.GET, "/api/v1/authors").authenticated()
+                .requestMatchers(HttpMethod.GET, "/api/v1/authors").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/genres").permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/api/v1/books").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/books/*").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/books").authenticated()
-                .requestMatchers(HttpMethod.PUT, "/api/v1/books/*").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/v1/books").hasAnyRole("EDITOR")
+                .requestMatchers(HttpMethod.PUT, "/api/v1/books/*").hasAnyRole("EDITOR")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/books/*").hasAnyRole("ADMIN")
-            )
-            .oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(withDefaults())
             );
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
     }
 
     @Bean
@@ -89,6 +82,13 @@ public class SecurityConfiguration {
         var keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         return keyPairGenerator.generateKeyPair();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+        AuthenticationConfiguration authConfig
+    ) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 
     @Bean

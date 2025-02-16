@@ -1,24 +1,36 @@
 package ru.otus.hw.domain;
 
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.otus.hw.repositories.GrantedAuthorityConverter;
 
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString()
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
-public class User implements UserDetails {
+@Entity
+@Table(name = "users")
+public class User extends AbstractEntity implements UserDetails {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Convert(converter = GrantedAuthorityConverter.class)
     private Set<GrantedAuthority> authorities;
 
     private String username;

@@ -1,27 +1,24 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/jwks
+  datasource:
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
+      enabled: false
+  sql:
+    init:
+      mode: always
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
   main:
     banner-mode: off
-  shell:
-    interactive:
-      enabled: false
-    command:
-      version:
-        enabled: false
-  data:
-    mongodb:
-      port: 0
-      database: test
-      host: localhost
-de:
-  flapdoodle:
-    mongodb:
-      embedded:
-        version: 4.4.0
-mongock:
-  runner-type: InitializingBean
-  migration-scan-package:
-    - ru.otus.hw.changelogs
-  mongo-db:
-    write-concern:
-      journal: false # journal is not supported by embedded mongodb
-    read-concern: local
+app:
+  token-ttl: 3600
+  token-issuer: http://localhost:8080
+  key-id: e58b64e8-ce33-40e3-b355-99cc3d038c19

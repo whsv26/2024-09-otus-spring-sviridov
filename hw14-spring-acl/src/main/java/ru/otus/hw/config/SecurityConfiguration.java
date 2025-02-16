@@ -47,8 +47,8 @@ public class SecurityConfiguration {
 
                 .requestMatchers(HttpMethod.GET, "/api/v1/books").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/books/*").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/books").hasAnyRole("EDITOR")
-                .requestMatchers(HttpMethod.PUT, "/api/v1/books/*").hasAnyRole("EDITOR")
+                .requestMatchers(HttpMethod.POST, "/api/v1/books").hasAnyRole("EDITOR", "ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/v1/books/*").hasAnyRole("EDITOR", "ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/books/*").hasAnyRole("ADMIN")
             );
         return http.build();

@@ -3,10 +3,13 @@ package ru.otus.hw.services;
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.domain.Book;
 import ru.otus.hw.domain.Genre;
+import ru.otus.hw.dtos.BookDto;
 import ru.otus.hw.exceptions.AuthorNotFoundException;
 import ru.otus.hw.exceptions.GenreNotFoundException;
+import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.GenreRepository;
@@ -28,34 +31,44 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
+    private final BookMapper bookMapper;
+
     @Override
-    public Optional<Book> findById(String id) {
-        return bookRepository.findById(id);
+    @Transactional(readOnly = true)
+    public Optional<BookDto> findById(Long id) {
+        return bookRepository.findById(id).map(bookMapper::toDto);
     }
 
     @Override
-    public List<Book> findAll() {
+    @Transactional(readOnly = true)
+    public List<BookDto> findAll() {
         return bookRepository.findAll()
             .stream()
+            .map(bookMapper::toDto)
             .toList();
     }
 
     @Override
-    public Book insert(String title, String authorId, Set<String> genresIds) {
-        return save(null, title, authorId, genresIds);
+    @Transactional
+    public BookDto insert(String title, Long authorId, Set<Long> genresIds) {
+        var book = save(null, title, authorId, genresIds);
+        return bookMapper.toDto(book);
     }
 
     @Override
-    public Book update(String id, String title, String authorId, Set<String> genresIds) {
-        return save(id, title, authorId, genresIds);
+    @Transactional
+    public BookDto update(Long id, String title, Long authorId, Set<Long> genresIds) {
+        var book = save(id, title, authorId, genresIds);
+        return bookMapper.toDto(book);
     }
 
     @Override
-    public void deleteById(String id) {
+    @Transactional
+    public void deleteById(Long id) {
         bookRepository.deleteById(id);
     }
 
-    private Book save(String id, String title, String authorId, Set<String> genresIds) {
+    private Book save(Long id, String title, Long authorId, Set<Long> genresIds) {
         if (isEmpty(genresIds)) {
             throw new IllegalArgumentException("Genres ids must not be null");
         }

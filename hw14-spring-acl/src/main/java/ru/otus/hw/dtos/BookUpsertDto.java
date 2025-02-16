@@ -10,10 +10,12 @@ public record BookUpsertDto(
     @NotBlank
     @Size(max = 255)
     String title,
-    @NotBlank
-    String authorId,
+
+    @NotNull
+    long authorId,
+
     @NotNull
     @Size(min = 1)
-    Set<String> genreIds
+    Set<Long> genreIds
 ) {
 }

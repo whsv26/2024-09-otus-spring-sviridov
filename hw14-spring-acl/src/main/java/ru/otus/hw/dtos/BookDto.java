@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public record BookDto(
-    String id,
+    long id,
     String title,
     AuthorDto author,
     List<GenreDto> genres

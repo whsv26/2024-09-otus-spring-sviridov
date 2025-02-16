@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.dtos.BookDto;
 import ru.otus.hw.dtos.BookUpsertDto;
 import ru.otus.hw.exceptions.BookNotFoundException;
-import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.services.BookService;
 
 import java.util.List;
@@ -21,21 +20,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookController {
 
-    private final BookMapper bookMapper;
-
     private final BookService bookService;
 
     @GetMapping("/api/v1/books")
     public List<BookDto> listBooks() {
-        return bookService.findAll().stream()
-            .map(bookMapper::toDto)
-            .toList();
+        return bookService.findAll().stream().toList();
     }
 
     @GetMapping("/api/v1/books/{id}")
-    public BookDto viewBook(@PathVariable("id") String bookId) {
+    public BookDto viewBook(@PathVariable("id") Long bookId) {
         return bookService.findById(bookId)
-            .map(bookMapper::toDto)
             .orElseThrow(() -> new BookNotFoundException(bookId));
     }
 
@@ -45,37 +39,33 @@ public class BookController {
         @RequestBody
         BookUpsertDto bookDto
     ) {
-        var book = bookService.insert(
+        return bookService.insert(
             bookDto.title(),
             bookDto.authorId(),
             bookDto.genreIds()
         );
-
-        return bookMapper.toDto(book);
     }
 
     @PutMapping("/api/v1/books/{id}")
     public BookDto updateBook(
         @PathVariable("id")
-        String bookId,
+        Long bookId,
         @Valid
         @RequestBody
         BookUpsertDto bookDto
     ) {
-        var book = bookService.update(
+        return bookService.update(
             bookId,
             bookDto.title(),
             bookDto.authorId(),
             bookDto.genreIds()
         );
-
-        return bookMapper.toDto(book);
     }
 
     @DeleteMapping("/api/v1/books/{id}")
     public void deleteBook(
         @PathVariable("id")
-        String bookId
+        Long bookId
     ) {
         bookService.deleteById(bookId);
     }

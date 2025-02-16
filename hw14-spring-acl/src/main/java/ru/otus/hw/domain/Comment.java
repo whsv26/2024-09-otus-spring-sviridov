@@ -1,28 +1,39 @@
 package ru.otus.hw.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.proxy.HibernateProxy;
 
-@Data
+@Getter
+@Setter
+@ToString()
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
-public class Comment {
+@Entity
+@Table(name = "comments")
+public class Comment extends AbstractEntity {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @DocumentReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", nullable = false)
+    @ToString.Exclude
     private Book book;
 
+    @Column(name = "text", nullable = false)
     private String text;
-
-    public Comment(Book book, String text) {
-        this.book = book;
-        this.text = text;
-    }
 }

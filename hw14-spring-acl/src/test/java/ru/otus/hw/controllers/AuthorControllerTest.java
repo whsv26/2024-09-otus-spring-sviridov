@@ -9,19 +9,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.hw.domain.Author;
+import ru.otus.hw.config.SecurityConfiguration;
 import ru.otus.hw.dtos.AuthorDto;
 import ru.otus.hw.mappers.AuthorMapperImpl;
 import ru.otus.hw.services.AuthorService;
 import java.util.List;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthorController.class)
-@Import(AuthorMapperImpl.class)
-@TestPropertySource(properties = "mongock.enabled=false")
+@Import({SecurityConfiguration.class, AuthorMapperImpl.class})
 public class AuthorControllerTest {
 
     @Autowired
@@ -36,19 +36,14 @@ public class AuthorControllerTest {
     @Test
     @DisplayName("Should list all authors")
     void shouldListAllAuthors() throws Exception {
-        var authors = List.of(
-            new Author("a1", "Author 1"),
-            new Author("a2", "Author 2")
-        );
-
-        when(authorService.findAll()).thenReturn(authors);
-
         var expectedAuthors = List.of(
-            new AuthorDto("a1", "Author 1"),
-            new AuthorDto("a2", "Author 2")
+            new AuthorDto(1, "Author 1"),
+            new AuthorDto(2, "Author 2")
         );
 
-        mvc.perform(get("/api/v1/authors"))
+        when(authorService.findAll()).thenReturn(expectedAuthors);
+
+        mvc.perform(get("/api/v1/authors").with(user("admin")))
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(expectedAuthors)));
     }

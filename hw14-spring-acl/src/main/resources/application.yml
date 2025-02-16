@@ -4,19 +4,18 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:8080/jwks
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: library
-mongock:
-  runner-type: InitializingBean
-  migration-scan-package:
-    - ru.otus.hw.changelogs
-  mongo-db:
-    write-concern:
-      journal: false
-    read-concern: local
+  datasource:
+    url: jdbc:h2:mem:library
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
 app:
   token-ttl: 3600
   token-issuer: http://localhost:8080

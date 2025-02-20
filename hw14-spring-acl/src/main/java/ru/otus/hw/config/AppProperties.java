@@ -1,14 +1,17 @@
 package ru.otus.hw.config;
 
-import lombok.Value;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.net.URL;
 
-@Value
+@Data
 @ConfigurationProperties(prefix = "app")
-public class AppProperties implements AuthConfig {
-    int tokenTtl;
-    URL tokenIssuer;
-    String keyId;
+public final class AppProperties implements AuthConfig {
+
+    private final int tokenTtl;
+
+    private final URL tokenIssuer;
+
+    private final String keyId;
 }

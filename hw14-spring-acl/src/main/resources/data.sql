@@ -13,11 +13,11 @@ values (1, 1),   (1, 2),
        (2, 3),   (2, 4),
        (3, 5),   (3, 6);
 
-insert into comments(book_id, text) values
-    (1, 'comment_1'),
-    (1, 'comment_2')
-;
+insert into comments(book_id, text)
+values (1, 'comment_1'),
+       (1, 'comment_2');
 
-insert into users(username, password, authorities) values
-    ('admin', '$2a$04$LmAy3AXbt2TWTCOqKbuuue76fhSs6pplVHyrN0HKXsm6czERX.5Su', 'ROLE_ADMIN,ROLE_EDITOR')
-;
+insert into users(username, password, authorities)
+values ('admin', '$2a$04$LmAy3AXbt2TWTCOqKbuuue76fhSs6pplVHyrN0HKXsm6czERX.5Su', 'ROLE_ADMIN,ROLE_EDITOR'), -- admin:admin
+       ('editor', '$2a$04$LsTz0TE0.1WYXYCbtszIyuklvyE2u0OoKNXANgpXzkfJxwEbIJgjG', 'ROLE_EDITOR'), -- editor:editor
+       ('user', '$2a$04$EjZ26cGwWrT3g9UPOuiOFeaAZmCsFCqWnHbH7iaCzYhTuw7LmhtN6', ''); -- user:user

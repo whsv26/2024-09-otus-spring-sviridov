@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, {ChangeEventHandler, FormEventHandler, useState} from "react";
 import {useNavigate} from 'react-router-dom';
-import {createBook} from './Api'
+import {useApiClient} from "./Api";
 
-const BookEditing = (props) => {
+interface Props {
+    genres: Genre[];
+    authors: Author[];
+}
+
+const BookEditing = (props: Props) => {
+    const api = useApiClient();
     const navigate = useNavigate();
     const goToHomePage = () => navigate('/');
     const { genres, authors } = props;
@@ -13,29 +19,32 @@ const BookEditing = (props) => {
         genreIds: [],
     });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setBookForm({
-            ...bookForm,
-            [name]: value,
-        });
-    };
+    const handleChange: ChangeEventHandler<HTMLInputElement|HTMLSelectElement> =
+        (e) => {
+            const { name, value } = e.target;
+            setBookForm({
+                ...bookForm,
+                [name]: value,
+            });
+        };
 
-    const handleMultiselectChange = (e) => {
-        const { name, selectedOptions } = e.target;
-        const options = [...selectedOptions];
-        const values = options.map(option => option.value);
-        setBookForm({
-            ...bookForm,
-            [name]: values,
-        });
-    };
+    const handleMultiselectChange: ChangeEventHandler<HTMLSelectElement> =
+        (e) => {
+            const { name, selectedOptions } = e.target;
+            const options = [...selectedOptions];
+            const values = options.map(option => option.value);
+            setBookForm({
+                ...bookForm,
+                [name]: values,
+            });
+        };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await createBook(bookForm)
-            .then(() => navigate('/'));
-    }
+    const handleSubmit: FormEventHandler<HTMLFormElement> =
+        async (e) => {
+            e.preventDefault();
+            await api.createBook(bookForm)
+                .then(() => navigate('/'));
+        }
 
     return (
         <React.Fragment>

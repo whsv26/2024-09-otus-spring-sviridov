@@ -1,63 +1,97 @@
-import React, {useEffect, useState} from "react";
+import React, {ChangeEventHandler, FormEventHandler, useEffect, useState} from "react";
 import {useNavigate, useParams} from 'react-router-dom';
-import {findBook, useApi, updateBook} from "./Api";
+import {useApi, useApiClient} from "./Api";
 
-const bookToForm = (book) => {
-    return {
-        title: book.title,
-        authorId: book.author.id,
-        genreIds: book.genres.map(genre => genre.id)
-    }
+interface BookForm {
+    title: string;
+    authorId: number;
+    genreIds: number[];
 }
 
-const EditBook = (props) => {
+const bookToForm =
+    (book: Book): BookForm => {
+        return {
+            title: book.title,
+            authorId: book.author.id,
+            genreIds: book.genres.map(genre => genre.id)
+        }
+    }
+
+const parseParams =
+    (bookId: any): Params => {
+        if (!bookId) {
+            throw new Error("Book ID must be provided");
+        }
+        return {
+            bookId: parseInt(bookId)
+        }
+    }
+
+interface Props {
+    genres: Genre[];
+    authors: Author[]
+}
+
+interface Params {
+    bookId: number
+}
+
+const EditBook = (props: Props) => {
+    const api = useApiClient();
     const params = useParams();
     const navigate = useNavigate();
     const goToHomePage = () => navigate('/');
-    const { bookId } = params;
+    const { bookId } = parseParams(params.bookId);
     const { genres, authors } = props;
 
-    const [bookLoading, bookError, book] = useApi(() => findBook(bookId));
+    const bookResult = useApi(() => api.findBook(bookId));
 
-    const [bookForm, setBookForm] = useState(null)
+    const [bookForm, setBookForm] = useState<BookForm>({
+        authorId: -1,
+        genreIds: [],
+        title: ""
+    })
 
     useEffect(() => {
-        if (book) {
-            setBookForm(bookToForm(book));
+        if (bookResult.type === 'success') {
+            setBookForm(bookToForm(bookResult.data));
         }
-    }, [book]);
+    }, [bookResult.type]);
 
-    if (bookLoading) {
+    if (bookResult.type === 'loading') {
         return <div>Loading...</div>;
     }
 
-    if (bookError) {
-        return <div>Error: {bookError}</div>;
+    if (bookResult.type === 'failure') {
+        return <div>Error: {bookResult.error.toString()}</div>;
     }
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setBookForm({
-            ...bookForm,
-            [name]: value,
-        });
-    };
+    const handleChange: ChangeEventHandler<HTMLInputElement|HTMLSelectElement> =
+        (e) => {
+            const { name, value } = e.target;
+            setBookForm({
+                ...bookForm,
+                [name]: value,
+            });
+        };
 
-    const handleMultiselectChange = (e) => {
-        const { name, selectedOptions } = e.target;
-        const options = [...selectedOptions];
-        const values = options.map(option => option.value);
-        setBookForm({
-            ...bookForm,
-            [name]: values,
-        });
-    };
+    const handleMultiselectChange: ChangeEventHandler<HTMLSelectElement> =
+        (e) => {
+            const { name, selectedOptions } = e.target;
+            const options = [...selectedOptions];
+            const values = options.map(option => option.value);
+            setBookForm({
+                ...bookForm,
+                [name]: values,
+            });
+        };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await updateBook(bookId, bookForm)
-            .then(() => navigate('/'));
-    }
+    const handleSubmit: FormEventHandler<HTMLFormElement> =
+        async (e) => {
+            e.preventDefault();
+            await api.updateBook(bookId, bookForm)
+                .then(() => navigate('/'));
+        }
 
     return (
         <React.Fragment>
@@ -96,7 +130,7 @@ const EditBook = (props) => {
                         <select
                             id="genres"
                             name="genreIds"
-                            value={bookForm.genreIds}
+                            value={bookForm.genreIds.map(genreId => genreId.toString())}
                             onChange={handleMultiselectChange}
                             multiple={true}
                             required

@@ -1,31 +1,33 @@
 import React, {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
-import {useApi, findAllBooks, deleteBook} from "./Api";
+import {useApi, useApiClient} from "./Api";
 
 const ListBooks = () => {
+    const api = useApiClient();
     const navigate = useNavigate();
-    const goToEditPage = (bookId) => navigate('/edit/' + bookId);
+    const goToEditPage = (bookId: number) => navigate('/edit/' + bookId);
     const goToCreatePage = () => navigate('/create');
+    const goToLoginPage = () => navigate('/login');
 
-    const [loading, error, initialBooks] = useApi(findAllBooks);
-    const [books, setBooks] = useState([]);
+    const booksResult = useApi(api.findAllBooks);
+    const [books, setBooks] = useState<Book[]>([]);
 
     useEffect(() => {
-        if (initialBooks) {
-            setBooks(initialBooks);
+        if (booksResult.type === 'success') {
+            setBooks(booksResult.data);
         }
-    }, [initialBooks]);
+    }, [booksResult.type]);
 
-    if (loading) {
+    if (booksResult.type === 'loading') {
         return <div>Loading...</div>;
     }
 
-    if (error) {
-        return <div>Error: {error}</div>;
+    if (booksResult.type === 'failure') {
+        return <div>Error: {booksResult.error.toString()}</div>;
     }
 
-    const handleDeleteBook = async (bookId) => {
-        deleteBook(bookId).then(() => {
+    const handleDeleteBook = async (bookId: number) => {
+        api.deleteBook(bookId).then(() => {
             setBooks(books.filter((book) => book.id !== bookId));
         })
     }
@@ -33,7 +35,10 @@ const ListBooks = () => {
     return (
         <React.Fragment>
             <div>
-                <h1>Books <button onClick={goToCreatePage}>+</button></h1>
+                <h1>Books
+                    <button onClick={goToLoginPage}>SignIn</button>
+                    <button onClick={goToCreatePage}>Create</button>
+                </h1>
                 <table>
                     <thead>
                     <tr>

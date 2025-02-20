@@ -2,6 +2,8 @@ package ru.otus.hw.services;
 
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.domain.Book;
@@ -33,6 +35,8 @@ public class BookServiceImpl implements BookService {
 
     private final BookMapper bookMapper;
 
+    private final AclServiceWrapperService aclService;
+
     @Override
     @Transactional(readOnly = true)
     public Optional<BookDto> findById(Long id) {
@@ -52,11 +56,13 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public BookDto insert(String title, Long authorId, Set<Long> genresIds) {
         var book = save(null, title, authorId, genresIds);
+        aclService.createPermissions(book, BasePermission.READ, BasePermission.WRITE, BasePermission.DELETE);
         return bookMapper.toDto(book);
     }
 
     @Override
     @Transactional
+    @PreAuthorize("hasPermission(#id, 'ru.otus.hw.domain.Book', 'WRITE')")
     public BookDto update(Long id, String title, Long authorId, Set<Long> genresIds) {
         var book = save(id, title, authorId, genresIds);
         return bookMapper.toDto(book);

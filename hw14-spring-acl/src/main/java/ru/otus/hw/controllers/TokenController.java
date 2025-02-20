@@ -3,6 +3,8 @@ package ru.otus.hw.controllers;
 import java.time.Instant;
 import java.util.stream.Collectors;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,7 +29,7 @@ public class TokenController {
     private final AuthConfig authConfig;
 
     @PostMapping("/token")
-    public String generateToken(@RequestBody AuthRequest request) {
+    public AuthResponse generateToken(@RequestBody @Valid AuthRequest request) {
         var username = request.username;
         var password = request.password;
         var user = new UsernamePasswordAuthenticationToken(username, password);
@@ -44,17 +46,22 @@ public class TokenController {
             .build();
 
         var encoderParameters = JwtEncoderParameters.from(claims);
-        return jwtEncoder.encode(encoderParameters).getTokenValue();
+        var token = jwtEncoder.encode(encoderParameters).getTokenValue();
+        return new AuthResponse(token);
     }
 
     private static String buildAuthorities(Authentication authentication) {
         return authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
+            .filter(s -> s.startsWith("ROLE_"))
+            .map(s -> s.substring("ROLE_".length()))
             .collect(Collectors.joining(" "));
     }
 
-    public static class AuthRequest {
-        public String username;
-        public String password;
-    }
+    public record AuthRequest(
+        @NotBlank String username,
+        @NotBlank String password
+    ) { }
+
+    public record AuthResponse(String token) { }
 }

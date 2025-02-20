@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,8 +31,14 @@ import java.security.interfaces.RSAPublicKey;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @EnableWebSecurity
+@EnableMethodSecurity
 @Configuration
 public class SecurityConfiguration {
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/h2-console/**");
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -49,7 +57,8 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET, "/api/v1/books/*").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/books").hasAnyRole("EDITOR", "ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/books/*").hasAnyRole("EDITOR", "ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/v1/books/*").hasAnyRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/books/*").hasRole("ADMIN")
+                .anyRequest().permitAll()
             );
         return http.build();
     }

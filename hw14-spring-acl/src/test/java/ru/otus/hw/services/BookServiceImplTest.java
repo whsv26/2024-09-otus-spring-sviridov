@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,6 +73,7 @@ class BookServiceImplTest {
 
     @DisplayName("должен создавать новую книгу")
     @DirtiesContext
+    @WithMockUser(username = "editor", roles = {"EDITOR"})
     @Test
     void shouldSaveNewBook() {
         var title = "BookTitle_10500";
@@ -130,33 +132,29 @@ class BookServiceImplTest {
 
     @DisplayName("должен изменять существующую книгу")
     @DirtiesContext
+    @WithMockUser(username = "editor", roles = {"EDITOR"})
     @Test
     void shouldSaveUpdatedBook() {
-        var title = "BookTitle_10500";
+        var title = "b231";
         var author = dbAuthors.get(2);
         var genres = List.of(dbGenres.get(4), dbGenres.get(5));
         var genreIds = genres.stream().map(GenreDto::id).collect(Collectors.toSet());
-        var bookId = 1L;
-        var expectedBook = new BookDto(bookId, title, author, genres);
 
-        assertThat(bookService.findById(expectedBook.id()))
-            .isPresent()
-            .get()
-            .usingRecursiveComparison()
-            .isNotEqualTo(expectedBook);
+        var createdBook = bookService.insert(title, author.id(), genreIds);
+        var updatedBook = bookService.update(createdBook.id(), title + "upd", author.id(), genreIds);
+        var expectedBook = new BookDto(createdBook.id(), title + "upd", author, genres);
 
-        var returnedBook = bookService.update(bookId, title, author.id(), genreIds);
-        assertThat(returnedBook)
+        assertThat(updatedBook)
             .isNotNull()
             .matches(book -> book.id() > 0)
             .usingRecursiveComparison()
             .isEqualTo(expectedBook);
 
-        assertThat(bookService.findById(returnedBook.id()))
+        assertThat(bookService.findById(updatedBook.id()))
             .isPresent()
             .get()
             .usingRecursiveComparison()
-            .isEqualTo(returnedBook);
+            .isEqualTo(updatedBook);
     }
 
     @DisplayName("должен удалять книгу по id")

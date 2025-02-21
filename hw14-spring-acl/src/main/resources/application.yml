@@ -3,7 +3,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8080/jwks
+          jwk-set-uri: http://localhost:8080/tokens
   datasource:
     url: jdbc:h2:mem:library
     driverClassName: org.h2.Driver

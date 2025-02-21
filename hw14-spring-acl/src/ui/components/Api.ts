@@ -82,7 +82,7 @@ export const useApiClient =
 
         return {
             async login(username: string, password: string): Promise<Token> {
-                const response = await fetch("/token", {
+                const response = await fetch("/tokens", {
                     method: "POST",
                     headers: headers(null),
                     body: JSON.stringify({ username, password }),

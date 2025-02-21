@@ -47,12 +47,10 @@ public class SecurityConfiguration {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.GET, "/jwks").permitAll()
-                .requestMatchers(HttpMethod.POST, "/token").permitAll()
-
+                .requestMatchers(HttpMethod.GET, "/tokens").permitAll()
+                .requestMatchers(HttpMethod.POST, "/tokens").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/authors").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/genres").permitAll()
-
                 .requestMatchers(HttpMethod.GET, "/api/v1/books").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/books/*").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/books").hasAnyRole("EDITOR", "ADMIN")

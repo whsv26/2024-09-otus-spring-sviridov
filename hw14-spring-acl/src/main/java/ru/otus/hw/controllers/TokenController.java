@@ -1,8 +1,13 @@
 package ru.otus.hw.controllers;
 
+import java.security.KeyPair;
+import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +34,19 @@ public class TokenController {
 
     private final AuthConfig authConfig;
 
-    @PostMapping("/token")
-    public AuthResponse generateToken(@RequestBody @Valid AuthRequest request) {
+    private final KeyPair keyPair;
+
+    @GetMapping("/tokens")
+    public Map<String, Object> listTokens() {
+        var publicKey = (RSAPublicKey) keyPair.getPublic();
+        var rsaKey = new RSAKey.Builder(publicKey)
+            .keyID(authConfig.getKeyId())
+            .build();
+        return new JWKSet(rsaKey).toJSONObject();
+    }
+
+    @PostMapping("/tokens")
+    public AuthResponse createToken(@RequestBody @Valid AuthRequest request) {
         var username = request.username;
         var password = request.password;
         var user = new UsernamePasswordAuthenticationToken(username, password);

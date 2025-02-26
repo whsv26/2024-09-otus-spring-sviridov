@@ -2,6 +2,7 @@ package ru.otus.hw.services;
 
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.GenreRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -39,17 +41,21 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
+    @PreAuthorize("hasPermission(#id, 'ru.otus.hw.domain.Book', 'READ')")
     public Optional<BookDto> findById(Long id) {
         return bookRepository.findById(id).map(bookMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
+    @PostFilter("hasPermission(#filterObject, 'READ')")
     public List<BookDto> findAll() {
-        return bookRepository.findAll()
-            .stream()
-            .map(bookMapper::toDto)
-            .toList();
+        return new ArrayList<>(
+            bookRepository.findAll()
+                .stream()
+                .map(bookMapper::toDto)
+                .toList()
+        );
     }
 
     @Override
@@ -70,6 +76,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasPermission(#id, 'ru.otus.hw.domain.Book', 'DELETE')")
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
     }

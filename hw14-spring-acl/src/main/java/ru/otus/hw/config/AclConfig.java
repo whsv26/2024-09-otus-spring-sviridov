@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
-import org.springframework.security.acls.AclPermissionEvaluator;
 import org.springframework.security.acls.domain.AclAuthorizationStrategy;
 import org.springframework.security.acls.domain.AclAuthorizationStrategyImpl;
 import org.springframework.security.acls.domain.ConsoleAuditLogger;
@@ -53,10 +52,8 @@ public class AclConfig {
     @Bean
     protected MethodSecurityExpressionHandler createExpressionHandler(AclService aclService) {
         var expressionHandler = new DefaultMethodSecurityExpressionHandler();
-        // Allow hasPermission() checks
-        expressionHandler.setPermissionEvaluator(
-            new AclPermissionEvaluator(aclService)
-        );
+        var permissionEvaluator = new CustomAclPermissionEvaluator(aclService);
+        expressionHandler.setPermissionEvaluator(permissionEvaluator);
         return expressionHandler;
     }
 }

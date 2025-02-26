@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,7 @@ class BookServiceImplTest {
     @DisplayName("должен находить книгу по ее id")
     @ParameterizedTest
     @MethodSource("getDbBooks")
+    @WithUserDetails("admin")
     void shouldReturnBookById(BookDto expectedBook) {
         var actualBook = bookService.findById(expectedBook.id());
 
@@ -62,6 +64,7 @@ class BookServiceImplTest {
 
     @DisplayName("должен находить все книги")
     @Test
+    @WithUserDetails("admin")
     void shouldReturnAllBooks() {
         var expectedBooks = dbBooks;
         var actualBooks =  bookService.findAll();
@@ -160,6 +163,7 @@ class BookServiceImplTest {
     @DisplayName("должен удалять книгу по id")
     @DirtiesContext
     @Test
+    @WithUserDetails("admin")
     void shouldDeleteBook() {
         var bookId = 1L;
         var book = bookService.findById(bookId);

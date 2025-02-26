@@ -56,7 +56,6 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/api/v1/books").hasAnyRole("EDITOR", "ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/books/*").hasAnyRole("EDITOR", "ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/books/*").hasRole("ADMIN")
-                .anyRequest().permitAll()
             );
         return http.build();
     }

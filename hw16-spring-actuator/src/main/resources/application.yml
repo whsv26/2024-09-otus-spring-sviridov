@@ -1,0 +1,41 @@
+management:
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+logging:
+  file:
+    path: ./hw16-spring-actuator
+spring:
+  data:
+    rest:
+      base-path: /datarest
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/tokens
+  datasource:
+    url: jdbc:h2:mem:library
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+app:
+  token-ttl: 3600
+  token-issuer: http://localhost:8080
+  token-id: 586b7a7d-6fa7-4044-9a71-685e05d4ef80

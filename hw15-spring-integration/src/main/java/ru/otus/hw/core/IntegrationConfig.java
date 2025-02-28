@@ -18,22 +18,22 @@ public class IntegrationConfig {
     }
 
     @Bean(Channels.PLACE_ORDER_COMMAND)
-    MessageChannel placeOrderCommandChannel() {
+    public MessageChannel placeOrderCommandChannel() {
         return new QueueChannel(10);
     }
 
     @Bean(Channels.ORDER_PLACED_EVENT)
-    MessageChannel orderPlacedEventChannel() {
+    public MessageChannel orderPlacedEventChannel() {
         return new PublishSubscribeChannel();
     }
 
     @Bean(Channels.ORDER_CANCELED_EVENT)
-    MessageChannel orderCanceledEventChannel() {
+    public MessageChannel orderCanceledEventChannel() {
         return new PublishSubscribeChannel();
     }
 
     @Bean(Channels.OUT_OF_STOCK_EVENT)
-    MessageChannel outOfStockEventChannel() {
+    public MessageChannel outOfStockEventChannel() {
         return new PublishSubscribeChannel();
     }
 }

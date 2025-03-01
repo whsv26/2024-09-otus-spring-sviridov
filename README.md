@@ -18,4 +18,5 @@
 - [В CRUD Web-приложение добавить механизм аутентификации](hw12-spring-security)
 - [На основе Spring Batch разработать процедуру миграции данных из реляционного хранилища в NoSQL или наоборот](hw13-spring-batch)
 - [Ввести авторизацию на основе URL и/или доменных сущностей](hw14-spring-acl)
+- [Реализовать обработку доменной сущности через каналы Spring Integration](hw15-spring-integration)
 - [Использовать метрики, healthchecks и logfile](hw16-spring-actuator)

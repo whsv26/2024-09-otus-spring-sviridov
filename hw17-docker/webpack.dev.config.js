@@ -24,7 +24,7 @@ module.exports = {
         open: true,
         proxy: {
             '*': {
-              target: 'http://localhost:8080',
+              target: 'http://localhost:80',
               secure: false,
               changeOrigin: true
             }

@@ -21,4 +21,47 @@
 - Опционально: сделать это в локальном кубе.
 - Приложение желательно реализовать с помощью всех Best Practices Docker (логгирование в stdout и т.д.)
 
+## Установка
 
+### В Kubernetes кластере (Minikube)
+
+Запуск Minikube 
+```shell
+minikube start
+```
+
+Настройка Nginx Ingress. 
+Без тонелля Ingress может быть недоступен с хост-машины.
+```shell
+minikube addons enable ingress
+minikube tunnel
+```
+
+Этот вариант не использует заранее подготовленный Dockerfile и собирает образ внутри Minikube с помощью плагина Jib.
+```shell
+eval $(minikube docker-env)
+../mvnw compile jib:dockerBuild
+```
+
+Деплой приложения в Minikube (потребуется Helm)
+```shell
+helmfile apply -e local -f deploy/helmfile.yaml
+```
+
+Старт фронта
+```shell
+npm run-script dev
+```
+
+### В Docker Compose
+
+Для этого варианта установки подготовлен Dockerfile приложения 
+
+```shell
+docker compose up
+```
+
+Старт фронта
+```shell
+npm run-script dev
+```

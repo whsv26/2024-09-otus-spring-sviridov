@@ -1,0 +1,5 @@
+auth:
+  enablePostgresUser: true
+  username: "docker"
+  password: "docker"
+  database: "docker"

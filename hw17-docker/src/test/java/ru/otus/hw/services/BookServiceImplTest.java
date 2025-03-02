@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.hw.AbstractIntegrationTest;
 import ru.otus.hw.dtos.AuthorDto;
 import ru.otus.hw.dtos.BookDto;
 import ru.otus.hw.dtos.GenreDto;
@@ -29,8 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DisplayName("Сервис для работы с книгами ")
 @SpringBootTest
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
-class BookServiceImplTest {
+class BookServiceImplTest extends AbstractIntegrationTest {
 
     @Autowired
     private BookServiceImpl bookService;
@@ -52,6 +51,7 @@ class BookServiceImplTest {
     @ParameterizedTest
     @MethodSource("getDbBooks")
     @WithUserDetails("admin")
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     void shouldReturnBookById(BookDto expectedBook) {
         var actualBook = bookService.findById(expectedBook.id());
 
@@ -65,6 +65,7 @@ class BookServiceImplTest {
     @DisplayName("должен находить все книги")
     @Test
     @WithUserDetails("admin")
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     void shouldReturnAllBooks() {
         var expectedBooks = dbBooks;
         var actualBooks =  bookService.findAll();
@@ -75,7 +76,7 @@ class BookServiceImplTest {
     }
 
     @DisplayName("должен создавать новую книгу")
-    @DirtiesContext
+    @Transactional
     @WithMockUser(username = "editor", roles = {"EDITOR"})
     @Test
     void shouldSaveNewBook() {
@@ -101,6 +102,7 @@ class BookServiceImplTest {
 
     @DisplayName("должен возвращать ошибку при попытке создать книгу с несуществующим автором")
     @Test
+    @Transactional
     void shouldFailToSaveNewBookWithNonExistingAuthor() {
         var authorId = 999L;
         var title = "BookTitle_10500";
@@ -113,6 +115,7 @@ class BookServiceImplTest {
 
     @DisplayName("должен возвращать ошибку при попытке создать книгу без жанров")
     @Test
+    @Transactional
     void shouldFailToSaveNewBookWithoutAnyGenre() {
         var title = "BookTitle_10500";
         var author = dbAuthors.get(0);
@@ -124,6 +127,7 @@ class BookServiceImplTest {
 
     @DisplayName("должен возвращать ошибку при попытке создать книгу с несуществующим жанром")
     @Test
+    @Transactional
     void shouldFailToSaveNewBookWithNonExistingGenre() {
         var title = "BookTitle_10500";
         var author = dbAuthors.get(0);
@@ -134,7 +138,7 @@ class BookServiceImplTest {
     }
 
     @DisplayName("должен изменять существующую книгу")
-    @DirtiesContext
+    @Transactional
     @WithMockUser(username = "editor", roles = {"EDITOR"})
     @Test
     void shouldSaveUpdatedBook() {
@@ -161,7 +165,7 @@ class BookServiceImplTest {
     }
 
     @DisplayName("должен удалять книгу по id")
-    @DirtiesContext
+    @Transactional
     @Test
     @WithUserDetails("admin")
     void shouldDeleteBook() {

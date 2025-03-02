@@ -4,9 +4,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.hw.AbstractIntegrationTest;
 import ru.otus.hw.dtos.CommentDto;
 
 import java.util.List;
@@ -15,14 +15,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Сервис для работы с комментариями книг ")
 @SpringBootTest
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
-class CommentServiceImplTest {
+class CommentServiceImplTest extends AbstractIntegrationTest {
 
     @Autowired
     private CommentServiceImpl commentService;
 
     @DisplayName("должен находить комментарий по его id")
     @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     void shouldReturnCommentById() {
         var expectedComment = new CommentDto(1, 1, "comment_1");
         var comment =  commentService.findById(1L);
@@ -35,6 +35,7 @@ class CommentServiceImplTest {
 
     @DisplayName("должен находить все комментарии книги")
     @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     void shouldReturnAllBookComments() {
         var bookId = 1L;
         var expectedComments = List.of(
@@ -47,7 +48,7 @@ class CommentServiceImplTest {
     }
 
     @DisplayName("должен сохранять новый комментарий")
-    @DirtiesContext
+    @Transactional
     @Test
     void shouldSaveNewComment() {
         var bookId = 1L;
@@ -59,7 +60,7 @@ class CommentServiceImplTest {
     }
 
     @DisplayName("должен обновлять текст комментария")
-    @DirtiesContext
+    @Transactional
     @Test
     void shouldUpdateCommentText() {
         var bookId = 1L;
@@ -70,7 +71,7 @@ class CommentServiceImplTest {
     }
 
     @DisplayName("должен удалять комментарий по id")
-    @DirtiesContext
+    @Transactional
     @Test
     void deleteCommentById() {
         commentService.deleteById(1L);

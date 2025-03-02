@@ -3,8 +3,10 @@ package ru.otus.hw.repositories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import ru.otus.hw.AbstractIntegrationTest;
 import ru.otus.hw.domain.Book;
 import ru.otus.hw.domain.Comment;
 
@@ -14,7 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий на основе JDBC для работы с комментариями книг ")
 @DataJpaTest
-public class JpaCommentRepositoryTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class JpaCommentRepositoryTest extends AbstractIntegrationTest {
 
     @Autowired
     private CommentRepository commentRepository;

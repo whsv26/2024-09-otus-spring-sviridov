@@ -1,0 +1,6 @@
+app:
+  smtp:
+    host: ${SMTP_HOST:sandbox.smtp.mailtrap.io}
+    port: ${SMTP_PORT:25}
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}

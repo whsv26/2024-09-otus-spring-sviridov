@@ -38,3 +38,18 @@ readinessProbe:
 
 autoscaling:
   enabled: false
+
+env:
+  - name: POSTGRES_HOST
+    value: postgresql.default.svc.cluster.local
+  - name: POSTGRES_PORT
+    value: "5432"
+  - name: POSTGRES_DATABASE
+    value: "docker"
+  - name: POSTGRES_USERNAME
+    value: docker
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: postgresql
+        key: password

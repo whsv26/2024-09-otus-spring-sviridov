@@ -17,4 +17,5 @@ COPY --from=build /app/target/hw17-docker-1.0.0.jar app.jar
 RUN adduser --disabled-password non_root_user
 USER non_root_user
 EXPOSE 80
+EXPOSE 90
 ENTRYPOINT ["java", "-jar", "app.jar"]

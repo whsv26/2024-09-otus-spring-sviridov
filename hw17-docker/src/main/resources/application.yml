@@ -1,4 +1,6 @@
 management:
+  server:
+    port: 90
   health:
     defaults:
       enabled: true

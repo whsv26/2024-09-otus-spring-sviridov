@@ -1,0 +1,21 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/tokens
+  sql:
+    init:
+      mode: never
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+  main:
+    banner-mode: off
+  liquibase:
+    enabled: true
+app:
+  token-ttl: 3600
+  token-issuer: http://localhost:8080
+  key-id: e58b64e8-ce33-40e3-b355-99cc3d038c19

@@ -1,0 +1,55 @@
+replicaCount: 1
+
+image:
+  repository: hw17-docker-jib
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
+
+serviceAccount:
+  create: false
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - paths:
+        - path: /
+          pathType: Prefix
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: probe
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: probe
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 3
+
+autoscaling:
+  enabled: false
+
+env:
+  - name: POSTGRES_HOST
+    value: postgresql.default.svc.cluster.local
+  - name: POSTGRES_PORT
+    value: "5432"
+  - name: POSTGRES_DATABASE
+    value: "docker"
+  - name: POSTGRES_USERNAME
+    value: docker
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: postgresql
+        key: password

@@ -20,3 +20,4 @@
 - [Ввести авторизацию на основе URL и/или доменных сущностей](hw14-spring-acl)
 - [Реализовать обработку доменной сущности через каналы Spring Integration](hw15-spring-integration)
 - [Использовать метрики, healthchecks и logfile](hw16-spring-actuator)
+- [Обернуть приложение в docker-контейнер](hw17-docker)

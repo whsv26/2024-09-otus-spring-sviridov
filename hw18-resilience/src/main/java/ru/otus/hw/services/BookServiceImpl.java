@@ -1,6 +1,9 @@
 package ru.otus.hw.services;
 
 import com.google.common.collect.Sets;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,8 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Service
 public class BookServiceImpl implements BookService {
 
+    public static final String BACKEND = "database";
+
     private final AuthorRepository authorRepository;
 
     private final GenreRepository genreRepository;
@@ -36,12 +41,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
+    @Retry(name = BACKEND)
+    @CircuitBreaker(name = BACKEND)
+    @TimeLimiter(name = BACKEND)
     public Optional<BookDto> findById(Long id) {
         return bookRepository.findById(id).map(bookMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
+    @Retry(name = BACKEND)
+    @CircuitBreaker(name = BACKEND)
+    @TimeLimiter(name = BACKEND)
     public List<BookDto> findAll() {
         return new ArrayList<>(
             bookRepository.findAll()
@@ -53,6 +64,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
+    @CircuitBreaker(name = BACKEND)
+    @TimeLimiter(name = BACKEND)
     public BookDto insert(String title, Long authorId, Set<Long> genresIds) {
         var book = save(null, title, authorId, genresIds);
         return bookMapper.toDto(book);
@@ -60,6 +73,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
+    @Retry(name = BACKEND)
+    @CircuitBreaker(name = BACKEND)
+    @TimeLimiter(name = BACKEND)
     public BookDto update(Long id, String title, Long authorId, Set<Long> genresIds) {
         var book = save(id, title, authorId, genresIds);
         return bookMapper.toDto(book);
@@ -67,6 +83,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
+    @Retry(name = BACKEND)
+    @CircuitBreaker(name = BACKEND)
+    @TimeLimiter(name = BACKEND)
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
     }

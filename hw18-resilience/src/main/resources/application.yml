@@ -91,6 +91,3 @@ resilience4j.timelimiter:
     auth:
       timeoutDuration: 200ms
       cancelRunningFuture: true
-    database:
-      timeoutDuration: 3s
-      cancelRunningFuture: true

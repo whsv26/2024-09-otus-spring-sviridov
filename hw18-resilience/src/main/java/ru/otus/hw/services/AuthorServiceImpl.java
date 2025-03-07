@@ -2,7 +2,6 @@ package ru.otus.hw.services;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
-import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,7 @@ import java.util.List;
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
-    public static final String BACKEND = "database";
+    private static final String DB_BACKEND = "database";
 
     private final AuthorRepository authorRepository;
 
@@ -24,9 +23,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional(readOnly = true)
-    @Retry(name = BACKEND)
-    @CircuitBreaker(name = BACKEND)
-    @TimeLimiter(name = BACKEND)
+    @Retry(name = DB_BACKEND)
+    @CircuitBreaker(name = DB_BACKEND)
     public List<AuthorDto> findAll() {
         return authorRepository.findAll()
             .stream()

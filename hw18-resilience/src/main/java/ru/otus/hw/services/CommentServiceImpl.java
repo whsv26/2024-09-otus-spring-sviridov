@@ -2,7 +2,6 @@ package ru.otus.hw.services;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
-import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    public static final String BACKEND = "database";
+    private static final String DB_BACKEND = "database";
 
     private final CommentRepository commentRepository;
 
@@ -32,9 +31,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    @Retry(name = BACKEND)
-    @CircuitBreaker(name = BACKEND)
-    @TimeLimiter(name = BACKEND)
+    @Retry(name = DB_BACKEND)
+    @CircuitBreaker(name = DB_BACKEND)
     public Optional<CommentDto> findById(Long id) {
         return commentRepository.findById(id)
             .map(commentMapper::toDto);
@@ -42,9 +40,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    @Retry(name = BACKEND)
-    @CircuitBreaker(name = BACKEND)
-    @TimeLimiter(name = BACKEND)
+    @Retry(name = DB_BACKEND)
+    @CircuitBreaker(name = DB_BACKEND)
     public List<CommentDto> findAllFor(Long bookId) {
         return commentRepository.findByBookId(bookId)
             .stream()
@@ -54,8 +51,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    @CircuitBreaker(name = BACKEND)
-    @TimeLimiter(name = BACKEND)
+    @CircuitBreaker(name = DB_BACKEND)
     public CommentDto insert(String text, Long bookId) {
         var book = findBook(bookId);
         var comment = new Comment(null, book, text);
@@ -64,9 +60,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    @Retry(name = BACKEND)
-    @CircuitBreaker(name = BACKEND)
-    @TimeLimiter(name = BACKEND)
+    @Retry(name = DB_BACKEND)
+    @CircuitBreaker(name = DB_BACKEND)
     public CommentDto update(Long id, String text) {
         var comment = findComment(id);
         comment.setText(text);
@@ -76,9 +71,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    @Retry(name = BACKEND)
-    @CircuitBreaker(name = BACKEND)
-    @TimeLimiter(name = BACKEND)
+    @Retry(name = DB_BACKEND)
+    @CircuitBreaker(name = DB_BACKEND)
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
     }

@@ -1,5 +1,7 @@
 package ru.otus.hw.services;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,9 +14,13 @@ import ru.otus.hw.repositories.UserRepository;
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    private static final String DB_BACKEND = "database";
+
     private final UserRepository userRepository;
 
     @Override
+    @Retry(name = DB_BACKEND)
+    @CircuitBreaker(name = DB_BACKEND)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userRepository.findByUsername(username).orElseThrow(() ->
             new UsernameNotFoundException("User with username" + username + " is not found")

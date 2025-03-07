@@ -1,0 +1,96 @@
+management:
+  server:
+    port: 90
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost/tokens
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DATABASE}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+  sql:
+    init:
+      mode: never
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    enabled: true
+
+app:
+  token-ttl: 3600
+  token-issuer: http://localhost
+  key-id: 586b7a7d-6fa7-4044-9a71-685e05d4ef80
+
+server:
+  port: 80
+
+resilience4j.circuitbreaker:
+  instances:
+    auth:
+      registerHealthIndicator: true
+      slidingWindowSize: 60 # seconds
+      slidingWindowType: TIME_BASED
+      failureRateThreshold: 50
+      permittedNumberOfCallsInHalfOpenState: 5
+      minimumNumberOfCalls: 50
+      waitDurationInOpenState: 30s
+    database:
+      registerHealthIndicator: true
+      slidingWindowSize: 100 # calls
+      slidingWindowType: COUNT_BASED
+      failureRateThreshold: 50
+      permittedNumberOfCallsInHalfOpenState: 5
+      minimumNumberOfCalls: 50
+      waitDurationInOpenState: 60s
+
+resilience4j.retry:
+  instances:
+    auth:
+      maxAttempts: 2
+      waitDuration: 100ms
+      retryExceptions:
+        - org.springframework.web.client.ResourceAccessException
+        - org.springframework.web.client.HttpServerErrorException
+        - java.net.SocketTimeoutException
+        - java.net.ConnectException
+        - java.net.UnknownHostException
+        - java.net.NoRouteToHostException
+        - java.io.InterruptedIOException
+    database:
+      maxAttempts: 3
+      waitDuration: 200ms
+      retryExceptions:
+        - java.sql.SQLTransientException
+        - java.net.SocketTimeoutException
+        - java.net.ConnectException
+        - java.net.UnknownHostException
+        - java.net.NoRouteToHostException
+        - java.io.InterruptedIOException
+
+resilience4j.timelimiter:
+  instances:
+    auth:
+      timeoutDuration: 200ms
+      cancelRunningFuture: true
+    database:
+      timeoutDuration: 3s
+      cancelRunningFuture: true

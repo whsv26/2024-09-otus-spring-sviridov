@@ -1,6 +1,8 @@
-package ru.demo.controller;
+package ru.otus.hw.controller;
 
 import java.net.ConnectException;
+
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -14,8 +16,8 @@ import reactor.util.annotation.NonNull;
 
 @Order(-2)
 @Component
+@Slf4j
 public class ErrorHandler implements ErrorWebExceptionHandler {
-    private static final Logger log = LoggerFactory.getLogger(ErrorHandler.class);
 
     @Override
     public Mono<Void> handle(@NonNull ServerWebExchange serverWebExchange, @NonNull Throwable thr) {

@@ -1,4 +1,4 @@
-package ru.demo.config;
+package ru.otus.hw.config;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -9,7 +9,7 @@ import org.springframework.cloud.gateway.route.builder.PredicateSpec;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.demo.controller.RequestIdFilter;
+import ru.otus.hw.controller.RequestIdFilter;
 
 @Configuration
 @EnableConfigurationProperties(ApplConfigProperties.class)
@@ -43,9 +43,12 @@ public class ApiConfig {
         RequestIdFilter requestIdFilter
     ) {
         return routeSpec
-            .path(String.format("/%s/**", route.from()))
+            .path(route.prefix() + "/**")
             .filters(filterSpec -> filterSpec.filters(requestIdFilter)
-            .rewritePath(String.format("/%s/(?<segment>.*)", route.from()), "/${segment}"))
-            .uri(String.format("%s/@", route.to()));
+            .rewritePath(
+                route.prefix() + "/(?<segment>.*)",
+                "/${segment}"
+            ))
+            .uri(route.uri());
     }
 }

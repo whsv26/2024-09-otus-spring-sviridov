@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DATABASE}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+  sql:
+    init:
+      mode: never
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    enabled: true
+app:
+  token-ttl: 3600
+  token-issuer: http://localhost:8080
+  key-id: 586b7a7d-6fa7-4044-9a71-685e05d4ef80
+server:
+  port: 8080

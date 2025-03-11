@@ -15,4 +15,8 @@ public final class AppProperties implements AuthConfig {
     private final URL tokenIssuer;
 
     private final String keyId;
+
+    private final String publicKey;
+
+    private final String privateKey;
 }

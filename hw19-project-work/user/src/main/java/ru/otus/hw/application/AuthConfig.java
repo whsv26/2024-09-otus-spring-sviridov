@@ -9,4 +9,8 @@ public interface AuthConfig {
     URL getTokenIssuer();
 
     String getKeyId();
+
+    String getPublicKey();
+
+    String getPrivateKey();
 }

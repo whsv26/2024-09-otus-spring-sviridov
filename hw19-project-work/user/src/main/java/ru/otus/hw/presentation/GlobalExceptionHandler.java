@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.otus.hw.application.UserAlreadyExistsException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,10 +19,20 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorInfo handleException(UserAlreadyExistsException err) {
+        return new ErrorInfo(
+            "USER_ALREADY_EXISTS",
+            "User already exists",
+            Map.of("username", err.getUsername())
+        );
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorInfo handleValidationException(MethodArgumentNotValidException ex) {
-        var fieldErrors = ex.getBindingResult().getFieldErrors()
+    public ErrorInfo handleValidationException(MethodArgumentNotValidException err) {
+        var fieldErrors = err.getBindingResult().getFieldErrors()
             .stream()
             .collect(Collectors.groupingBy(
                 FieldError::getField,
@@ -37,8 +48,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorInfo handleException(Exception ex) {
-        log.error("Unhandled exception", ex);
+    public ErrorInfo handleException(Exception err) {
+        log.error("Unhandled exception", err);
         return new ErrorInfo(
             "INTERNAL_SERVER_ERROR",
             "Internal Server Error",

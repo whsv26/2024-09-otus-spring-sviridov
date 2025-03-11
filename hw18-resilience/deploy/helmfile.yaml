@@ -1,0 +1,26 @@
+environments:
+  local:
+
+---
+
+helmDefaults:
+  verify: false
+  wait: true
+  timeout: 300
+  recreatePods: false
+  force: false
+  createNamespace: false
+
+releases:
+  - name: postgresql
+    namespace: default
+    chart: ./charts/postgresql
+    values:
+      - ./values/postgresql/{{ $.Environment.Name }}.yaml
+    wait: true
+  - name: app
+    namespace: default
+    chart: ./charts/app
+    values:
+      - ./values/app/{{ $.Environment.Name }}.yaml
+    wait: true

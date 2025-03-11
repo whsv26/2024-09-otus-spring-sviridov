@@ -1,4 +1,4 @@
-package ru.otus.hw.controller;
+package ru.otus.hw;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;

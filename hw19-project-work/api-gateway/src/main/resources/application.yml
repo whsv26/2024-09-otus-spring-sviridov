@@ -5,12 +5,13 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8080/tokens
+          jwk-set-uri: http://localhost:8081/tokens
 server:
   port: 7777
 
 application:
+  public-key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/Dnh8tp1y+yBV6XItMSb8kzyvwojGZU4d9V9qvoroPKZDQ4LGfZdz8Xdsc84AqZSIizxV4griM1xJ/WyoVuRQgErEQG5xeEOyqVZ4CEbRuf1Ajq/Be4SK9hcNNCIE7k3HubzRIx0D9GnvrhOLHf5pJ4AnbQyX/lXZxKSW+QE3j9VV67k4JGt2Y5kx5TiVDlfKNOwsTDLakjUFRt7Gfo0fHhJbybelkgECbS+HeKSUx25u6rNo2Nj0J7DskRcPWZSpQ3MKh+iBAa1atSruridJjw44qKI1ZkRwuSdNblNhEg7K5jwXXLV0eF2aLxT4517NYKLnu0jHbrihjWy/k7mwIDAQAB"
   api-routes:
     - id: "user"
       prefix: "/user"
-      uri: "http://localhost:8080"
+      uri: "http://localhost:8081"

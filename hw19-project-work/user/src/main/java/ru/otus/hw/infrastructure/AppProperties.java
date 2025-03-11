@@ -7,7 +7,7 @@ import ru.otus.hw.application.AuthConfig;
 import java.net.URL;
 
 @Data
-@ConfigurationProperties(prefix = "app")
+@ConfigurationProperties(prefix = "application")
 public final class AppProperties implements AuthConfig {
 
     private final int tokenTtl;

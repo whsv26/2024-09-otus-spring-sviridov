@@ -1,6 +1,6 @@
 services:
   app:
-    image: localhost:5000/user:latest
+    image: localhost:5000/user:1.0.0
     pull_policy: always
     ports:
       - "8081:8080"

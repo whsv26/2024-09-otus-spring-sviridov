@@ -1,4 +1,4 @@
-package ru.otus.hw.config;
+package ru.otus.hw;
 
 public record ApiRoute(
     String id,

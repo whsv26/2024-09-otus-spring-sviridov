@@ -1,17 +1,17 @@
 services:
-  app:
-    image: localhost:5000/user:1.0.0
-    pull_policy: always
-    ports:
-      - "8081:8080"
-    environment:
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_USERNAME=user
-      - POSTGRES_PASSWORD=user
-      - POSTGRES_DATABASE=user
-    depends_on:
-      - postgres
+#  app:
+#    image: localhost:5000/user:1.0.0
+#    pull_policy: always
+#    ports:
+#      - "8081:8080"
+#    environment:
+#      - POSTGRES_HOST=postgres
+#      - POSTGRES_PORT=5432
+#      - POSTGRES_USERNAME=user
+#      - POSTGRES_PASSWORD=user
+#      - POSTGRES_DATABASE=user
+#    depends_on:
+#      - postgres
   postgres:
     image: postgres:17
     ports:

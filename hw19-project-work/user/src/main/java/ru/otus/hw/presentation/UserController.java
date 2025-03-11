@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.application.UserService;
 import ru.otus.hw.domain.User;
 
-import java.util.UUID;
-
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -41,7 +39,7 @@ public class UserController {
 
     public record RegisterResponse(UserResponse user) { }
 
-    public record UserResponse(UUID id, String username) { }
+    public record UserResponse(String username) { }
 
     @Mapper
     interface UserMapper {

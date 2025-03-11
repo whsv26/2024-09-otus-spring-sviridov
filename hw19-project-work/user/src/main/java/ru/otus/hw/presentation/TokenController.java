@@ -23,7 +23,7 @@ public class TokenController {
     }
 
     @PostMapping("/tokens")
-    public CreateTokenResponse createToken(@RequestBody @Valid TokenController.CreateTokenRequest request) {
+    public CreateTokenResponse createToken(@RequestBody @Valid CreateTokenRequest request) {
         var token = tokenService.createToken(request.username, request.password);
         return new CreateTokenResponse(token.value());
     }

@@ -8,7 +8,7 @@ import ru.otus.hw.domain.NovelId;
 
 public interface ChapterService {
 
-    Page<Chapter> findByNovelId(NovelId novelId, Pageable pageable);
+    Page<ChapterPreview> findByNovelId(NovelId novelId, Pageable pageable);
 
     Chapter findById(ChapterId id);
 

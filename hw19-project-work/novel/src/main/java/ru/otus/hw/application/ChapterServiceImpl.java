@@ -19,7 +19,7 @@ public class ChapterServiceImpl implements ChapterService {
     private final Clock clock;
 
     @Override
-    public Page<Chapter> findByNovelId(NovelId novelId, Pageable pageable) {
+    public Page<ChapterPreview> findByNovelId(NovelId novelId, Pageable pageable) {
         return chapterRepository.findByNovelId(novelId, pageable);
     }
 

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,13 +27,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NovelController {
 
-    private final NovelService userService;
+    private final NovelService novelService;
 
     private final NovelMapper mapper = Mappers.getMapper(NovelMapper.class);
 
+    @GetMapping("/novels/{id}")
+    public ReadNovelResponse readNovel(
+        @PathVariable("id")
+        String novelId
+    ) {
+        var novel = novelService.findById(new NovelId(novelId));
+        return new ReadNovelResponse(mapper.map(novel));
+    }
+
     @PostMapping("/novels")
-    public CreateNovelResponse createNovel(@RequestBody @Valid NovelController.CreateNovelRequest request) {
-        var novel = userService.create(
+    public CreateNovelResponse createNovel(
+        @RequestBody
+        @Valid
+        CreateNovelRequest request
+    ) {
+        var novel = novelService.create(
             new AuthorId(request.authorId),
             request.title,
             request.synopsis,
@@ -48,9 +62,9 @@ public class NovelController {
         String novelId,
         @RequestBody
         @Valid
-        NovelController.UpdateNovelRequest request
+        UpdateNovelRequest request
     ) {
-        var novel = userService.update(
+        var novel = novelService.update(
             new NovelId(novelId),
             request.title,
             request.synopsis,
@@ -62,7 +76,7 @@ public class NovelController {
 
     @DeleteMapping("/novels/{id}")
     public void deleteNovel(@PathVariable("id") String novelId) {
-        userService.delete(new NovelId(novelId));
+        novelService.delete(new NovelId(novelId));
     }
 
     public record CreateNovelRequest(
@@ -92,6 +106,8 @@ public class NovelController {
         @NotNull
         List<@NotBlank String> tags
     ) {}
+
+    public record ReadNovelResponse(NovelResponse novel) {}
 
     public record UpdateNovelResponse(NovelResponse novel) {}
 

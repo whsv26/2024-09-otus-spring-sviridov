@@ -13,5 +13,5 @@ import java.util.List;
 
 public interface ChapterRepository extends MongoRepository<Chapter, ChapterId> {
 
-    Page<Chapter> findByNovelId(NovelId novelId, Pageable pageable);
+    Page<ChapterPreview> findByNovelId(NovelId novelId, Pageable pageable);
 }

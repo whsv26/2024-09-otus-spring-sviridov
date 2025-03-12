@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.otus.hw.application.ChapterNotFoundException;
 import ru.otus.hw.application.NovelNotFoundException;
 
 import java.util.LinkedHashMap;
@@ -29,8 +30,18 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(ChapterNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ErrorInfo handleException(ChapterNotFoundException err) {
+        return new ErrorInfo(
+            "CHAPTER_NOT_FOUND",
+            err.getMessage(),
+            Map.of("id", err.getId())
+        );
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorInfo handleException(MethodArgumentNotValidException err) {
         var fieldErrors = err.getBindingResult().getFieldErrors()
             .stream()

@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorInfo handleValidationException(MethodArgumentNotValidException err) {
         var fieldErrors = err.getBindingResult().getFieldErrors()
             .stream()

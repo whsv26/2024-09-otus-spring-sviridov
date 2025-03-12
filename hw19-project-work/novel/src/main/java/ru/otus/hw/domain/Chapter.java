@@ -20,6 +20,8 @@ public class Chapter {
     @Setter(AccessLevel.NONE)
     private ChapterId id;
 
+    private NovelId novelId;
+
     private String title;
 
     private String content;

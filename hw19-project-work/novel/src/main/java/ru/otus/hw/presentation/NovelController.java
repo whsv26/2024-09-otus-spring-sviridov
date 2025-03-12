@@ -26,7 +26,7 @@ public class NovelController {
 
     private final NovelMapper novelMapper = Mappers.getMapper(NovelMapper.class);
 
-    @PostMapping("/users")
+    @PostMapping("/novels")
     public CreateResponse create(@RequestBody @Valid NovelController.CreateRequest request) {
         var novel = userService.create(
             new AuthorId(request.authorId),

@@ -15,3 +15,6 @@ application:
     - id: "user"
       prefix: "/user"
       uri: "http://localhost:8081"
+    - id: "novel"
+      prefix: "/novel"
+      uri: "http://localhost:8082"

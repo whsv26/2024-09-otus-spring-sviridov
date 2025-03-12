@@ -7,16 +7,17 @@ services:
     environment:
       - SPRING_DATA_MONGODB_HOST=mongo
       - SPRING_DATA_MONGODB_PORT=27017
-      - SPRING_DATA_MONGODB_USERNAME=novel
-      - SPRING_DATA_MONGODB_PASSWORD=novel
       - SPRING_DATA_MONGODB_DATABASE=novel
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+      - SPRING_DATA_MONGODB_USERNAME=admin
+      - SPRING_DATA_MONGODB_PASSWORD=admin
     depends_on:
       - mongo
   mongo:
     image: mongo:latest
     environment:
-      MONGO_INITDB_ROOT_USERNAME: novel
-      MONGO_INITDB_ROOT_PASSWORD: novel
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
       MONGO_INITDB_DATABASE: novel
     ports:
       - '27012:27017'

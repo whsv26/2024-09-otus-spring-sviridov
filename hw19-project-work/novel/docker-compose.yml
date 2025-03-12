@@ -1,0 +1,22 @@
+services:
+  app:
+    image: localhost:5000/novel:1.0.0
+    pull_policy: always
+    ports:
+      - "8082:8080"
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_USERNAME=novel
+      - SPRING_DATA_MONGODB_PASSWORD=novel
+      - SPRING_DATA_MONGODB_DATABASE=novel
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: novel
+      MONGO_INITDB_ROOT_PASSWORD: novel
+      MONGO_INITDB_DATABASE: novel
+    ports:
+      - '27012:27017'

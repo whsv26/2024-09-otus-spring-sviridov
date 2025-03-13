@@ -11,6 +11,7 @@ services:
       - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
       - SPRING_DATA_MONGODB_USERNAME=admin
       - SPRING_DATA_MONGODB_PASSWORD=admin
+      - SPRING_DATA_MONGODB_REPLICA_SET_NAME=rs0
     depends_on:
       - novel_mongo
   novel_outbox:
@@ -24,13 +25,32 @@ services:
       - SPRING_DATA_MONGODB_USERNAME=admin
       - SPRING_DATA_MONGODB_PASSWORD=admin
       - SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_DATA_MONGODB_REPLICA_SET_NAME=rs0
     depends_on:
       - novel_mongo
   novel_mongo:
-    image: mongo:8.0
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017", "--keyFile", "/data/keyfile"]
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'novel_mongo:27017'}]}) }" | mongosh -u admin -p admin --authenticationDatabase admin --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
       MONGO_INITDB_DATABASE: novel
     ports:
       - '27012:27017'
+    volumes:
+#      - novel_mongo_data:/data/db
+#      - novel_mongo_config:/data/configdb
+      - ./mongo-keyfile:/data/keyfile
+
+#volumes:
+#  novel_mongo_data:
+#  novel_mongo_config:

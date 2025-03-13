@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Document(collection = "outbox_events")
+@Document(collection = "outbox")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

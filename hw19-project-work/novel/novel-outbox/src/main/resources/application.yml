@@ -1,0 +1,14 @@
+application:
+  kafka:
+    topic: "novel-event"
+
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: "127.0.0.1:9092"
+      client-id: "novel"
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: novel

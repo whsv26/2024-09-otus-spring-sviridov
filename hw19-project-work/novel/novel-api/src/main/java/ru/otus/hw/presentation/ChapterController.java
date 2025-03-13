@@ -45,6 +45,18 @@ public class ChapterController {
         );
     }
 
+    @GetMapping("/novels/{novelId}/chapters/{chapterId}")
+    public ReadNovelChapterResponse readNovelChapter(
+        @PathVariable("novelId")
+        String novelId,
+        @PathVariable("chapterId")
+        String chapterId,
+        Pageable pageable
+    ) {
+        var chapter = chapterService.findById(new ChapterId(chapterId));
+        return new ReadNovelChapterResponse(mapper.map(chapter));
+    }
+
     @PostMapping("/novels/{novelId}/chapters")
     public CreateNovelChapterResponse createNovelChapter(
         @PathVariable("novelId")

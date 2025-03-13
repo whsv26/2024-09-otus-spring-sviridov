@@ -1,6 +1,6 @@
 services:
-  novel:
-    image: localhost:5000/novel:1.0.0
+  novel_api:
+    image: localhost:5000/novel-api:1.0.0
     pull_policy: always
     ports:
       - "8082:8080"
@@ -11,6 +11,19 @@ services:
       - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
       - SPRING_DATA_MONGODB_USERNAME=admin
       - SPRING_DATA_MONGODB_PASSWORD=admin
+    depends_on:
+      - novel_mongo
+  novel_outbox:
+    image: localhost:5000/novel-outbox:1.0.0
+    pull_policy: always
+    environment:
+      - SPRING_DATA_MONGODB_HOST=novel_mongo
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=novel
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+      - SPRING_DATA_MONGODB_USERNAME=admin
+      - SPRING_DATA_MONGODB_PASSWORD=admin
+      - SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
       - novel_mongo
   novel_mongo:

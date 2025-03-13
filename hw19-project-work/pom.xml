@@ -13,6 +13,7 @@
     <modules>
         <module>api-gateway</module>
         <module>user</module>
-        <module>novel</module>
+        <module>novel/novel-api</module>
+        <module>novel/novel-outbox</module>
     </modules>
 </project>

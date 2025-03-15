@@ -1,4 +1,4 @@
-package ru.otus.hw.config;
+package me.whsv26.search.indexer.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.whsv26.novel.model.NovelEvent;

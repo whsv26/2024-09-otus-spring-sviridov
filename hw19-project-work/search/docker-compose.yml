@@ -1,0 +1,26 @@
+services:
+  search_api:
+    image: localhost:5000/search_api:1.0.0
+    pull_policy: always
+    ports:
+      - "8083:8080"
+    environment:
+      -
+    depends_on:
+      - search_elasticsearch
+  search_indexer:
+    image: localhost:5000/search_indexer:1.0.0
+    pull_policy: always
+    environment:
+      -
+    depends_on:
+      - search_elasticsearch
+  search_elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9203:9200"  # REST API
+      - "9303:9300"  # Inter-node communication

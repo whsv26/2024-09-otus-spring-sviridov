@@ -41,7 +41,12 @@ public class OutboxChangeStreamListener implements CommandLineRunner {
 
     private void produceEvent(ChangeStreamDocument<Document> change) {
         var fullDocument = change.getFullDocument();
-        var payload = fullDocument.getString("payload"); // TODO
+
+        if (fullDocument == null) {
+            return;
+        }
+
+        var payload = fullDocument.getString("payload");
 
         kafkaTemplate.send(kafkaConfig.getTopic(), payload);
 

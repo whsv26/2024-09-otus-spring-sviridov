@@ -15,5 +15,7 @@
         <module>user</module>
         <module>novel/novel-api</module>
         <module>novel/novel-outbox</module>
+        <module>novel/novel-model</module>
+        <module>search/search-indexer</module>
     </modules>
 </project>

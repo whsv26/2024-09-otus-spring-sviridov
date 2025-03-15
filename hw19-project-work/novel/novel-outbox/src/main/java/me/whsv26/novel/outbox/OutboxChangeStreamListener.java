@@ -1,4 +1,4 @@
-package ru.otus.hw;
+package me.whsv26.novel.outbox;
 
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;

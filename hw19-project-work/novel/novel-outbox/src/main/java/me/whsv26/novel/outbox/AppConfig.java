@@ -1,4 +1,4 @@
-package ru.otus.hw;
+package me.whsv26.novel.outbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.ProducerConfig;

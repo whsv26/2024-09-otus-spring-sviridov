@@ -1,4 +1,4 @@
-package ru.otus.hw;
+package me.whsv26.novel.outbox;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

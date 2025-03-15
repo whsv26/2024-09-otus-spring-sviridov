@@ -1,4 +1,4 @@
-package ru.otus.hw;
+package me.whsv26.novel.outbox;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

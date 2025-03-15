@@ -1,2 +1,9 @@
 spring:
-
+application:
+  kafka:
+    novel:
+      topic: "novel-event"
+    novel-rating:
+      topic: "novel-rating-event"
+  elasticsearch:
+    index: "novels"

@@ -39,6 +39,7 @@ public class NovelServiceImpl implements NovelService {
 
     @Override
     @Transactional
+    // TODO refactoring
     public Novel create(AuthorId authorId, String title, String synopsis, List<GenreId> genres, List<String> tags) {
         var novel = new Novel(
             NovelId.next(),

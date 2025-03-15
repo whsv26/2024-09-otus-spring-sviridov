@@ -1,6 +1,6 @@
 services:
   search_api:
-    image: localhost:5000/search_api:1.0.0
+    image: localhost:5000/search-api:1.0.0
     pull_policy: always
     ports:
       - "8083:8080"
@@ -9,7 +9,7 @@ services:
     depends_on:
       - search_elasticsearch
   search_indexer:
-    image: localhost:5000/search_indexer:1.0.0
+    image: localhost:5000/search-indexer:1.0.0
     pull_policy: always
     environment:
       -

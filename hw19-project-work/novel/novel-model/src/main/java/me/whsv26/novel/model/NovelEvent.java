@@ -9,7 +9,7 @@ public record NovelEvent(
     String title,
     String synopsis,
     String authorId,
-    List<String>genres,
+    List<String> genres,
     List<String> tags,
     LocalDateTime createdAt
 ) {}

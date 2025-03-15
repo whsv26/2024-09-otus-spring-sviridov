@@ -1,4 +1,4 @@
-package ru.otus.hw.application;
+package me.whsv26.user.application;
 
 import lombok.Getter;
 

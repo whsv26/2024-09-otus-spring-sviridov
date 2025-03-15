@@ -1,4 +1,4 @@
-package ru.otus.hw.domain;
+package me.whsv26.user.domain;
 
 import lombok.Getter;
 import org.hibernate.Hibernate;

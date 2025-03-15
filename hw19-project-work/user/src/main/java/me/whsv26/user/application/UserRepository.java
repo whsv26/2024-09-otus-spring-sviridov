@@ -1,7 +1,7 @@
-package ru.otus.hw.application;
+package me.whsv26.user.application;
 
+import me.whsv26.user.domain.User;
 import org.springframework.data.repository.CrudRepository;
-import ru.otus.hw.domain.User;
 
 import java.util.Optional;
 import java.util.UUID;

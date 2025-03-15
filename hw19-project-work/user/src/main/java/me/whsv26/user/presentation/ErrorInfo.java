@@ -1,4 +1,4 @@
-package ru.otus.hw.presentation;
+package me.whsv26.user.presentation;
 
 import java.util.Map;
 

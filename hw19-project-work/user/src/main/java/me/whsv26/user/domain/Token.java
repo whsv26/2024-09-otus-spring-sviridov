@@ -1,3 +1,3 @@
-package ru.otus.hw.domain;
+package me.whsv26.user.domain;
 
 public record Token(String value) {}

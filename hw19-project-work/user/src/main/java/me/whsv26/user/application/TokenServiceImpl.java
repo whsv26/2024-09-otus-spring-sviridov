@@ -1,8 +1,10 @@
-package ru.otus.hw.application;
+package me.whsv26.user.application;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import lombok.RequiredArgsConstructor;
+import me.whsv26.user.domain.PublicTokens;
+import me.whsv26.user.domain.Token;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,8 +13,6 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.domain.Token;
-import ru.otus.hw.domain.PublicTokens;
 
 import java.security.KeyPair;
 import java.security.interfaces.RSAPublicKey;

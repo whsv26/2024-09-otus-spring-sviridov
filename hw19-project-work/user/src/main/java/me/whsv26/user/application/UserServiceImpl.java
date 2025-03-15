@@ -1,11 +1,11 @@
-package ru.otus.hw.application;
+package me.whsv26.user.application;
 
 import lombok.RequiredArgsConstructor;
+import me.whsv26.user.domain.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.domain.User;
 
 @Service
 @RequiredArgsConstructor

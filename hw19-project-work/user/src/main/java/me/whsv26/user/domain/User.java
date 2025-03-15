@@ -1,4 +1,4 @@
-package ru.otus.hw.domain;
+package me.whsv26.user.domain;
 
 import com.google.common.collect.Sets;
 import jakarta.persistence.Convert;
@@ -11,9 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import me.whsv26.user.infrastructure.GrantedAuthorityConverter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import ru.otus.hw.infrastructure.GrantedAuthorityConverter;
 
 import java.util.Set;
 import java.util.UUID;

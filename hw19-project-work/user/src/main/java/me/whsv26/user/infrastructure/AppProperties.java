@@ -1,8 +1,8 @@
-package ru.otus.hw.infrastructure;
+package me.whsv26.user.infrastructure;
 
 import lombok.Data;
+import me.whsv26.user.application.AuthConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import ru.otus.hw.application.AuthConfig;
 
 import java.net.URL;
 

@@ -1,4 +1,4 @@
-package ru.otus.hw.infrastructure;
+package me.whsv26.user.infrastructure;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

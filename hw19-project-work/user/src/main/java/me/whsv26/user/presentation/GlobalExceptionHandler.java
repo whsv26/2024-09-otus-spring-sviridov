@@ -1,14 +1,14 @@
-package ru.otus.hw.presentation;
+package me.whsv26.user.presentation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.whsv26.user.application.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.otus.hw.application.UserAlreadyExistsException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

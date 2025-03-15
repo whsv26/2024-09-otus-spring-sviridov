@@ -1,4 +1,4 @@
-package ru.otus.hw.domain;
+package me.whsv26.user.domain;
 
 import java.util.Map;
 

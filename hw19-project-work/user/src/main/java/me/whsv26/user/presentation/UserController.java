@@ -1,16 +1,16 @@
-package ru.otus.hw.presentation;
+package me.whsv26.user.presentation;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import me.whsv26.user.application.UserService;
+import me.whsv26.user.domain.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.otus.hw.application.UserService;
-import ru.otus.hw.domain.User;
 
 @RestController
 @RequiredArgsConstructor

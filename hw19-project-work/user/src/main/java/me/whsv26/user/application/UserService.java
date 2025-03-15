@@ -1,6 +1,6 @@
-package ru.otus.hw.application;
+package me.whsv26.user.application;
 
-import ru.otus.hw.domain.User;
+import me.whsv26.user.domain.User;
 
 public interface UserService {
 

@@ -1,15 +1,15 @@
-package ru.otus.hw.presentation;
-
-import java.util.Map;
+package me.whsv26.user.presentation;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import me.whsv26.user.application.TokenService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.otus.hw.application.TokenService;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor

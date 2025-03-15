@@ -1,7 +1,7 @@
-package ru.otus.hw.application;
+package me.whsv26.user.application;
 
-import ru.otus.hw.domain.Token;
-import ru.otus.hw.domain.PublicTokens;
+import me.whsv26.user.domain.PublicTokens;
+import me.whsv26.user.domain.Token;
 
 public interface TokenService {
 

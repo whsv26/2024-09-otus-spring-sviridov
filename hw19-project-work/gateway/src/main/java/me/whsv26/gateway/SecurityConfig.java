@@ -1,4 +1,4 @@
-package ru.otus.hw;
+package me.whsv26.gateway;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

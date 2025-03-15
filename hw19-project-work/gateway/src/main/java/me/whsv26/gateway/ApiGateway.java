@@ -1,4 +1,4 @@
-package ru.otus.hw;
+package me.whsv26.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,6 +1,4 @@
-package ru.otus.hw;
-
-import java.net.ConnectException;
+package me.whsv26.gateway;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -11,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.util.annotation.NonNull;
+
+import java.net.ConnectException;
 
 @Order(-2)
 @Component

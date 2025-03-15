@@ -1,4 +1,4 @@
-package ru.otus.hw;
+package me.whsv26.gateway;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

@@ -1,4 +1,4 @@
-package ru.otus.hw;
+package me.whsv26.gateway;
 
 public record ApiRoute(
     String id,

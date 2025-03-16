@@ -2,6 +2,7 @@ package me.whsv26.search.api;
 
 import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.json.JsonData;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,28 @@ public class NovelSearchRepositoryImpl implements NovelSearchRepository {
         List<String> tags,
         Pageable pageable
     ) {
+        var query = buildQuery(prompt, authorName, ratingRange, genres, tags);
+        var nativeQuery = new NativeQueryBuilder()
+            .withQuery(query)
+            .withPageable(pageable)
+            .build();
+
+        var searchHits = elasticsearchOperations.search(nativeQuery, Novel.class);
+        var novels = searchHits.getSearchHits()
+            .stream()
+            .map(SearchHit::getContent)
+            .toList();
+
+        return new PageImpl<>(novels, pageable, searchHits.getTotalHits());
+    }
+
+    private static Query buildQuery(
+        String prompt,
+        String authorName,
+        Range<Integer> ratingRange,
+        List<String> genres,
+        List<String> tags
+    ) {
         var boolQuery = QueryBuilders.bool();
 
         if (prompt != null) {
@@ -52,19 +75,7 @@ public class NovelSearchRepositoryImpl implements NovelSearchRepository {
             addRatingQuery(ratingRange, boolQuery);
         }
 
-        var query = boolQuery.build()._toQuery();
-        var nativeQuery = new NativeQueryBuilder()
-            .withQuery(query)
-            .withPageable(pageable)
-            .build();
-
-        var searchHits = elasticsearchOperations.search(nativeQuery, Novel.class);
-        var novels = searchHits.getSearchHits()
-            .stream()
-            .map(SearchHit::getContent)
-            .toList();
-
-        return new PageImpl<>(novels, pageable, searchHits.getTotalHits());
+        return boolQuery.build()._toQuery();
     }
 
     private static void addRatingQuery(Range<Integer> ratingRange, BoolQuery.Builder boolQuery) {

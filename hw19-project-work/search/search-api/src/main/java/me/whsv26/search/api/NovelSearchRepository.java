@@ -2,16 +2,18 @@ package me.whsv26.search.api;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 
 public interface NovelSearchRepository {
+
     Page<Novel> search(
-        String maybePrompt,
-        String maybeAuthorName,
-        Range<Integer> maybeRatingRange,
-        List<String> genres,
-        List<String> tags,
+        @Nullable String prompt,
+        @Nullable String authorName,
+        @Nullable Range<Integer> ratingRange,
+        @Nullable List<String> genres,
+        @Nullable List<String> tags,
         Pageable pageable
     );
 }

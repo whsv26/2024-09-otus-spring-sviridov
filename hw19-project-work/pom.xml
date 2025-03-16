@@ -12,7 +12,7 @@
 
     <modules>
         <module>gateway</module>
-        <module>user</module>
+        <module>user/user-api</module>
         <module>novel/novel-api</module>
         <module>novel/novel-outbox</module>
         <module>novel/novel-public</module>

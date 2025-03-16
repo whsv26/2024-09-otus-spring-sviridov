@@ -15,3 +15,6 @@ application:
       topic: "novel-rating-event" # TODO add consumer
   elasticsearch:
     index: "novels"
+  rest:
+    user-api:
+      url: ${USER_API_URL:http://localhost:80}

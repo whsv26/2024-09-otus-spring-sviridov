@@ -1,5 +1,5 @@
 services:
-  user:
+  user_api:
     image: localhost:5000/user-api:1.0.0
     pull_policy: always
     ports:

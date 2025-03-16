@@ -3,6 +3,7 @@ package me.whsv26.user.presentation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.whsv26.user.application.UserAlreadyExistsException;
+import me.whsv26.user.application.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,6 +27,16 @@ public class GlobalExceptionHandler {
             "USER_ALREADY_EXISTS",
             "User already exists",
             Map.of("username", err.getUsername())
+        );
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorInfo handleException(UserNotFoundException err) {
+        return new ErrorInfo(
+            "USER_NOT_FOUND",
+            "User not found",
+            Map.of("userId", err.getUserId())
         );
     }
 

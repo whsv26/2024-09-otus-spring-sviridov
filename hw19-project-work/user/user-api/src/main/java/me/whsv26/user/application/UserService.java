@@ -2,9 +2,11 @@ package me.whsv26.user.application;
 
 import me.whsv26.user.domain.User;
 
+import java.util.UUID;
+
 public interface UserService {
 
     User register(String username, String password);
 
-    User findById(String userId);
+    User findById(UUID userId);
 }

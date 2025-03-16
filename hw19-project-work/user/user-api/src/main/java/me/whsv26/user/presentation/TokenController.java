@@ -17,12 +17,12 @@ public class TokenController {
 
     private final TokenService tokenService;
 
-    @GetMapping("/tokens")
+    @GetMapping("/api/tokens")
     public Map<String, Object> listTokens() {
         return tokenService.listPublicTokens().value();
     }
 
-    @PostMapping("/tokens")
+    @PostMapping("/api/tokens")
     public CreateTokenResponse createToken(@RequestBody @Valid CreateTokenRequest request) {
         var token = tokenService.createToken(request.username, request.password);
         return new CreateTokenResponse(token.value());

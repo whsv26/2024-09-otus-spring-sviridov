@@ -20,8 +20,14 @@ public class UserController {
 
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
-    @PostMapping("/users")
+    @PostMapping("/api/users")
     public RegisterResponse register(@RequestBody @Valid RegisterRequest request) {
+        var user = userService.register(request.username, request.password);
+        return new RegisterResponse(userMapper.map(user));
+    }
+
+    @PostMapping("/internal/users/{userId}")
+    public RegisterResponse readUser(@RequestBody @Valid RegisterRequest request) {
         var user = userService.register(request.username, request.password);
         return new RegisterResponse(userMapper.map(user));
     }

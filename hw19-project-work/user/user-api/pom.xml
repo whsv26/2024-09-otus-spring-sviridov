@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
     <groupId>me.whsv26.user</groupId>
-    <artifactId>user</artifactId>
+    <artifactId>user-api</artifactId>
     <version>1.0.0</version>
     <properties>
         <java.version>17</java.version>
@@ -163,7 +163,7 @@
                         <image>bellsoft/liberica-openjdk-alpine-musl:17</image>
                     </from>
                     <to>
-                        <image>localhost:5000/user:${project.version}</image>
+                        <image>localhost:5000/user-api:${project.version}</image>
                     </to>
                     <allowInsecureRegistries>true</allowInsecureRegistries>
                 </configuration>

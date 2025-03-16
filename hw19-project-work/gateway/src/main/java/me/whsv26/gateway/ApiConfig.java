@@ -46,7 +46,7 @@ public class ApiConfig {
             .filters(filterSpec -> filterSpec.filters(requestIdFilter)
             .rewritePath(
                 route.prefix() + "/(?<segment>.*)",
-                "/${segment}"
+                "/api/${segment}"
             ))
             .uri(route.uri());
     }

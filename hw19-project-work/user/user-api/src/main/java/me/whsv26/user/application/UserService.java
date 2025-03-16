@@ -5,4 +5,6 @@ import me.whsv26.user.domain.User;
 public interface UserService {
 
     User register(String username, String password);
+
+    User findById(String userId);
 }

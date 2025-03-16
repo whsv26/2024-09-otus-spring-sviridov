@@ -1,7 +1,7 @@
 spring:
   elasticsearch:
     rest:
-      uris: http://localhost:9200
+      uris: http://localhost:9200 # TODO check if right property
 application:
   elasticsearch:
     index: "novels"

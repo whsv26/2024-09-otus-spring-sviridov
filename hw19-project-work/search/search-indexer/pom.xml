@@ -9,7 +9,7 @@
         <version>3.3.2</version>
         <relativePath/>
     </parent>
-    <groupId>ru.otus.hw</groupId>
+    <groupId>me.whsv26.search</groupId>
     <artifactId>search-indexer</artifactId>
     <version>1.0.0</version>
     <properties>
@@ -23,7 +23,7 @@
     <dependencies>
         <dependency>
             <groupId>me.whsv26.novel</groupId>
-            <artifactId>novel-model</artifactId>
+            <artifactId>novel-public</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

@@ -1,4 +1,4 @@
-package me.whsv26.search.indexer;
+package me.whsv26.search.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +30,9 @@ public class Novel {
 
     @Field(type = FieldType.Keyword)
     private String authorId;
+
+    @Field(type = FieldType.Text)
+    private String authorName;
 
     @Field(type = FieldType.Keyword)
     private List<String> genres;

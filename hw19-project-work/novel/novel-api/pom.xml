@@ -3,7 +3,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>ru.otus.hw</groupId>
+    <groupId>me.whsv26.novel</groupId>
     <artifactId>novel-api</artifactId>
     <version>1.0.0</version>
     <properties>
@@ -34,7 +34,7 @@
     <dependencies>
         <dependency>
             <groupId>me.whsv26.novel</groupId>
-            <artifactId>novel-model</artifactId>
+            <artifactId>novel-public</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

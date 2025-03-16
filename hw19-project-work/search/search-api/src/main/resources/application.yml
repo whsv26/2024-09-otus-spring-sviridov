@@ -1,0 +1,7 @@
+spring:
+  elasticsearch:
+    rest:
+      uris: http://localhost:9200
+application:
+  elasticsearch:
+    index: "novels"

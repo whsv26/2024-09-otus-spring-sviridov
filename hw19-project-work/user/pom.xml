@@ -9,7 +9,7 @@
         <version>3.3.2</version>
         <relativePath/>
     </parent>
-    <groupId>ru.otus.hw</groupId>
+    <groupId>me.whsv26.user</groupId>
     <artifactId>user</artifactId>
     <version>1.0.0</version>
     <properties>

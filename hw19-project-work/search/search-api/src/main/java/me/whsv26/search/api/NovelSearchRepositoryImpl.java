@@ -26,7 +26,7 @@ public class NovelSearchRepositoryImpl implements NovelSearchRepository {
     public Page<Novel> search(
         String prompt,
         String authorName,
-        Range<Integer> ratingRange,
+        Range<Float> ratingRange,
         List<String> genres,
         List<String> tags,
         Pageable pageable
@@ -49,7 +49,7 @@ public class NovelSearchRepositoryImpl implements NovelSearchRepository {
     private static Query buildQuery(
         String prompt,
         String authorName,
-        Range<Integer> ratingRange,
+        Range<Float> ratingRange,
         List<String> genres,
         List<String> tags
     ) {
@@ -78,7 +78,7 @@ public class NovelSearchRepositoryImpl implements NovelSearchRepository {
         return boolQuery.build()._toQuery();
     }
 
-    private static void addRatingQuery(Range<Integer> ratingRange, BoolQuery.Builder boolQuery) {
+    private static void addRatingQuery(Range<Float> ratingRange, BoolQuery.Builder boolQuery) {
         boolQuery.filter(query ->
             query.range(rangeQuery -> {
                 ratingRange.getFrom().ifPresent(ratingFrom ->

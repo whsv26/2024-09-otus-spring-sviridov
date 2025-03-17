@@ -1,20 +1,10 @@
 spring:
-  elasticsearch:
-    rest:
-      uris: http://localhost:9200
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: search-indexer
-      client-id: search-indexer-${random.uuid}
+      group-id: rating-consumer
+      client-id: rating-consumer-${random.uuid}
 application:
   kafka:
-    novel:
-      topic: "novel-event"
-    novel-rating:
-      topic: "novel-rating-event" # TODO add consumer
-  elasticsearch:
-    index: "novels"
-  rest:
-    user-api:
-      url: ${USER_API_URL:http://localhost:80}
+    topic: "novel-rating-command"
+    ttl: 24h

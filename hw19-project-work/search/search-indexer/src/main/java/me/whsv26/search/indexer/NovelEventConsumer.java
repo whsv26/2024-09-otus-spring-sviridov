@@ -23,6 +23,8 @@ public class NovelEventConsumer {
 
     private final UserClient userClient;
 
+    private final RatingClient ratingClient;
+
     @Value("${application.elasticsearch.index}")
     private final String indexName;
 
@@ -40,6 +42,7 @@ public class NovelEventConsumer {
 
     private UpdateQuery buildUpdateQuery(NovelEvent e) {
         var authorName = userClient.getUsername(e.authorId());
+        var rating = ratingClient.getNovelRating(e.novelId());
         var novel = Document.create();
         novel.put("title", e.title());
         novel.put("synopsis", e.synopsis());
@@ -47,6 +50,7 @@ public class NovelEventConsumer {
         novel.put("authorName", authorName);
         novel.put("genres", e.genres());
         novel.put("tags", e.tags());
+        novel.put("rating", rating.floatValue());
 
         return UpdateQuery.builder(e.id())
             .withUpsert(novel)

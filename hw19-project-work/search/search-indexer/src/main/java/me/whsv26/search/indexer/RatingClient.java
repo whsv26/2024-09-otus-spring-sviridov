@@ -4,30 +4,30 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.math.BigDecimal;
+
 @Component
-public class UserClient {
+public class RatingClient {
 
     private final RestClient client;
 
-    public UserClient(
+    public RatingClient(
         RestClient.Builder clientBuilder,
-        @Value("${application.rest.user-api.url}") String baseUrl
+        @Value("${application.rest.rating-api.url}") String baseUrl
     ) {
         this.client = clientBuilder
             .baseUrl(baseUrl)
             .build();
     }
 
-    public String getUsername(String userId) {
+    public BigDecimal getNovelRating(String novelId) {
         var body = client.get()
-            .uri("/internal/users/{userId}", userId)
+            .uri("/internal/novels/{novelId}", novelId)
             .retrieve()
-            .body(ReadUserResponse.class);
+            .body(GetNovelRatingResponse.class);
 
-        return body != null ? body.user.username : ""; // TODO
+        return body != null ? body.rating : BigDecimal.ZERO; // TODO
     }
 
-    private record ReadUserResponse(UserResponse user) { }
-
-    private record UserResponse(String username) { }
+    private record GetNovelRatingResponse(BigDecimal rating) {}
 }

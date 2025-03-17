@@ -19,8 +19,8 @@ public class Novel {
     @Id
     private String id;
 
-    @Field(type = FieldType.Integer)
-    private Integer rating;
+    @Field(type = FieldType.Float)
+    private float rating;
 
     @Field(type = FieldType.Text)
     private String title;

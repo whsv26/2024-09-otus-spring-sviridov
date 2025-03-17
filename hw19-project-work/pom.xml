@@ -19,6 +19,7 @@
         <module>search/search-indexer</module>
         <module>search/search-api</module>
         <module>rating/rating-api</module>
+        <module>rating/rating-consumer</module>
         <module>rating/rating-model</module>
     </modules>
 </project>

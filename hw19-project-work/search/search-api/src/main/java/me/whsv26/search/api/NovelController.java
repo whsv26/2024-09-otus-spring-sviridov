@@ -24,8 +24,8 @@ public class NovelController {
     public SearchNovelsResponse searchNovels(
         @RequestParam(name = "prompt", required = false) String prompt,
         @RequestParam(name = "authorName", required = false) String authorName,
-        @RequestParam(name = "ratingFrom", required = false) Integer ratingFrom,
-        @RequestParam(name = "ratingTo", required = false) Integer ratingTo,
+        @RequestParam(name = "ratingFrom", required = false) Float ratingFrom,
+        @RequestParam(name = "ratingTo", required = false) Float ratingTo,
         @RequestParam(name = "genres", required = false) List<String> genres,
         @RequestParam(name = "tags", required = false) List<String> tags,
         Pageable pageable
@@ -52,7 +52,7 @@ public class NovelController {
 
     public record NovelResponse(
         String id,
-        int rating,
+        float rating,
         String title,
         String synopsis,
         String authorId,

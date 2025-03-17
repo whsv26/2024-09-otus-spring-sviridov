@@ -1,7 +1,7 @@
-package me.whsv26.search.indexer;
+package me.whsv26.rating.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.whsv26.novel.model.NovelEvent;
+import me.whsv26.rating.model.NovelRatingCommand;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -26,7 +26,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, NovelEvent> consumerFactory(
+    public ConsumerFactory<String, NovelRatingCommand> consumerFactory(
         KafkaProperties kafkaProperties,
         ObjectMapper mapper
     ) {
@@ -36,18 +36,17 @@ public class KafkaConfig {
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
 
-        var kafkaConsumerFactory = new DefaultKafkaConsumerFactory<String, NovelEvent>(props);
+        var kafkaConsumerFactory = new DefaultKafkaConsumerFactory<String, NovelRatingCommand>(props);
         kafkaConsumerFactory.setValueDeserializer(new JsonDeserializer<>(mapper));
         return kafkaConsumerFactory;
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, NovelEvent> kafkaListenerContainerFactory(
-        ConsumerFactory<String, NovelEvent> consumerFactory
+    public ConcurrentKafkaListenerContainerFactory<String, NovelRatingCommand> kafkaListenerContainerFactory(
+        ConsumerFactory<String, NovelRatingCommand> consumerFactory
     ) {
-        var listenerFactory = new ConcurrentKafkaListenerContainerFactory<String, NovelEvent>();
+        var listenerFactory = new ConcurrentKafkaListenerContainerFactory<String, NovelRatingCommand>();
         listenerFactory.setConsumerFactory(consumerFactory);
-        listenerFactory.setBatchListener(true);
         listenerFactory.getContainerProperties().setAckMode(ContainerProperties.AckMode.BATCH);
 
         var fixedBackOff = new FixedBackOff(5000, 3);

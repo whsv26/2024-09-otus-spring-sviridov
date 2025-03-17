@@ -17,4 +17,6 @@ application:
     index: "novels"
   rest:
     user-api:
-      url: ${USER_API_URL:http://localhost:80}
+      url: ${USER_API_URL}
+    rating-api:
+      url: ${RATING_API_URL}

@@ -11,7 +11,7 @@ public interface NovelSearchRepository {
     Page<Novel> search(
         @Nullable String prompt,
         @Nullable String authorName,
-        @Nullable Range<Integer> ratingRange,
+        @Nullable Range<Float> ratingRange,
         @Nullable List<String> genres,
         @Nullable List<String> tags,
         Pageable pageable

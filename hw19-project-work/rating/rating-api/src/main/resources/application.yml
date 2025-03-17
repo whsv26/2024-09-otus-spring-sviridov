@@ -1,0 +1,9 @@
+application:
+  kafka:
+    topic: "novel-rating-command"
+
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: "localhost:9092"
+      client-id: "rating-api"

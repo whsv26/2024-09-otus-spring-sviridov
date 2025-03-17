@@ -1,0 +1,17 @@
+services:
+  rating_api:
+    image: localhost:5000/rating-api:1.0.0
+    pull_policy: always
+    ports:
+      - "8084:8080"
+    environment:
+      -
+    depends_on:
+      - rating_redis
+  rating_consumer:
+    image: localhost:5000/rating-consumer:1.0.0
+    pull_policy: always
+    environment:
+      -
+    depends_on:
+      - rating_redis

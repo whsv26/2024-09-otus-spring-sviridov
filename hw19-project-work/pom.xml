@@ -18,5 +18,7 @@
         <module>novel/novel-public</module>
         <module>search/search-indexer</module>
         <module>search/search-api</module>
+        <module>rating/rating-api</module>
+        <module>rating/rating-model</module>
     </modules>
 </project>

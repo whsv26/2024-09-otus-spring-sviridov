@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -42,12 +43,13 @@ public class NovelController {
 
     @PostMapping("/novels")
     public CreateNovelResponse createNovel(
+        @RequestHeader("X-User-ID") String userId,
         @RequestBody
         @Valid
         CreateNovelRequest request
     ) {
         var novel = novelService.create(
-            new AuthorId(request.authorId),
+            new AuthorId(userId),
             request.title,
             request.synopsis,
             request.genres.stream().map(GenreId::new).toList(),
@@ -64,6 +66,7 @@ public class NovelController {
         @Valid
         UpdateNovelRequest request
     ) {
+        // TODO allow update only for own novels
         var novel = novelService.update(
             new NovelId(novelId),
             request.title,
@@ -76,12 +79,11 @@ public class NovelController {
 
     @DeleteMapping("/novels/{id}")
     public void deleteNovel(@PathVariable("id") String novelId) {
+        // TODO allow delete only for own novels
         novelService.delete(new NovelId(novelId));
     }
 
     public record CreateNovelRequest(
-        @NotBlank
-        String authorId,
         @NotBlank
         String title,
         @NotNull

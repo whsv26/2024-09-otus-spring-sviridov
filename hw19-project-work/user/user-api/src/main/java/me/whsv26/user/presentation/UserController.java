@@ -8,9 +8,13 @@ import me.whsv26.user.application.UserService;
 import me.whsv26.user.domain.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,10 +30,10 @@ public class UserController {
         return new RegisterResponse(userMapper.map(user));
     }
 
-    @PostMapping("/internal/users/{userId}")
-    public RegisterResponse readUser(@RequestBody @Valid RegisterRequest request) {
-        var user = userService.register(request.username, request.password);
-        return new RegisterResponse(userMapper.map(user));
+    @GetMapping("/api/users/me")
+    public ReadUserResponse readUser(@RequestHeader("X-User-ID") UUID userId) {
+        var user = userService.findById(userId);
+        return new ReadUserResponse(userMapper.map(user));
     }
 
     public record RegisterRequest(
@@ -44,6 +48,8 @@ public class UserController {
     }
 
     public record RegisterResponse(UserResponse user) { }
+
+    public record ReadUserResponse(UserResponse user) { }
 
     public record UserResponse(String username) { }
 

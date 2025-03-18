@@ -2,6 +2,7 @@ package me.whsv26.gateway;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.Buildable;
@@ -10,8 +11,10 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
-@EnableConfigurationProperties(ApplConfigProperties.class)
+@EnableConfigurationProperties(AppProps.class)
 @EnableDiscoveryClient
 public class ApiConfig {
 
@@ -21,16 +24,21 @@ public class ApiConfig {
     }
 
     @Bean
+    public JwtToHeadersGatewayFilter jwtToHeadersGatewayFilter() {
+        return new JwtToHeadersGatewayFilter();
+    }
+
+    @Bean
     RouteLocator gateway(
         RouteLocatorBuilder routeLocatorBuilder,
-        ApplConfigProperties applConfigProperties,
-        RequestIdFilter filter
+        AppProps applConfigProperties,
+        List<GatewayFilter> filters
     ) {
         var routesBuilder = routeLocatorBuilder.routes();
         for (var route : applConfigProperties.getApiRoutes()) {
             routesBuilder.route(
                 route.id(),
-                routeSpec -> buildRoute(route, routeSpec, filter)
+                routeSpec -> buildRoute(route, routeSpec, filters)
             );
         }
         return routesBuilder.build();
@@ -39,11 +47,11 @@ public class ApiConfig {
     private static Buildable<Route> buildRoute(
         ApiRoute route,
         PredicateSpec routeSpec,
-        RequestIdFilter requestIdFilter
+        List<GatewayFilter> filters
     ) {
         return routeSpec
             .path(route.prefix() + "/**")
-            .filters(filterSpec -> filterSpec.filters(requestIdFilter)
+            .filters(filterSpec -> filterSpec.filters(filters)
             .rewritePath(
                 route.prefix() + "/(?<segment>.*)",
                 "/api/${segment}"

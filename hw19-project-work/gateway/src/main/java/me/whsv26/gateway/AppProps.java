@@ -7,7 +7,7 @@ import java.util.List;
 
 @ConfigurationProperties(prefix = "application")
 @Data
-public class ApplConfigProperties {
+public class AppProps {
 
     private final String authHost;
 

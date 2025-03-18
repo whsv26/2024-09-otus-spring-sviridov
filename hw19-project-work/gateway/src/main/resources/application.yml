@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8081/tokens
+          jwk-set-uri: http://localhost:8081/internal/tokens
 server:
   port: 7777
 

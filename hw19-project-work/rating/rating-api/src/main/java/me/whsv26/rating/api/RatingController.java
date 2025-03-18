@@ -26,7 +26,7 @@ public class RatingController {
 
     private final NovelRatingCommandSender novelRatingCommandSender;
 
-    @GetMapping({"/api/novels/{novelId}", "/internal/novels/{novelId}"})
+    @GetMapping("/api/novels/{novelId}")
     public ReadNovelRatingResponse readNovelRating(
         @PathVariable("novelId")
         String novelId
@@ -37,9 +37,11 @@ public class RatingController {
             .flatMap(RatingController::parseBigDecimal);
         var maybeTotal = Optional.ofNullable(redisTemplate.opsForValue().get(totalKey))
             .flatMap(RatingController::parseBigDecimal);
-        var avgRating = maybeTotal.flatMap(total -> maybeCounter.map(total::divide));
+        var avgRating = maybeTotal
+            .flatMap(total -> maybeCounter.map(total::divide))
+            .orElse(BigDecimal.ZERO);
 
-        return new ReadNovelRatingResponse(avgRating.orElse(BigDecimal.ZERO));
+        return new ReadNovelRatingResponse(avgRating.floatValue());
     }
 
     @PostMapping("/api/novels/{novelId}/ratings")
@@ -68,7 +70,7 @@ public class RatingController {
     ) {}
 
     public record ReadNovelRatingResponse(
-        BigDecimal avgRating
+        float avgRating
     ) {}
 
     private static Optional<BigDecimal> parseBigDecimal(String x) {

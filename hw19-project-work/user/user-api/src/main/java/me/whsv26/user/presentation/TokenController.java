@@ -17,7 +17,7 @@ public class TokenController {
 
     private final TokenService tokenService;
 
-    @GetMapping("/api/tokens")
+    @GetMapping("/internal/tokens")
     public Map<String, Object> listTokens() {
         return tokenService.listPublicTokens().value();
     }

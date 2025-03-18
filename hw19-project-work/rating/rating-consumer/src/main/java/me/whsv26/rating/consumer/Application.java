@@ -2,9 +2,11 @@ package me.whsv26.rating.consumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@EnableConfigurationProperties(AppProperties.class)
+@EnableConfigurationProperties
+@ConfigurationPropertiesScan(basePackages = "me.whsv26.rating.consumer.config")
 @SpringBootApplication
 public class Application {
 

@@ -1,6 +1,7 @@
-package me.whsv26.user.application;
+package me.whsv26.user.presentation;
 
 import lombok.AllArgsConstructor;
+import me.whsv26.user.application.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,9 +20,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             new UsernameNotFoundException("User with username" + username + " is not found")
         );
 
-        return User.withUsername(user.getUsername())
+        var userDetails = User.withUsername(user.getUsername())
             .password(user.getPassword())
             .authorities(user.getAuthorities())
             .build();
+
+        return new RichUserDetails(userDetails, user.getId());
     }
 }

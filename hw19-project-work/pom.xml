@@ -15,7 +15,7 @@
         <module>user/user-api</module>
         <module>novel/novel-api</module>
         <module>novel/novel-outbox</module>
-        <module>novel/novel-public</module>
+        <module>novel/novel-model</module>
         <module>search/search-indexer</module>
         <module>search/search-api</module>
         <module>rating/rating-api</module>

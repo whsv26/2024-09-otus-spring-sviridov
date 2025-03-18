@@ -9,14 +9,13 @@ spring:
       client-id: search-indexer-${random.uuid}
 application:
   kafka:
-    novel:
-      topic: "novel-event"
-    novel-rating:
-      topic: "novel-rating-event" # TODO add consumer
+    consumer:
+      novel-event:
+        topic: "novel-event"
+      rating-event:
+        topic: "novel-rating-event"
   elasticsearch:
     index: "novels"
   rest:
     user-api:
       url: ${USER_API_URL}
-    rating-api:
-      url: ${RATING_API_URL}

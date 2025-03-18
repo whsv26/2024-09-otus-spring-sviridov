@@ -34,7 +34,7 @@
     <dependencies>
         <dependency>
             <groupId>me.whsv26.novel</groupId>
-            <artifactId>novel-public</artifactId>
+            <artifactId>novel-model</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

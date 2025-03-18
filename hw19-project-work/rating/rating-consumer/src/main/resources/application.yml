@@ -4,7 +4,15 @@ spring:
       bootstrap-servers: localhost:9092
       group-id: rating-consumer
       client-id: rating-consumer-${random.uuid}
+  data:
+    redis:
+      url: redis://localhost:6379
 application:
   kafka:
-    topic: "novel-rating-command"
-    ttl: 24h
+    consumer:
+      rating-command:
+        topic: "novel-rating-command"
+        idempotency-key-ttl: 24h
+    producer:
+      rating-event:
+        topic: "novel-rating-event"

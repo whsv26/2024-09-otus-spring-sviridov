@@ -1,7 +1,7 @@
 package me.whsv26.search.indexer;
 
 import lombok.RequiredArgsConstructor;
-import me.whsv26.novel.model.NovelEvent;
+import me.whsv26.rating.model.NovelRatingEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.RefreshPolicy;
@@ -13,41 +13,40 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class NovelEventConsumer {
+public class NovelRatingEventConsumer {
 
     private final ElasticsearchOperations elasticsearchOperations;
-
-    private final UserClient userClient;
 
     @Value("${application.elasticsearch.index}")
     private final String indexName;
 
     @KafkaListener(
-        topics = "${application.kafka.consumer.novel-event.topic}",
+        topics = "${application.kafka.consumer.rating-event.topic}",
         containerFactory = "kafkaListenerContainerFactory"
     )
-    public void consumeMessage(@Payload List<NovelEvent> events) {
+    public void consumeMessage(@Payload List<NovelRatingEvent> events) {
         var operations = events.stream()
-            .map(this::buildUpdateQuery)
+            .collect(Collectors.toMap(
+                NovelRatingEvent::novelId,
+                NovelRatingEvent::rating
+            ))
+            .entrySet()
+            .stream()
+            .map(entry -> buildUpdateQuery(entry.getKey(), entry.getValue()))
             .toList();
 
         elasticsearchOperations.bulkUpdate(operations, IndexCoordinates.of(indexName));
     }
 
-    private UpdateQuery buildUpdateQuery(NovelEvent e) {
-        var authorName = userClient.getUsername(e.authorId());
+    private UpdateQuery buildUpdateQuery(String novelId, float rating) {
         var novel = Document.create();
-        novel.put("title", e.title());
-        novel.put("synopsis", e.synopsis());
-        novel.put("authorId", e.authorId());
-        novel.put("authorName", authorName);
-        novel.put("genres", e.genres());
-        novel.put("tags", e.tags());
+        novel.put("rating", rating);
 
-        return UpdateQuery.builder(e.id())
+        return UpdateQuery.builder(novelId)
             .withUpsert(novel)
             .withRefreshPolicy(RefreshPolicy.NONE)
             .build();

@@ -1,5 +1,7 @@
 include:
-  - ./novel/docker-compose.yml
+#  - ./novel/docker-compose.yml
+#  - ./rating/docker-compose.yml
+#  - ./search/docker-compose.yml
   - ./user/docker-compose.yml
 
 services:
@@ -19,10 +21,8 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_NUM_PARTITIONS: 3
-    ports:
-      - "9092:9092"
 
-  kafka-ui:
+  kafka_ui:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
     ports:

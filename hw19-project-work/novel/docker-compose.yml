@@ -1,11 +1,11 @@
 services:
-  novel_api:
+  novel-api:
     image: localhost:5000/novel-api:1.0.0
     pull_policy: always
     ports:
       - "8082:8080"
     environment:
-      - SPRING_DATA_MONGODB_HOST=novel_mongo
+      - SPRING_DATA_MONGODB_HOST=novel-mongo
       - SPRING_DATA_MONGODB_PORT=27017
       - SPRING_DATA_MONGODB_DATABASE=novel
       - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
@@ -13,12 +13,12 @@ services:
       - SPRING_DATA_MONGODB_PASSWORD=admin
       - SPRING_DATA_MONGODB_REPLICA_SET_NAME=rs0
     depends_on:
-      - novel_mongo
-  novel_outbox:
+      - novel-mongo
+  novel-outbox:
     image: localhost:5000/novel-outbox:1.0.0
     pull_policy: always
     environment:
-      - SPRING_DATA_MONGODB_HOST=novel_mongo
+      - SPRING_DATA_MONGODB_HOST=novel-mongo
       - SPRING_DATA_MONGODB_PORT=27017
       - SPRING_DATA_MONGODB_DATABASE=novel
       - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
@@ -27,12 +27,12 @@ services:
       - SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS=kafka:9092
       - SPRING_DATA_MONGODB_REPLICA_SET_NAME=rs0
     depends_on:
-      - novel_mongo
-  novel_mongo:
+      - novel-mongo
+  novel-mongo:
     image: mongo:7.0
     command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017", "--keyFile", "/data/keyfile"]
     healthcheck:
-      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'novel_mongo:27017'}]}) }" | mongosh -u admin -p admin --authenticationDatabase admin --port 27017 --quiet
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'novel-mongo:27017'}]}) }" | mongosh -u admin -p admin --authenticationDatabase admin --port 27017 --quiet
       interval: 5s
       timeout: 30s
       start_period: 0s

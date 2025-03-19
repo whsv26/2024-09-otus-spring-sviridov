@@ -33,8 +33,9 @@ public class Chapter {
     @Setter(AccessLevel.NONE)
     private Long version;
 
-    public Chapter(ChapterId id, String title, String content, Clock clock) {
+    public Chapter(ChapterId id, NovelId novelId, String title, String content, Clock clock) {
         this.id = id;
+        this.novelId = novelId;
         this.title = title;
         this.content = content;
         this.createdAt = clock.instant().atZone(clock.getZone()).toLocalDateTime();

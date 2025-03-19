@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class ChapterController {
 
     private final ChapterService chapterService;
 
-    @GetMapping("/novels/{novelId}/chapters")
+    @GetMapping("/api/novels/{novelId}/chapters")
     public ListNovelChaptersResponse listNovelChapters(
         @PathVariable("novelId")
         String novelId,
@@ -45,7 +46,7 @@ public class ChapterController {
         );
     }
 
-    @GetMapping("/novels/{novelId}/chapters/{chapterId}")
+    @GetMapping("/api/novels/{novelId}/chapters/{chapterId}")
     public ReadNovelChapterResponse readNovelChapter(
         @PathVariable("novelId")
         String novelId,
@@ -57,7 +58,7 @@ public class ChapterController {
         return new ReadNovelChapterResponse(mapper.map(chapter));
     }
 
-    @PostMapping("/novels/{novelId}/chapters")
+    @PostMapping("/api/novels/{novelId}/chapters")
     public CreateNovelChapterResponse createNovelChapter(
         @PathVariable("novelId")
         String novelId,
@@ -73,7 +74,7 @@ public class ChapterController {
         return new CreateNovelChapterResponse(mapper.map(chapter));
     }
 
-    @PutMapping("/novels/{novelId}/chapters/{chapterId}")
+    @PutMapping("/api/novels/{novelId}/chapters/{chapterId}")
     public UpdateNovelChapterResponse updateNovelChapter(
         @PathVariable("novelId")
         String novelId,
@@ -91,7 +92,7 @@ public class ChapterController {
         return new UpdateNovelChapterResponse(mapper.map(chapter));
     }
 
-    @DeleteMapping("/novels/{novelId}/chapters/{chapterId}")
+    @DeleteMapping("/api/novels/{novelId}/chapters/{chapterId}")
     public void deleteNovelChapter(
         @PathVariable("novelId")
         String novelId,
@@ -136,7 +137,8 @@ public class ChapterController {
     public record ChapterResponse(
         String id,
         String title,
-        String content
+        String content,
+        LocalDateTime createdAt
     ) {}
 
     @Mapper

@@ -32,7 +32,7 @@ public class NovelController {
 
     private final NovelMapper mapper = Mappers.getMapper(NovelMapper.class);
 
-    @GetMapping("/novels/{id}")
+    @GetMapping("/api/novels/{id}")
     public ReadNovelResponse readNovel(
         @PathVariable("id")
         String novelId
@@ -41,7 +41,7 @@ public class NovelController {
         return new ReadNovelResponse(mapper.map(novel));
     }
 
-    @PostMapping("/novels")
+    @PostMapping("/api/novels")
     public CreateNovelResponse createNovel(
         @RequestHeader("X-User-ID") String userId,
         @RequestBody
@@ -58,7 +58,7 @@ public class NovelController {
         return new CreateNovelResponse(mapper.map(novel));
     }
 
-    @PutMapping("/novels/{id}")
+    @PutMapping("/api/novels/{id}")
     public UpdateNovelResponse updateNovel(
         @PathVariable("id")
         String novelId,
@@ -77,7 +77,7 @@ public class NovelController {
         return new UpdateNovelResponse(mapper.map(novel));
     }
 
-    @DeleteMapping("/novels/{id}")
+    @DeleteMapping("/api/novels/{id}")
     public void deleteNovel(@PathVariable("id") String novelId) {
         // TODO allow delete only for own novels
         novelService.delete(new NovelId(novelId));

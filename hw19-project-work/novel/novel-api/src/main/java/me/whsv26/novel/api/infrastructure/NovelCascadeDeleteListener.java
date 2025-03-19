@@ -17,7 +17,7 @@ public class NovelCascadeDeleteListener extends AbstractMongoEventListener<Novel
     @Override
     public void onBeforeDelete(BeforeDeleteEvent<Novel> event) {
         var source = event.getSource();
-        var novelId = source.getObjectId("_id").toString();
+        var novelId = source.get("_id", String.class);
         chapterRepository.deleteByNovelId(new NovelId(novelId));
     }
 }

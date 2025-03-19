@@ -9,6 +9,7 @@ public class NovelNotFoundException extends RuntimeException {
     private final NovelId id;
 
     public NovelNotFoundException(NovelId id) {
+        super("Novel not found");
         this.id = id;
     }
 

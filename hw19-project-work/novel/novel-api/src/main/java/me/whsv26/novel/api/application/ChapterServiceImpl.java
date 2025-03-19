@@ -32,6 +32,7 @@ public class ChapterServiceImpl implements ChapterService {
     public Chapter create(NovelId novelId, String title, String content) {
         var chapter = new Chapter(
             ChapterId.next(),
+            novelId,
             title,
             content,
             clock

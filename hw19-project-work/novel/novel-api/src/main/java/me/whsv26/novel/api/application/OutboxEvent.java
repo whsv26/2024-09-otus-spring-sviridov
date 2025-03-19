@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
+// TODO move to lib
 @Document(collection = "outbox")
 @Data
 @NoArgsConstructor
@@ -21,12 +22,11 @@ public class OutboxEvent {
 
     private String aggregateId;
 
-    private String eventType;
+    private String messageType;
 
     private LocalDateTime createdAt;
 
     private String payload;
 
     private boolean processed;
-
 }

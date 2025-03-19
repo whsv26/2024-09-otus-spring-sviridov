@@ -5,12 +5,17 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.changestream.ChangeStreamDocument;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.bson.Document;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
@@ -18,6 +23,7 @@ import java.util.List;
 @Slf4j
 public class OutboxChangeStreamListener implements CommandLineRunner {
 
+    public static final String COLLECTION_NAME = "outbox";
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     private final MongoTemplate mongoTemplate;
@@ -34,22 +40,41 @@ public class OutboxChangeStreamListener implements CommandLineRunner {
         var matchStage = Aggregates.match(filter);
         var pipeline = List.of(matchStage);
 
-        mongoTemplate.getCollection("outbox")
+        mongoTemplate.getCollection(COLLECTION_NAME)
             .watch(pipeline)
-            .forEach(this::produceEvent);
+            .forEach(this::handleOutboxedMessage);
     }
 
-    private void produceEvent(ChangeStreamDocument<Document> change) {
+    private void handleOutboxedMessage(ChangeStreamDocument<Document> change) {
         var fullDocument = change.getFullDocument();
 
         if (fullDocument == null) {
             return;
         }
 
+        var processed = fullDocument.getBoolean("processed");
+
+        if (processed) {
+            return;
+        }
+
+        publish(fullDocument);
+        markAsProcessed(fullDocument);
+    }
+
+    private void markAsProcessed(Document fullDocument) {
+        var documentId = fullDocument.getString("_id");
+        var query = Query.query(Criteria.where("_id").is(documentId));
+        var update = new Update().set("processed", true);
+        mongoTemplate.updateFirst(query, update, COLLECTION_NAME);
+    }
+
+    private void publish(Document fullDocument) {
         var payload = fullDocument.getString("payload");
-
-        kafkaTemplate.send(kafkaConfig.getTopic(), payload);
-
-        log.info("Published outbox event: {}", payload);
+        var typeId = fullDocument.getString("messageType");
+        var record = new ProducerRecord<String, String>(kafkaConfig.getTopic(), payload);
+        record.headers().add("__TypeId__", typeId.getBytes(StandardCharsets.UTF_8));
+        kafkaTemplate.send(record);
+        log.info("Published outbox message: {}", payload);
     }
 }

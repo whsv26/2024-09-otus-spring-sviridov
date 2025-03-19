@@ -21,12 +21,11 @@ public class NovelRatingEventConsumer {
 
     private final ElasticsearchOperations elasticsearchOperations;
 
-    @Value("${application.elasticsearch.index}")
-    private final String indexName;
+    private final ElasticsearchProps props;
 
     @KafkaListener(
         topics = "${application.kafka.consumer.rating-event.topic}",
-        containerFactory = "kafkaListenerContainerFactory"
+        containerFactory = "kafkaListenerContainerFactoryNovelRatingEvent"
     )
     public void consumeMessage(@Payload List<NovelRatingEvent> events) {
         var operations = events.stream()
@@ -39,7 +38,7 @@ public class NovelRatingEventConsumer {
             .map(entry -> buildUpdateQuery(entry.getKey(), entry.getValue()))
             .toList();
 
-        elasticsearchOperations.bulkUpdate(operations, IndexCoordinates.of(indexName));
+        elasticsearchOperations.bulkUpdate(operations, IndexCoordinates.of(props.index()));
     }
 
     private UpdateQuery buildUpdateQuery(String novelId, float rating) {

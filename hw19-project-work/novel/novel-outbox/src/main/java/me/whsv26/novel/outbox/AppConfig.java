@@ -22,7 +22,8 @@ public class AppConfig {
     ) {
         var props = kafkaProperties.buildProducerProperties(new DefaultSslBundleRegistry());
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
 
         var kafkaProducerFactory = new DefaultKafkaProducerFactory<String, String>(props);
         kafkaProducerFactory.setValueSerializer(new JsonSerializer<>(mapper));

@@ -2,7 +2,7 @@ include:
   - ./gateway/docker-compose.yml
   - ./novel/docker-compose.yml
 #  - ./rating/docker-compose.yml
-#  - ./search/docker-compose.yml
+  - ./search/docker-compose.yml
   - ./user/docker-compose.yml
 
 services:
@@ -27,7 +27,7 @@ services:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
     ports:
-      - "8083:8080" # http://localhost:8083
+      - "9090:8080" # http://localhost:9090
     environment:
       DYNAMIC_CONFIG_ENABLED: "true"
       KAFKA_CLUSTERS_0_NAME: "local-cluster"

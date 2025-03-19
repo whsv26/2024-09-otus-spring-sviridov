@@ -1,6 +1,7 @@
 package me.whsv26.rating.consumer.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import me.whsv26.rating.model.NovelRatingCommand;
 import me.whsv26.rating.model.NovelRatingEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -25,6 +26,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.backoff.FixedBackOff;
 
 @Configuration
+@Slf4j
 public class KafkaConfig {
 
     @Bean
@@ -58,10 +60,9 @@ public class KafkaConfig {
 
         var fixedBackOff = new FixedBackOff(5000, 3);
         var errorHandler = new DefaultErrorHandler(
-            (record, exception) -> System.err.printf(
-                "Error processing record with value %s: %s%n",
-                record.value(),
-                exception.getMessage()
+            (record, exception) -> log.error(
+                "Error processing record with value: %s".formatted(record.value()),
+                exception
             ),
             fixedBackOff
         );

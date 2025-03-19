@@ -1,6 +1,5 @@
 package me.whsv26.search.indexer;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -11,10 +10,10 @@ public class UserClient {
 
     public UserClient(
         RestClient.Builder clientBuilder,
-        @Value("${application.rest.user-api.url}") String baseUrl
+        RestProps props
     ) {
         this.client = clientBuilder
-            .baseUrl(baseUrl)
+            .baseUrl(props.userApi().url().toString())
             .build();
     }
 
@@ -27,7 +26,7 @@ public class UserClient {
         return body != null ? body.user.username : ""; // TODO
     }
 
-    private record ReadUserResponse(UserResponse user) { }
+    private record ReadUserResponse(UserResponse user) {}
 
-    private record UserResponse(String username) { }
+    private record UserResponse(String username) {}
 }

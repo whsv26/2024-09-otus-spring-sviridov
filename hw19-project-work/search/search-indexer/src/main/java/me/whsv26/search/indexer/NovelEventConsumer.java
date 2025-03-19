@@ -2,7 +2,6 @@ package me.whsv26.search.indexer;
 
 import lombok.RequiredArgsConstructor;
 import me.whsv26.novel.model.NovelEvent;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.RefreshPolicy;
 import org.springframework.data.elasticsearch.core.document.Document;
@@ -22,19 +21,18 @@ public class NovelEventConsumer {
 
     private final UserClient userClient;
 
-    @Value("${application.elasticsearch.index}")
-    private final String indexName;
+    private final ElasticsearchProps props;
 
     @KafkaListener(
         topics = "${application.kafka.consumer.novel-event.topic}",
-        containerFactory = "kafkaListenerContainerFactory"
+        containerFactory = "kafkaListenerContainerFactoryNovelEvent"
     )
     public void consumeMessage(@Payload List<NovelEvent> events) {
         var operations = events.stream()
             .map(this::buildUpdateQuery)
             .toList();
 
-        elasticsearchOperations.bulkUpdate(operations, IndexCoordinates.of(indexName));
+        elasticsearchOperations.bulkUpdate(operations, IndexCoordinates.of(props.index()));
     }
 
     private UpdateQuery buildUpdateQuery(NovelEvent e) {
@@ -47,7 +45,7 @@ public class NovelEventConsumer {
         novel.put("genres", e.genres());
         novel.put("tags", e.tags());
 
-        return UpdateQuery.builder(e.id())
+        return UpdateQuery.builder(e.novelId())
             .withUpsert(novel)
             .withRefreshPolicy(RefreshPolicy.NONE)
             .build();

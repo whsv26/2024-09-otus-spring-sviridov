@@ -20,3 +20,6 @@ application:
     - id: "novel"
       prefix: "/novel"
       uri: ${NOVEL_API_URI}
+    - id: "search"
+      prefix: "/search"
+      uri: ${SEARCH_API_URI}

@@ -8,3 +8,4 @@ services:
       - JWK_SET_URI=http://user-api:8080/internal/tokens
       - USER_API_URI=http://user-api:8080
       - NOVEL_API_URI=http://novel-api:8080
+      - SEARCH_API_URI=http://search-api:8080

@@ -1,7 +1,5 @@
-spring:
-  elasticsearch:
-    rest:
-      uris: http://localhost:9200 # TODO check if right property
 application:
   elasticsearch:
+    host: ${ELASTICSEARCH_HOST}
+    port: ${ELASTICSEARCH_PORT}
     index: "novels"

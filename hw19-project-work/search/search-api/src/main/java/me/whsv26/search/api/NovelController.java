@@ -20,7 +20,7 @@ public class NovelController {
 
     private final NovelMapper novelMapper = Mappers.getMapper(NovelMapper.class);
 
-    @GetMapping("/novels")
+    @GetMapping("/api/novels")
     public SearchNovelsResponse searchNovels(
         @RequestParam(name = "prompt", required = false) String prompt,
         @RequestParam(name = "authorName", required = false) String authorName,

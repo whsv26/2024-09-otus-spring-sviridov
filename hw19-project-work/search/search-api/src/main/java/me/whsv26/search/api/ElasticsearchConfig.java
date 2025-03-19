@@ -1,17 +1,31 @@
 package me.whsv26.search.api;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.client.ClientConfiguration;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
+
+import java.time.Duration;
 
 @Configuration
-public class ElasticsearchConfig {
+@RequiredArgsConstructor
+public class ElasticsearchConfig extends ElasticsearchConfiguration {
 
-    @Value("${application.elasticsearch.index}")
-    private String indexName;
+    private final ElasticsearchProps props;
 
     @Bean
     public String indexName() {
-        return indexName;
+        return props.index();
+    }
+
+    @Override
+    public ClientConfiguration clientConfiguration() {
+        return ClientConfiguration.builder()
+            .connectedTo("%s:%s".formatted(props.host(), props.port()))
+            .usingSsl(false)
+            .withConnectTimeout(Duration.ofSeconds(5))
+            .withSocketTimeout(Duration.ofSeconds(3))
+            .build();
     }
 }

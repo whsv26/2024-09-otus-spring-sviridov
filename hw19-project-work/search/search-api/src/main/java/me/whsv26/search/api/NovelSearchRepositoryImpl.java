@@ -87,7 +87,7 @@ public class NovelSearchRepositoryImpl implements NovelSearchRepository {
                 ratingRange.getTo().ifPresent(ratingTo ->
                     rangeQuery.lte(JsonData.of(ratingTo))
                 );
-                return rangeQuery;
+                return rangeQuery.field("rating");
             })
         );
     }

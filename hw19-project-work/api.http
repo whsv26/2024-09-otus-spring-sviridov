@@ -1,0 +1,30 @@
+### Register new user
+POST {{baseUrl}}/user/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "whsv26",
+  "password": "changeme",
+  "passwordConfirmation": "changeme"
+}
+
+### Obtain JWT-token
+POST {{baseUrl}}/user/tokens
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "whsv26",
+  "password": "changeme"
+}
+
+> {%
+    client.global.set("token", response.body.token);
+%}
+
+### Get current user info
+GET {{baseUrl}}/user/users/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json

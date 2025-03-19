@@ -1,0 +1,10 @@
+services:
+  gateway:
+    image: localhost:5000/gateway:1.0.0
+    pull_policy: always
+    ports:
+      - "7777:8080"
+    environment:
+      - JWK_SET_URI=http://user-api:8080/internal/tokens
+      - USER_API_URI=http://user-api:8080
+      - NOVEL_API_URI=http://novel-api:8080

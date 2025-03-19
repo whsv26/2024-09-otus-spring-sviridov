@@ -24,7 +24,9 @@ public class UserServiceImpl implements UserService {
         var user = new User(username, passwordHash);
 
         try {
-            return userRepository.save(user);
+            var savedUser = userRepository.save(user);
+            userRepository.flush();
+            return savedUser;
         } catch (DataIntegrityViolationException cause) {
             throw new UserAlreadyExistsException(user.getUsername(), cause);
         }

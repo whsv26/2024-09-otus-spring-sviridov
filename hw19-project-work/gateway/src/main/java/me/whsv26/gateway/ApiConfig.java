@@ -1,7 +1,6 @@
 package me.whsv26.gateway;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -15,7 +14,6 @@ import java.util.List;
 
 @Configuration
 @EnableConfigurationProperties(AppProps.class)
-@EnableDiscoveryClient
 public class ApiConfig {
 
     @Bean
@@ -34,6 +32,9 @@ public class ApiConfig {
         AppProps applConfigProperties,
         List<GatewayFilter> filters
     ) {
+        System.out.println("akdlkjasdlajs"); // TODO
+        System.out.println(applConfigProperties.getApiRoutes()); // TODO
+
         var routesBuilder = routeLocatorBuilder.routes();
         for (var route : applConfigProperties.getApiRoutes()) {
             routesBuilder.route(

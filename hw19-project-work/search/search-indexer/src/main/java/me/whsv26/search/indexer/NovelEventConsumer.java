@@ -46,7 +46,8 @@ public class NovelEventConsumer {
         novel.put("tags", e.tags());
 
         return UpdateQuery.builder(e.novelId())
-            .withUpsert(novel)
+            .withDocument(novel)
+            .withDocAsUpsert(true)
             .withRefreshPolicy(RefreshPolicy.NONE)
             .build();
     }

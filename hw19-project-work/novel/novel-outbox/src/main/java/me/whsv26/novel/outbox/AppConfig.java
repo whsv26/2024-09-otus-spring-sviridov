@@ -1,6 +1,5 @@
 package me.whsv26.novel.outbox;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -16,17 +15,14 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 public class AppConfig {
 
     @Bean
-    public ProducerFactory<String, String> producerFactory(
-        KafkaProperties kafkaProperties,
-        ObjectMapper mapper
-    ) {
+    public ProducerFactory<String, String> producerFactory(KafkaProperties kafkaProperties) {
         var props = kafkaProperties.buildProducerProperties(new DefaultSslBundleRegistry());
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
 
         var kafkaProducerFactory = new DefaultKafkaProducerFactory<String, String>(props);
-        kafkaProducerFactory.setValueSerializer(new JsonSerializer<>(mapper));
+        kafkaProducerFactory.setValueSerializer(new StringSerializer());
         return kafkaProducerFactory;
     }
 

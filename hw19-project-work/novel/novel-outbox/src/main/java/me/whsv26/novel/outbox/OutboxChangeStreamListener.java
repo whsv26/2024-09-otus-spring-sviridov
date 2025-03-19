@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ import java.util.List;
 public class OutboxChangeStreamListener implements CommandLineRunner {
 
     public static final String COLLECTION_NAME = "outbox";
+
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     private final MongoTemplate mongoTemplate;
@@ -46,20 +48,12 @@ public class OutboxChangeStreamListener implements CommandLineRunner {
     }
 
     private void handleOutboxedMessage(ChangeStreamDocument<Document> change) {
-        var fullDocument = change.getFullDocument();
-
-        if (fullDocument == null) {
-            return;
-        }
-
-        var processed = fullDocument.getBoolean("processed");
-
-        if (processed) {
-            return;
-        }
-
-        publish(fullDocument);
-        markAsProcessed(fullDocument);
+        Optional.ofNullable(change.getFullDocument())
+            .filter(doc -> !doc.getBoolean("processed"))
+            .ifPresent(doc -> {
+                publish(doc);
+                markAsProcessed(doc);
+            });
     }
 
     private void markAsProcessed(Document fullDocument) {
@@ -75,6 +69,6 @@ public class OutboxChangeStreamListener implements CommandLineRunner {
         var record = new ProducerRecord<String, String>(kafkaConfig.getTopic(), payload);
         record.headers().add("__TypeId__", typeId.getBytes(StandardCharsets.UTF_8));
         kafkaTemplate.send(record);
-        log.info("Published outbox message: {}", payload);
+        log.debug("Published outbox message: {}", payload);
     }
 }

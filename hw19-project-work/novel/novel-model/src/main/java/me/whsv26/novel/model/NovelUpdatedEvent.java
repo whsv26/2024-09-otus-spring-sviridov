@@ -17,4 +17,9 @@ public record NovelUpdatedEvent(
     public String getEventId() {
         return eventId;
     }
+
+    @Override
+    public Type getType() {
+        return Type.UPDATED;
+    }
 }

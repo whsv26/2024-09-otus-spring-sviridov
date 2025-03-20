@@ -26,11 +26,21 @@ public class OutboxChangeStreamListener implements CommandLineRunner {
 
     public static final String COLLECTION_NAME = "outbox";
 
+    public static final String HEADER_TYPE_ID = "__TypeId__";
+
+    public static final String FIELD_ID = "_id";
+
+    public static final String FIELD_PROCESSED = "processed";
+
+    public static final String FIELD_PAYLOAD = "payload";
+
+    public static final String FIELD_MESSAGE_TYPE = "messageType";
+
+    public static final String FIELD_TOPIC = "topic";
+
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     private final MongoTemplate mongoTemplate;
-
-    private final KafkaConfig kafkaConfig;
 
     @Override
     public void run(String... args) {
@@ -49,7 +59,7 @@ public class OutboxChangeStreamListener implements CommandLineRunner {
 
     private void handleOutboxedMessage(ChangeStreamDocument<Document> change) {
         Optional.ofNullable(change.getFullDocument())
-            .filter(doc -> !doc.getBoolean("processed"))
+            .filter(doc -> !doc.getBoolean(FIELD_PROCESSED))
             .ifPresent(doc -> {
                 publish(doc);
                 markAsProcessed(doc);
@@ -57,18 +67,24 @@ public class OutboxChangeStreamListener implements CommandLineRunner {
     }
 
     private void markAsProcessed(Document fullDocument) {
-        var documentId = fullDocument.getString("_id");
-        var query = Query.query(Criteria.where("_id").is(documentId));
-        var update = new Update().set("processed", true);
+        var documentId = fullDocument.getString(FIELD_ID);
+        var query = Query.query(Criteria.where(FIELD_ID).is(documentId));
+        var update = new Update().set(FIELD_PROCESSED, true);
         mongoTemplate.updateFirst(query, update, COLLECTION_NAME);
     }
 
     private void publish(Document fullDocument) {
-        var payload = fullDocument.getString("payload");
-        var typeId = fullDocument.getString("messageType");
-        var record = new ProducerRecord<String, String>(kafkaConfig.getTopic(), payload);
-        record.headers().add("__TypeId__", typeId.getBytes(StandardCharsets.UTF_8));
+        var payload = fullDocument.getString(FIELD_PAYLOAD);
+        var record = buildProducerRecord(fullDocument, payload);
         kafkaTemplate.send(record);
         log.debug("Published outbox message: {}", payload);
+    }
+
+    private static ProducerRecord<String, String> buildProducerRecord(Document fullDocument, String payload) {
+        var typeId = fullDocument.getString(FIELD_MESSAGE_TYPE);
+        var topic = fullDocument.getString(FIELD_TOPIC);
+        var record = new ProducerRecord<String, String>(topic, payload);
+        record.headers().add(HEADER_TYPE_ID, typeId.getBytes(StandardCharsets.UTF_8));
+        return record;
     }
 }

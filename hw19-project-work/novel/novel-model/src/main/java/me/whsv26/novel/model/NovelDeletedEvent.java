@@ -12,4 +12,9 @@ public record NovelDeletedEvent(
     public String getEventId() {
         return eventId;
     }
+
+    @Override
+    public Type getType() {
+        return Type.DELETED;
+    }
 }

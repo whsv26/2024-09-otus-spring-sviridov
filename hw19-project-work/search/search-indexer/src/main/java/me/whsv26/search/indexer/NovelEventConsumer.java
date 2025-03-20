@@ -1,21 +1,42 @@
 package me.whsv26.search.indexer;
 
 import lombok.RequiredArgsConstructor;
+import me.whsv26.novel.model.NovelCreatedEvent;
+import me.whsv26.novel.model.NovelDeletedEvent;
 import me.whsv26.novel.model.NovelEvent;
+import me.whsv26.novel.model.NovelUpdatedEvent;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.RefreshPolicy;
 import org.springframework.data.elasticsearch.core.document.Document;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.DeleteQuery;
 import org.springframework.data.elasticsearch.core.query.UpdateQuery;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class NovelEventConsumer {
+
+    public static final String FIELD_ID = "_id";
+
+    public static final String FIELD_TITLE = "title";
+
+    public static final String FIELD_SYNOPSIS = "synopsis";
+
+    public static final String FIELD_AUTHOR_ID = "authorId";
+
+    public static final String FIELD_AUTHOR_NAME = "authorName";
+
+    public static final String FIELD_GENRES = "genres";
+
+    public static final String FIELD_TAGS = "tags";
 
     private final ElasticsearchOperations elasticsearchOperations;
 
@@ -28,27 +49,62 @@ public class NovelEventConsumer {
         containerFactory = "kafkaListenerContainerFactoryNovelEvent"
     )
     public void consumeMessage(@Payload List<NovelEvent> events) {
-        var operations = events.stream()
-            .map(this::buildUpdateQuery)
-            .toList();
-
-        elasticsearchOperations.bulkUpdate(operations, IndexCoordinates.of(props.index()));
+        var indexCoordinates = IndexCoordinates.of(props.index());
+        events.stream()
+            .collect(Collectors.groupingBy(NovelEvent::getType))
+            .forEach((type, eventsOfType) -> {
+                switch (type) {
+                    case CREATED -> {
+                        var queries = events.stream().map(e -> builCreateQuery((NovelCreatedEvent) e)).toList();
+                        elasticsearchOperations.bulkUpdate(queries, indexCoordinates);
+                    }
+                    case UPDATED -> {
+                        var queries = events.stream().map(e -> buildUpdateQuery((NovelUpdatedEvent) e)).toList();
+                        elasticsearchOperations.bulkUpdate(queries, indexCoordinates);
+                    }
+                    case DELETED -> {
+                        var query = buildDeleteQuery(events.stream().map(e -> (NovelDeletedEvent) e).toList());
+                        elasticsearchOperations.delete(query, Object.class, indexCoordinates);
+                    }
+                }
+            });
     }
 
-    private UpdateQuery buildUpdateQuery(NovelEvent e) {
+    private UpdateQuery builCreateQuery(NovelCreatedEvent e) {
         var authorName = userClient.getUsername(e.authorId());
         var novel = Document.create();
-        novel.put("title", e.title());
-        novel.put("synopsis", e.synopsis());
-        novel.put("authorId", e.authorId());
-        novel.put("authorName", authorName);
-        novel.put("genres", e.genres());
-        novel.put("tags", e.tags());
+        novel.put(FIELD_TITLE, e.title());
+        novel.put(FIELD_SYNOPSIS, e.synopsis());
+        novel.put(FIELD_AUTHOR_ID, e.authorId());
+        novel.put(FIELD_AUTHOR_NAME, authorName);
+        novel.put(FIELD_GENRES, e.genres());
+        novel.put(FIELD_TAGS, e.tags());
 
         return UpdateQuery.builder(e.novelId())
             .withDocument(novel)
             .withDocAsUpsert(true)
             .withRefreshPolicy(RefreshPolicy.NONE)
             .build();
+    }
+
+    private UpdateQuery buildUpdateQuery(NovelUpdatedEvent e) {
+        var novel = Document.create();
+        novel.put(FIELD_TITLE, e.title());
+        novel.put(FIELD_SYNOPSIS, e.synopsis());
+        novel.put(FIELD_GENRES, e.genres());
+        novel.put(FIELD_TAGS, e.tags());
+
+        return UpdateQuery.builder(e.novelId())
+            .withDocument(novel)
+            .withDocAsUpsert(true)
+            .withRefreshPolicy(RefreshPolicy.NONE)
+            .build();
+    }
+
+    private static DeleteQuery buildDeleteQuery(List<NovelDeletedEvent> events) {
+        var novelIds = events.stream().map(NovelDeletedEvent::novelId).toList();
+        var criteria = Criteria.where(FIELD_ID).in(novelIds);
+        var query = CriteriaQuery.builder(criteria).build();
+        return DeleteQuery.builder(query).build();
     }
 }

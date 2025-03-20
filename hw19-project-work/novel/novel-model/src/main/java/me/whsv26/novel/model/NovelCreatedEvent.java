@@ -18,4 +18,9 @@ public record NovelCreatedEvent(
     public String getEventId() {
         return eventId;
     }
+
+    @Override
+    public Type getType() {
+        return Type.CREATED;
+    }
 }

@@ -1,12 +1,8 @@
-application:
-  kafka:
-    topic: "novel-event"
-
 spring:
   kafka:
     producer:
       bootstrap-servers: "127.0.0.1:9092"
-      client-id: "novel"
+      client-id: "novel-outbox"
   data:
     mongodb:
       host: localhost

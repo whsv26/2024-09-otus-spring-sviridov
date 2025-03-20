@@ -1,4 +1,4 @@
-package me.whsv26.rating.consumer.config;
+package me.whsv26.rating.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

@@ -13,7 +13,7 @@ public class NovelRatingCommandSenderImpl implements NovelRatingCommandSender {
     private final KafkaTemplate<String, NovelRatingCommand> kafkaTemplate;
 
     public NovelRatingCommandSenderImpl(
-        @Value("${application.kafka.topic}")
+        @Value("${application.kafka.producer.rating-command.topic}")
         String topic,
         KafkaTemplate<String, NovelRatingCommand> kafkaTemplate
     ) {

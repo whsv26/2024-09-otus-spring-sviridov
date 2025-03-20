@@ -1,7 +1,7 @@
 include:
   - ./gateway/docker-compose.yml
   - ./novel/docker-compose.yml
-#  - ./rating/docker-compose.yml
+  - ./rating/docker-compose.yml
   - ./search/docker-compose.yml
   - ./user/docker-compose.yml
 

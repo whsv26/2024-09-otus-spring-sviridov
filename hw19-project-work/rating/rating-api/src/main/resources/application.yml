@@ -1,6 +1,8 @@
 application:
   kafka:
-    topic: "novel-rating-command"
+    producer:
+      rating-command:
+        topic: "novel-rating-command"
 
 spring:
   kafka:

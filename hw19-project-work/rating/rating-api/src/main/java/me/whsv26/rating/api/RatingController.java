@@ -3,7 +3,6 @@ package me.whsv26.rating.api;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import me.whsv26.rating.model.NovelRatingCommand;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -48,7 +47,7 @@ public class RatingController {
     public void createNovelRating(
         @RequestHeader("X-User-ID")
         String userId,
-        @RequestHeader(value = "X-Idempotency-Key", required = false)
+        @RequestHeader(name = "X-Idempotency-Key", required = false)
         String idempotencyKey,
         @PathVariable("novelId")
         String novelId,
@@ -63,7 +62,6 @@ public class RatingController {
     }
 
     public record CreateNovelRatingRequest(
-        @NotNull
         @Min(1)
         @Max(10)
         int rating

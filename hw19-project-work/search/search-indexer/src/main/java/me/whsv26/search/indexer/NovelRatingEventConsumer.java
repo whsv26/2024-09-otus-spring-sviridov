@@ -46,7 +46,8 @@ public class NovelRatingEventConsumer {
         novel.put("rating", rating);
 
         return UpdateQuery.builder(novelId)
-            .withUpsert(novel)
+            .withDocument(novel)
+            .withDocAsUpsert(true)
             .withRefreshPolicy(RefreshPolicy.NONE)
             .build();
     }

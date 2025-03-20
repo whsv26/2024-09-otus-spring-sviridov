@@ -1,12 +1,11 @@
 package me.whsv26.novel.api;
 
-import me.whsv26.novel.api.infrastructure.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@EnableConfigurationProperties(AppProperties.class)
+@ConfigurationPropertiesScan
 @EnableMongoRepositories
 @SpringBootApplication
 public class Application {

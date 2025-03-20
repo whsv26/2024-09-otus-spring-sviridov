@@ -4,3 +4,8 @@ spring:
       host: localhost
       port: 27017
       database: novel
+application:
+  kafka:
+    producer:
+      novel-event:
+        topic: "novel-event"

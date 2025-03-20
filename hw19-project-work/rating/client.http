@@ -1,0 +1,16 @@
+### Get aggregated novel rating
+GET {{baseUrl}}/rating/novels/{{novelId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+### Rate novel
+POST {{baseUrl}}/rating/novels/{{novelId}}/ratings
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+X-Idempotency-Key: {{$random.uuid}}
+
+{
+  "rating": 8.1
+}

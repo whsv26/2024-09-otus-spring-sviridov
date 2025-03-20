@@ -1,19 +1,15 @@
 package me.whsv26.novel.api.application;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import me.whsv26.novel.api.domain.AuthorId;
 import me.whsv26.novel.api.domain.GenreId;
 import me.whsv26.novel.api.domain.Novel;
 import me.whsv26.novel.api.domain.NovelId;
-import me.whsv26.novel.model.NovelEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -21,11 +17,7 @@ public class NovelServiceImpl implements NovelService {
 
     private final NovelRepository novelRepository;
 
-    private final OutboxEventRepository outboxEventRepository;
-
     private final Clock clock;
-
-    private final ObjectMapper objectMapper;
 
     @Override
     public List<Novel> findByAuthorId(AuthorId authorId) {
@@ -37,67 +29,26 @@ public class NovelServiceImpl implements NovelService {
         return findNovelById(id);
     }
 
-    @Override
     @Transactional
-    // TODO refactoring
+    @Override
     public Novel create(AuthorId authorId, String title, String synopsis, List<GenreId> genres, List<String> tags) {
-        var novel = new Novel(
-            NovelId.next(),
-            title,
-            synopsis,
-            authorId,
-            genres,
-            tags,
-            clock
-        );
-        var savedNovel = novelRepository.save(novel);
-
-        var novelEvent = new NovelEvent(
-            UUID.randomUUID().toString(),
-            savedNovel.getId().value(),
-            savedNovel.getTitle(),
-            savedNovel.getSynopsis(),
-            savedNovel.getAuthorId().value(),
-            savedNovel.getGenres().stream().map(GenreId::value).toList(),
-            savedNovel.getTags(),
-            clock.instant().atZone(clock.getZone()).toLocalDateTime()
-        );
-
-        String payload;
-        try {
-            payload = objectMapper.writeValueAsString(novelEvent);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        var outboxEvent = new OutboxEvent(
-            novelEvent.id(),
-            savedNovel.getClass().getName(),
-            novelEvent.novelId(),
-            novelEvent.getClass().getName(),
-            novelEvent.createdAt(),
-            payload,
-            false
-        );
-
-        outboxEventRepository.save(outboxEvent);
-
-        return savedNovel;
+        var novel = Novel.create(NovelId.next(), title, synopsis, authorId, genres, tags, clock);
+        return novelRepository.save(novel);
     }
 
+    @Transactional
     @Override
     public Novel update(NovelId id, String title, String synopsis, List<GenreId> genres, List<String> tags) {
         var novel = findNovelById(id);
-        novel.setTitle(title);
-        novel.setSynopsis(synopsis);
-        novel.setGenres(genres);
-        novel.setTags(tags);
+        novel.update(title, synopsis, genres, tags, clock);
         return novelRepository.save(novel);
     }
 
     @Override
     public void delete(NovelId id) {
-        novelRepository.deleteById(id);
+        var novel = findNovelById(id);
+        novel.delete(clock);
+        novelRepository.delete(novel);
     }
 
     private Novel findNovelById(NovelId id) {

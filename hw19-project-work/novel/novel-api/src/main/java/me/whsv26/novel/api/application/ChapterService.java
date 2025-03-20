@@ -25,4 +25,6 @@ public interface ChapterService {
     );
 
     void delete(ChapterId id);
+
+    void deleteByNovelId(NovelId novelId);
 }

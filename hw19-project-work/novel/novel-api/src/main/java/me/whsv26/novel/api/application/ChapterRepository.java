@@ -14,10 +14,4 @@ public interface ChapterRepository extends MongoRepository<Chapter, ChapterId> {
     Page<ChapterPreview> findByNovelId(NovelId novelId, Pageable pageable);
 
     List<ChapterPreview> findAllByNovelId(NovelId novelId);
-
-    default void deleteByNovelId(NovelId novelId) {
-        var chapters = findAllByNovelId(novelId);
-        var chapterIds = chapters.stream().map(ChapterPreview::id).toList();
-        deleteAllById(chapterIds);
-    }
 }

@@ -53,6 +53,13 @@ public class ChapterServiceImpl implements ChapterService {
         chapterRepository.deleteById(id);
     }
 
+    @Override
+    public void deleteByNovelId(NovelId novelId) {
+        var chapters = chapterRepository.findAllByNovelId(novelId);
+        var chapterIds = chapters.stream().map(ChapterPreview::id).toList();
+        chapterRepository.deleteAllById(chapterIds);
+    }
+
     private Chapter findChapterById(ChapterId id) {
         return chapterRepository.findById(id)
             .orElseThrow(() -> new ChapterNotFoundException(id));

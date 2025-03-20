@@ -10,6 +10,31 @@
 
     <packaging>pom</packaging>
 
+    <profiles>
+        <profile>
+            <id>services</id>
+            <activation/>
+            <modules>
+                <module>gateway</module>
+                <module>user/user-api</module>
+                <module>novel/novel-api</module>
+                <module>novel/novel-outbox</module>
+                <module>search/search-indexer</module>
+                <module>search/search-api</module>
+                <module>rating/rating-api</module>
+                <module>rating/rating-consumer</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>libraries</id>
+            <activation/>
+            <modules>
+                <module>novel/novel-model</module>
+                <module>rating/rating-model</module>
+            </modules>
+        </profile>
+    </profiles>
+
     <modules>
         <module>gateway</module>
         <module>user/user-api</module>

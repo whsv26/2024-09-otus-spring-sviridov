@@ -1,4 +1,4 @@
-package me.whsv26.novel.outbox;
+package me.whsv26.libs.outbox.mongo;
 
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
@@ -7,49 +7,36 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.bson.Document;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
-@Component
-@RequiredArgsConstructor
+import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_ID;
+import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_MESSAGE_TYPE;
+import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_OPERATION_TYPE;
+import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_PAYLOAD;
+import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_PROCESSED;
+import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_TOPIC;
+
 @Slf4j
-public class OutboxChangeStreamListener implements CommandLineRunner {
+@RequiredArgsConstructor
+public class OutboxChangeStreamWatcher {
 
     public static final String COLLECTION_NAME = "outbox";
 
     public static final String HEADER_TYPE_ID = "__TypeId__";
 
-    public static final String FIELD_OPERATION_TYPE = "operationType";
-
-    public static final String FIELD_ID = "_id";
-
-    public static final String FIELD_PROCESSED = "processed";
-
-    public static final String FIELD_PAYLOAD = "payload";
-
-    public static final String FIELD_MESSAGE_TYPE = "messageType";
-
-    public static final String FIELD_TOPIC = "topic";
-
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     private final MongoTemplate mongoTemplate;
 
-    @Override
-    public void run(String... args) {
-        startListening();
-    }
-
-    public void startListening() {
+    public void watchForChanges() {
         var filter = Filters.eq(FIELD_OPERATION_TYPE, "insert");
         var matchStage = Aggregates.match(filter);
         var pipeline = List.of(matchStage);

@@ -9,8 +9,9 @@ POST {{baseUrl}}/rating/novels/{{novelId}}/ratings
 Authorization: Bearer {{token}}
 Content-Type: application/json
 Accept: application/json
-X-Idempotency-Key: {{$random.uuid}}
+X-Idempotency-Key: 1f90eb21-6672-4e2d-bbc0-58188ee45b7b
+#X-Idempotency-Key: {{$random.uuid}}
 
 {
-  "rating": 8.1
+  "rating": 8
 }

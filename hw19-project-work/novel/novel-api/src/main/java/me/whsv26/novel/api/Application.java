@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @ConfigurationPropertiesScan
-@EnableMongoRepositories
+@EnableMongoRepositories(basePackages = {"me.whsv26.novel.api", "me.whsv26.libs.outbox"})
 @SpringBootApplication
 public class Application {
 

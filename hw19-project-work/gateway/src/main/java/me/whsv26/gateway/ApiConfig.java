@@ -32,9 +32,6 @@ public class ApiConfig {
         AppProps applConfigProperties,
         List<GatewayFilter> filters
     ) {
-        System.out.println("akdlkjasdlajs"); // TODO
-        System.out.println(applConfigProperties.getApiRoutes()); // TODO
-
         var routesBuilder = routeLocatorBuilder.routes();
         for (var route : applConfigProperties.getApiRoutes()) {
             routesBuilder.route(

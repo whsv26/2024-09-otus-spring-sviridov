@@ -1,11 +1,13 @@
 package me.whsv26.novel.outbox;
 
+import me.whsv26.libs.outbox.mongo.OutboxChangeStreamWatcher;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.ssl.DefaultSslBundleRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
@@ -31,5 +33,13 @@ public class AppConfig {
         ProducerFactory<String, String> producerFactory
     ) {
         return new KafkaTemplate<>(producerFactory);
+    }
+
+    @Bean
+    OutboxChangeStreamWatcher outboxChangeStreamWatcher(
+        KafkaTemplate<String, String> kafkaTemplate,
+        MongoTemplate mongoTemplate
+    ) {
+        return new OutboxChangeStreamWatcher(kafkaTemplate, mongoTemplate);
     }
 }

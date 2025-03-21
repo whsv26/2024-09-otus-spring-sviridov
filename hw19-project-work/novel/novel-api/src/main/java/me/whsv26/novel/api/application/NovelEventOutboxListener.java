@@ -3,6 +3,8 @@ package me.whsv26.novel.api.application;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import me.whsv26.libs.outbox.mongo.OutboxMessage;
+import me.whsv26.libs.outbox.mongo.OutboxMessageRepository;
 import me.whsv26.novel.api.infrastructure.KafkaProps;
 import me.whsv26.novel.model.NovelCreatedEvent;
 import me.whsv26.novel.model.NovelDeletedEvent;
@@ -15,7 +17,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @RequiredArgsConstructor
 public class NovelEventOutboxListener {
 
-    private final OutboxEventRepository outboxEventRepository;
+    private final OutboxMessageRepository outboxEventRepository;
 
     private final ObjectMapper objectMapper;
 

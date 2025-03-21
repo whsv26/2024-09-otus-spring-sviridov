@@ -13,6 +13,7 @@ import me.whsv26.novel.api.domain.NovelId;
 import me.whsv26.novel.api.domain.ValueObject;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,14 +44,13 @@ public class NovelController {
 
     @PostMapping("/api/novels")
     public CreateNovelResponse createNovel(
-        @RequestHeader("X-User-ID")
-        String userId,
         @RequestBody
         @Valid
         CreateNovelRequest request
     ) {
+        var userId = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var novel = novelService.create(
-            new AuthorId(userId),
+            new AuthorId((String) userId),
             request.title,
             request.synopsis,
             request.genres.stream().map(GenreId::new).toList(),
@@ -67,7 +67,6 @@ public class NovelController {
         @Valid
         UpdateNovelRequest request
     ) {
-        // TODO allow update only for own novels
         var novel = novelService.update(
             new NovelId(novelId),
             request.title,
@@ -79,7 +78,12 @@ public class NovelController {
     }
 
     @DeleteMapping("/api/novels/{id}")
-    public void deleteNovel(@PathVariable("id") String novelId) {
+    public void deleteNovel(
+        @RequestHeader("X-User-ID")
+        String userId,
+        @PathVariable("id")
+        String novelId
+    ) {
         // TODO allow delete only for own novels
         novelService.delete(new NovelId(novelId));
     }

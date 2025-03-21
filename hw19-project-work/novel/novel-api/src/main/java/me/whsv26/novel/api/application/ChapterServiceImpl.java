@@ -3,9 +3,11 @@ package me.whsv26.novel.api.application;
 import lombok.RequiredArgsConstructor;
 import me.whsv26.novel.api.domain.Chapter;
 import me.whsv26.novel.api.domain.ChapterId;
+import me.whsv26.novel.api.domain.Novel;
 import me.whsv26.novel.api.domain.NovelId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -14,7 +16,11 @@ import java.time.Clock;
 @RequiredArgsConstructor
 public class ChapterServiceImpl implements ChapterService {
 
+    private final NovelRepository novelRepository;
+
     private final ChapterRepository chapterRepository;
+
+    private final CurrentUserProvider currentUserProvider;
 
     private final Clock clock;
 
@@ -30,6 +36,8 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     public Chapter create(NovelId novelId, String title, String content) {
+        var novel = findNovelById(novelId);
+        ensureIsAuthorFor(currentUserProvider.getCurrentUser(), novel);
         var chapter = new Chapter(
             ChapterId.next(),
             novelId,
@@ -43,6 +51,8 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public Chapter update(ChapterId id, String title, String content) {
         var chapter = findChapterById(id);
+        var novel = findNovelById(chapter.getNovelId());
+        ensureIsAuthorFor(currentUserProvider.getCurrentUser(), novel);
         chapter.setTitle(title);
         chapter.setContent(content);
         return chapterRepository.save(chapter);
@@ -50,11 +60,16 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     public void delete(ChapterId id) {
+        var chapter = findChapterById(id);
+        var novel = findNovelById(chapter.getNovelId());
+        ensureIsAuthorFor(currentUserProvider.getCurrentUser(), novel);
         chapterRepository.deleteById(id);
     }
 
     @Override
     public void deleteByNovelId(NovelId novelId) {
+        var novel = findNovelById(novelId);
+        ensureIsAuthorFor(currentUserProvider.getCurrentUser(), novel);
         var chapters = chapterRepository.findAllByNovelId(novelId);
         var chapterIds = chapters.stream().map(ChapterPreview::id).toList();
         chapterRepository.deleteAllById(chapterIds);
@@ -63,5 +78,17 @@ public class ChapterServiceImpl implements ChapterService {
     private Chapter findChapterById(ChapterId id) {
         return chapterRepository.findById(id)
             .orElseThrow(() -> new ChapterNotFoundException(id));
+    }
+
+    private Novel findNovelById(NovelId id) {
+        return novelRepository.findById(id)
+            .orElseThrow(() -> new NovelNotFoundException(id));
+    }
+
+    private static void ensureIsAuthorFor(CurrentUser user, Novel novel) {
+        var isAuthor = novel.getAuthorId().value().equals(user.userId());
+        if (!isAuthor) {
+            throw new AccessDeniedException("Only author can modify the novel");
+        }
     }
 }

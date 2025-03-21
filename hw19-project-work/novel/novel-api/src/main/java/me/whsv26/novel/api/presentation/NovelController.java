@@ -43,7 +43,8 @@ public class NovelController {
 
     @PostMapping("/api/novels")
     public CreateNovelResponse createNovel(
-        @RequestHeader("X-User-ID") String userId,
+        @RequestHeader("X-User-ID")
+        String userId,
         @RequestBody
         @Valid
         CreateNovelRequest request

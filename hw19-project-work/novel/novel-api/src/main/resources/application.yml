@@ -4,8 +4,13 @@ spring:
       host: localhost
       port: 27017
       database: novel
+    redis:
+      url: redis://localhost:6379
 application:
   kafka:
     producer:
       novel-event:
         topic: "novel-event"
+  redis:
+    idempotency-processing-ttl: 2m
+    idempotency-cache-ttl: 24h

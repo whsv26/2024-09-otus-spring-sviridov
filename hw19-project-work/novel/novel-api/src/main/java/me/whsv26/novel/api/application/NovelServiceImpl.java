@@ -44,6 +44,7 @@ public class NovelServiceImpl implements NovelService {
         return novelRepository.save(novel);
     }
 
+    @Transactional
     @Override
     public void delete(NovelId id) {
         var novel = findNovelById(id);

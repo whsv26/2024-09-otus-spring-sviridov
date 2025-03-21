@@ -12,8 +12,11 @@ services:
       - SPRING_DATA_MONGODB_USERNAME=admin
       - SPRING_DATA_MONGODB_PASSWORD=admin
       - SPRING_DATA_MONGODB_REPLICA_SET_NAME=rs0
+      - SPRING_DATA_REDIS_URL=redis://novel-redis:6379
     depends_on:
       - novel-mongo
+      - novel-redis
+
   novel-outbox:
     image: localhost:5000/novel-outbox:1.0.0
     pull_policy: always
@@ -28,6 +31,7 @@ services:
       - SPRING_DATA_MONGODB_REPLICA_SET_NAME=rs0
     depends_on:
       - novel-mongo
+
   novel-mongo:
     image: mongo:7.0
     command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017", "--keyFile", "/data/keyfile"]
@@ -46,3 +50,9 @@ services:
       - '27012:27017'
     volumes:
       - ./mongo-keyfile:/data/keyfile
+
+  novel-redis:
+    image: redis:alpine
+    ports:
+      - "6372:6379"
+    command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]

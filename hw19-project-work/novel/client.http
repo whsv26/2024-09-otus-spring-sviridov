@@ -28,8 +28,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "title": "Very interesting story",
-  "synopsis": "Some short description",
+  "title": "Very interesting story (updated)",
+  "synopsis": "Some short description (updated)",
   "genres": ["Fantasy"],
   "tags": ["LitRPG"]
 }

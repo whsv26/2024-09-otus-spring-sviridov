@@ -28,6 +28,8 @@ public class OutboxChangeStreamListener implements CommandLineRunner {
 
     public static final String HEADER_TYPE_ID = "__TypeId__";
 
+    public static final String FIELD_OPERATION_TYPE = "operationType";
+
     public static final String FIELD_ID = "_id";
 
     public static final String FIELD_PROCESSED = "processed";
@@ -48,7 +50,7 @@ public class OutboxChangeStreamListener implements CommandLineRunner {
     }
 
     public void startListening() {
-        var filter = Filters.eq("operationType", "insert");
+        var filter = Filters.eq(FIELD_OPERATION_TYPE, "insert");
         var matchStage = Aggregates.match(filter);
         var pipeline = List.of(matchStage);
 

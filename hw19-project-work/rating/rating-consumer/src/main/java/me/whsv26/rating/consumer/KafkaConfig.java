@@ -44,6 +44,7 @@ public class KafkaConfig {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "me.whsv26.*");
 
         var kafkaConsumerFactory = new DefaultKafkaConsumerFactory<String, NovelRatingCommand>(props);
         kafkaConsumerFactory.setValueDeserializer(new JsonDeserializer<>(mapper));

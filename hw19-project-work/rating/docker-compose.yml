@@ -6,6 +6,7 @@ services:
       - "8084:8080"
     environment:
       - SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_DATA_REDIS_URL=redis://rating-redis:6379
     depends_on:
       - rating-redis
 
@@ -14,6 +15,7 @@ services:
     pull_policy: always
     environment:
       - SPRING_KAFKA_CONSUMER_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS=kafka:9092
       - SPRING_DATA_REDIS_URL=redis://rating-redis:6379
     depends_on:
       - rating-redis

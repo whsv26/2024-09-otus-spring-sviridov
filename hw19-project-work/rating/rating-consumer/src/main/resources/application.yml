@@ -1,5 +1,8 @@
 spring:
   kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      client-id: "rating-consumer"
     consumer:
       bootstrap-servers: localhost:9092
       group-id: rating-consumer

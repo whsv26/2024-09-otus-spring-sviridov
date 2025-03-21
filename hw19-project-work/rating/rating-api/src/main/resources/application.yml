@@ -5,6 +5,9 @@ application:
         topic: "novel-rating-command"
 
 spring:
+  data:
+    redis:
+      url: redis://localhost:6379
   kafka:
     producer:
       bootstrap-servers: "localhost:9092"

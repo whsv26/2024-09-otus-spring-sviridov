@@ -23,3 +23,6 @@ application:
     - id: "search"
       prefix: "/search"
       uri: ${SEARCH_API_URI}
+    - id: "rating"
+      prefix: "/rating"
+      uri: ${RATING_API_URI}

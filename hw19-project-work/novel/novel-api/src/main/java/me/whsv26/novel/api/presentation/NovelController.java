@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -79,12 +78,9 @@ public class NovelController {
 
     @DeleteMapping("/api/novels/{id}")
     public void deleteNovel(
-        @RequestHeader("X-User-ID")
-        String userId,
         @PathVariable("id")
         String novelId
     ) {
-        // TODO allow delete only for own novels
         novelService.delete(new NovelId(novelId));
     }
 

@@ -1,4 +1,4 @@
-package me.whsv26.user.presentation;
+package me.whsv26.user.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

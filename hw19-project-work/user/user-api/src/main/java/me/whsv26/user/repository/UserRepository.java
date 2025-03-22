@@ -1,6 +1,6 @@
-package me.whsv26.user.application;
+package me.whsv26.user.repository;
 
-import me.whsv26.user.domain.entity.User;
+import me.whsv26.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

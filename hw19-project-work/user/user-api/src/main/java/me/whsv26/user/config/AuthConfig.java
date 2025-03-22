@@ -1,4 +1,4 @@
-package me.whsv26.user.application;
+package me.whsv26.user.config;
 
 import java.net.URL;
 

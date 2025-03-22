@@ -1,7 +1,8 @@
-package me.whsv26.user.presentation;
+package me.whsv26.user.service;
 
 import lombok.AllArgsConstructor;
-import me.whsv26.user.application.UserRepository;
+import me.whsv26.user.repository.UserRepository;
+import me.whsv26.user.model.RichUserDetails;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

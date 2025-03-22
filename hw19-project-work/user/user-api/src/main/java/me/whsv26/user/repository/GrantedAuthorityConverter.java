@@ -1,4 +1,4 @@
-package me.whsv26.user.infrastructure;
+package me.whsv26.user.repository;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

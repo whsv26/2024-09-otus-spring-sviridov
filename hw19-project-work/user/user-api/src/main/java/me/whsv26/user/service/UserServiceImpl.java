@@ -1,9 +1,10 @@
-package me.whsv26.user.application;
+package me.whsv26.user.service;
 
 import lombok.RequiredArgsConstructor;
-import me.whsv26.user.domain.entity.User;
-import me.whsv26.user.domain.exception.UserAlreadyExistsException;
-import me.whsv26.user.domain.exception.UserNotFoundException;
+import me.whsv26.user.repository.UserRepository;
+import me.whsv26.user.model.User;
+import me.whsv26.user.model.exception.UserAlreadyExistsException;
+import me.whsv26.user.model.exception.UserNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package me.whsv26.user.domain.entity;
+package me.whsv26.user.model;
 
 import com.google.common.collect.Sets;
 import jakarta.persistence.Convert;
@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import me.whsv26.user.infrastructure.GrantedAuthorityConverter;
+import me.whsv26.user.repository.GrantedAuthorityConverter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

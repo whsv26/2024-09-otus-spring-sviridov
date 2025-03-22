@@ -1,9 +1,9 @@
-package me.whsv26.user.presentation;
+package me.whsv26.user.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
-import me.whsv26.user.application.TokenService;
+import me.whsv26.user.service.TokenService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

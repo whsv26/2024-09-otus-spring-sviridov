@@ -1,4 +1,4 @@
-package me.whsv26.user.domain.exception;
+package me.whsv26.user.model.exception;
 
 import lombok.Getter;
 

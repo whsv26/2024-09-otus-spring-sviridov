@@ -1,7 +1,6 @@
-package me.whsv26.user.infrastructure;
+package me.whsv26.user.config;
 
 import lombok.Data;
-import me.whsv26.user.application.AuthConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.net.URL;

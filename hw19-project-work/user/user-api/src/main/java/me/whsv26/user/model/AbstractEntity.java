@@ -1,4 +1,4 @@
-package me.whsv26.user.domain.entity;
+package me.whsv26.user.model;
 
 import lombok.Getter;
 import org.hibernate.Hibernate;

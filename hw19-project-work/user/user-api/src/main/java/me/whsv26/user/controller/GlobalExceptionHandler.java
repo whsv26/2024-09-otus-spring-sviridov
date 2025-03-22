@@ -1,10 +1,10 @@
-package me.whsv26.user.presentation;
+package me.whsv26.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.whsv26.user.domain.exception.UserAlreadyExistsException;
-import me.whsv26.user.domain.exception.UserNotFoundException;
-import me.whsv26.user.presentation.dto.ErrorInfo;
+import me.whsv26.user.model.exception.UserAlreadyExistsException;
+import me.whsv26.user.model.exception.UserNotFoundException;
+import me.whsv26.user.dto.ErrorInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

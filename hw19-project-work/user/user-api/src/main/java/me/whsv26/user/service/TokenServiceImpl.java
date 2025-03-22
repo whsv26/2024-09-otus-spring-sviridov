@@ -1,11 +1,12 @@
-package me.whsv26.user.application;
+package me.whsv26.user.service;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import lombok.RequiredArgsConstructor;
-import me.whsv26.user.application.dto.PublicTokens;
-import me.whsv26.user.application.dto.Token;
-import me.whsv26.user.presentation.RichUserDetails;
+import me.whsv26.user.config.AuthConfig;
+import me.whsv26.user.dto.PublicTokens;
+import me.whsv26.user.dto.Token;
+import me.whsv26.user.model.RichUserDetails;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

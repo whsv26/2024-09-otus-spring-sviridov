@@ -1,7 +1,7 @@
 package me.whsv26.user.application;
 
-import me.whsv26.user.domain.PublicTokens;
-import me.whsv26.user.domain.Token;
+import me.whsv26.user.application.dto.PublicTokens;
+import me.whsv26.user.application.dto.Token;
 
 public interface TokenService {
 

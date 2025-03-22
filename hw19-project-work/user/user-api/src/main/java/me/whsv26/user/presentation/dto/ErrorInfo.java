@@ -1,4 +1,4 @@
-package me.whsv26.user.presentation;
+package me.whsv26.user.presentation.dto;
 
 import java.util.Map;
 

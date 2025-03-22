@@ -1,6 +1,6 @@
 package me.whsv26.user.application;
 
-import me.whsv26.user.domain.User;
+import me.whsv26.user.domain.entity.User;
 
 import java.util.UUID;
 

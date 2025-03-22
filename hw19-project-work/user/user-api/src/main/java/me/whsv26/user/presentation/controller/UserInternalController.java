@@ -1,8 +1,8 @@
-package me.whsv26.user.presentation;
+package me.whsv26.user.presentation.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.whsv26.user.application.UserService;
-import me.whsv26.user.domain.User;
+import me.whsv26.user.domain.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.web.bind.annotation.GetMapping;

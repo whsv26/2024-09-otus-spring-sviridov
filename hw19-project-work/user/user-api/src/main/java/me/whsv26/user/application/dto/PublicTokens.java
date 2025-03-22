@@ -1,4 +1,4 @@
-package me.whsv26.user.domain;
+package me.whsv26.user.application.dto;
 
 import java.util.Map;
 

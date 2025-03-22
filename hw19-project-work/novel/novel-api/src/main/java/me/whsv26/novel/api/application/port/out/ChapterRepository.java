@@ -1,5 +1,6 @@
-package me.whsv26.novel.api.application;
+package me.whsv26.novel.api.application.port.out;
 
+import me.whsv26.novel.api.application.ChapterPreview;
 import me.whsv26.novel.api.domain.Chapter;
 import me.whsv26.novel.api.domain.ChapterId;
 import me.whsv26.novel.api.domain.NovelId;

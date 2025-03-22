@@ -1,11 +1,11 @@
-package me.whsv26.novel.api.application;
+package me.whsv26.novel.api.infrastructure;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import me.whsv26.libs.outbox.mongo.OutboxMessage;
 import me.whsv26.libs.outbox.mongo.OutboxMessageRepository;
-import me.whsv26.novel.api.infrastructure.KafkaProps;
+import me.whsv26.novel.api.infrastructure.config.KafkaProps;
 import me.whsv26.novel.model.NovelCreatedEvent;
 import me.whsv26.novel.model.NovelDeletedEvent;
 import me.whsv26.novel.model.NovelUpdatedEvent;

@@ -1,12 +1,15 @@
-package me.whsv26.novel.api.application;
+package me.whsv26.novel.api.application.service;
 
 import lombok.AllArgsConstructor;
 import me.whsv26.libs.auth.CurrentUser;
 import me.whsv26.libs.auth.CurrentUserProvider;
+import me.whsv26.novel.api.application.port.in.NovelUseCases;
+import me.whsv26.novel.api.application.port.out.NovelRepository;
 import me.whsv26.novel.api.domain.AuthorId;
 import me.whsv26.novel.api.domain.GenreId;
 import me.whsv26.novel.api.domain.Novel;
 import me.whsv26.novel.api.domain.NovelId;
+import me.whsv26.novel.api.domain.NovelNotFoundException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +19,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class NovelServiceImpl implements NovelService {
+public class NovelService implements NovelUseCases {
 
     private final NovelRepository novelRepository;
 

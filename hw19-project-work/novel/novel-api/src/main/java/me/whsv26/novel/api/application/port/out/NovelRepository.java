@@ -1,4 +1,4 @@
-package me.whsv26.novel.api.application;
+package me.whsv26.novel.api.application.port.out;
 
 import me.whsv26.novel.api.domain.AuthorId;
 import me.whsv26.novel.api.domain.Novel;

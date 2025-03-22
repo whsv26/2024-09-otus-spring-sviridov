@@ -1,10 +1,16 @@
-package me.whsv26.novel.api.application;
+package me.whsv26.novel.api.application.service;
 
 import lombok.RequiredArgsConstructor;
 import me.whsv26.libs.auth.CurrentUser;
 import me.whsv26.libs.auth.CurrentUserProvider;
+import me.whsv26.novel.api.application.ChapterPreview;
+import me.whsv26.novel.api.application.port.in.ChapterUseCases;
+import me.whsv26.novel.api.application.port.out.ChapterRepository;
+import me.whsv26.novel.api.domain.NovelNotFoundException;
+import me.whsv26.novel.api.application.port.out.NovelRepository;
 import me.whsv26.novel.api.domain.Chapter;
 import me.whsv26.novel.api.domain.ChapterId;
+import me.whsv26.novel.api.domain.ChapterNotFoundException;
 import me.whsv26.novel.api.domain.Novel;
 import me.whsv26.novel.api.domain.NovelId;
 import org.springframework.data.domain.Page;
@@ -16,7 +22,7 @@ import java.time.Clock;
 
 @Service
 @RequiredArgsConstructor
-public class ChapterServiceImpl implements ChapterService {
+public class ChapterService implements ChapterUseCases {
 
     private final NovelRepository novelRepository;
 

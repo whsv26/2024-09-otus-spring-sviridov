@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
-import me.whsv26.novel.api.application.NovelService;
+import me.whsv26.novel.api.application.port.in.NovelUseCases;
 import me.whsv26.novel.api.domain.AuthorId;
 import me.whsv26.novel.api.domain.GenreId;
 import me.whsv26.novel.api.domain.Novel;
@@ -28,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NovelController {
 
-    private final NovelService novelService;
+    private final NovelUseCases novelService;
 
     private final NovelMapper mapper = Mappers.getMapper(NovelMapper.class);
 

@@ -1,7 +1,6 @@
-package me.whsv26.novel.api.application;
+package me.whsv26.novel.api.domain;
 
 import lombok.Getter;
-import me.whsv26.novel.api.domain.ChapterId;
 
 @Getter
 public class ChapterNotFoundException extends RuntimeException {

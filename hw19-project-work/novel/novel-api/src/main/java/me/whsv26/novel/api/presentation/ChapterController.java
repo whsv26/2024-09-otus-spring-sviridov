@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import me.whsv26.novel.api.application.ChapterPreview;
-import me.whsv26.novel.api.application.ChapterService;
+import me.whsv26.novel.api.application.port.in.ChapterUseCases;
 import me.whsv26.novel.api.domain.Chapter;
 import me.whsv26.novel.api.domain.ChapterId;
 import me.whsv26.novel.api.domain.NovelId;
@@ -31,7 +31,7 @@ public class ChapterController {
 
     private final ChapterMapper mapper = Mappers.getMapper(ChapterMapper.class);
 
-    private final ChapterService chapterService;
+    private final ChapterUseCases chapterService;
 
     @GetMapping("/api/novels/{novelId}/chapters")
     public ListNovelChaptersResponse listNovelChapters(

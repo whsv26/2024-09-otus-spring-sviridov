@@ -1,4 +1,4 @@
-package me.whsv26.novel.api.presentation;
+package me.whsv26.libs.idempotency;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.Filter;
@@ -9,15 +9,14 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import me.whsv26.novel.api.infrastructure.RedisProps;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
-@Component
 @RequiredArgsConstructor
 public class IdempotencyFilter implements Filter {
 
@@ -27,7 +26,9 @@ public class IdempotencyFilter implements Filter {
 
     private final ObjectMapper mapper;
 
-    private final RedisProps props;
+    private final Duration idempotencyProcessingTtl;
+
+    private final Duration idempotencyCacheTtl;
 
     @Override
     public void doFilter(
@@ -57,7 +58,7 @@ public class IdempotencyFilter implements Filter {
     ) throws IOException, ServletException {
 
         var isNew = redisTemplate.opsForValue()
-            .setIfAbsent(idempotencyKey, PROCESSING, props.idempotencyProcessingTtl());
+            .setIfAbsent(idempotencyKey, PROCESSING, idempotencyProcessingTtl);
 
         if (Boolean.FALSE.equals(isNew)) {
             var cachedResponse = redisTemplate.opsForValue().get(idempotencyKey);
@@ -68,7 +69,7 @@ public class IdempotencyFilter implements Filter {
             }
         } else {
             var capturedBody = captureResponseBody(request, response, chain);
-            redisTemplate.opsForValue().set(idempotencyKey, capturedBody, props.idempotencyCacheTtl());
+            redisTemplate.opsForValue().set(idempotencyKey, capturedBody, idempotencyCacheTtl);
             response.getWriter().write(capturedBody);
         }
     }
@@ -100,10 +101,10 @@ public class IdempotencyFilter implements Filter {
     }
 
     private void writeTooManyRequestsResponse(HttpServletResponse httpResponse) throws IOException {
-        var error = new ErrorInfo(
-            "TOO_MANY_REQUESTS",
-            "Request is already being processed",
-            Collections.emptyMap()
+        var error = Map.of(
+            "errorCode", "TOO_MANY_REQUESTS",
+            "errorMessage", "Request is already being processed",
+            "errorDetails", Collections.emptyMap()
         );
         httpResponse.getWriter().write(mapper.writeValueAsString(error));
         httpResponse.setStatus(429);

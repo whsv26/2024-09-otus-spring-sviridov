@@ -1,4 +1,4 @@
-package me.whsv26.novel.api.application;
+package me.whsv26.libs.auth;
 
 public interface CurrentUserProvider {
 

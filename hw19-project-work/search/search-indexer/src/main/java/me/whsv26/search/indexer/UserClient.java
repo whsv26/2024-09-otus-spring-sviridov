@@ -3,6 +3,8 @@ package me.whsv26.search.indexer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.util.Optional;
+
 @Component
 public class UserClient {
 
@@ -17,13 +19,15 @@ public class UserClient {
             .build();
     }
 
-    public String getUsername(String userId) {
-        var body = client.get()
+    public Optional<String> getUsername(String userId) {
+        var maybeBody = client.get()
             .uri("/internal/users/{userId}", userId)
             .retrieve()
             .body(ReadUserResponse.class);
 
-        return body != null ? body.user.username : ""; // TODO
+        return Optional.ofNullable(maybeBody)
+            .map(body -> body.user.username)
+            .filter(username -> !username.isEmpty());
     }
 
     private record ReadUserResponse(UserResponse user) {}

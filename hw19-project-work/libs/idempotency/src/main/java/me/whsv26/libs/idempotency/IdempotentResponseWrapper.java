@@ -1,15 +1,14 @@
-package me.whsv26.novel.api.presentation;
+package me.whsv26.libs.idempotency;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
-import org.springframework.mock.web.DelegatingServletOutputStream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class IdempotentResponseWrapper extends HttpServletResponseWrapper {
+class IdempotentResponseWrapper extends HttpServletResponseWrapper {
 
     private final ByteArrayOutputStream capture;
 

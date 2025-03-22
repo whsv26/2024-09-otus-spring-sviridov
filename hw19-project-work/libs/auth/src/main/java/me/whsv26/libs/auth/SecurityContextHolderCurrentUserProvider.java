@@ -1,15 +1,11 @@
-package me.whsv26.novel.api.infrastructure;
+package me.whsv26.libs.auth;
 
-import me.whsv26.novel.api.application.CurrentUser;
-import me.whsv26.novel.api.application.CurrentUserProvider;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Component
 public class SecurityContextHolderCurrentUserProvider implements CurrentUserProvider {
 
     @Override

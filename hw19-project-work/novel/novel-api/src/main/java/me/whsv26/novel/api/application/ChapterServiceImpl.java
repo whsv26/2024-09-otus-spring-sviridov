@@ -1,6 +1,8 @@
 package me.whsv26.novel.api.application;
 
 import lombok.RequiredArgsConstructor;
+import me.whsv26.libs.auth.CurrentUser;
+import me.whsv26.libs.auth.CurrentUserProvider;
 import me.whsv26.novel.api.domain.Chapter;
 import me.whsv26.novel.api.domain.ChapterId;
 import me.whsv26.novel.api.domain.Novel;

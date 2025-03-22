@@ -22,5 +22,7 @@
         <module>rating/rating-consumer</module>
         <module>rating/rating-model</module>
         <module>libs/outbox</module>
+        <module>libs/auth</module>
+        <module>libs/idempotency</module>
     </modules>
 </project>

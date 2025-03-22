@@ -20,23 +20,17 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static me.whsv26.search.indexer.NovelFields.FIELD_AUTHOR_ID;
+import static me.whsv26.search.indexer.NovelFields.FIELD_AUTHOR_NAME;
+import static me.whsv26.search.indexer.NovelFields.FIELD_GENRES;
+import static me.whsv26.search.indexer.NovelFields.FIELD_ID;
+import static me.whsv26.search.indexer.NovelFields.FIELD_SYNOPSIS;
+import static me.whsv26.search.indexer.NovelFields.FIELD_TAGS;
+import static me.whsv26.search.indexer.NovelFields.FIELD_TITLE;
+
 @Component
 @RequiredArgsConstructor
 public class NovelEventConsumer {
-
-    public static final String FIELD_ID = "_id";
-
-    public static final String FIELD_TITLE = "title";
-
-    public static final String FIELD_SYNOPSIS = "synopsis";
-
-    public static final String FIELD_AUTHOR_ID = "authorId";
-
-    public static final String FIELD_AUTHOR_NAME = "authorName";
-
-    public static final String FIELD_GENRES = "genres";
-
-    public static final String FIELD_TAGS = "tags";
 
     private final ElasticsearchOperations elasticsearchOperations;
 
@@ -55,7 +49,7 @@ public class NovelEventConsumer {
             .forEach((type, eventsOfType) -> {
                 switch (type) {
                     case CREATED -> {
-                        var queries = events.stream().map(e -> builCreateQuery((NovelCreatedEvent) e)).toList();
+                        var queries = events.stream().map(e -> buildCreateQuery((NovelCreatedEvent) e)).toList();
                         elasticsearchOperations.bulkUpdate(queries, indexCoordinates);
                     }
                     case UPDATED -> {
@@ -70,8 +64,8 @@ public class NovelEventConsumer {
             });
     }
 
-    private UpdateQuery builCreateQuery(NovelCreatedEvent e) {
-        var authorName = userClient.getUsername(e.authorId());
+    private UpdateQuery buildCreateQuery(NovelCreatedEvent e) {
+        var authorName = userClient.getUsername(e.authorId()).orElse("");
         var novel = Document.create();
         novel.put(FIELD_TITLE, e.title());
         novel.put(FIELD_SYNOPSIS, e.synopsis());

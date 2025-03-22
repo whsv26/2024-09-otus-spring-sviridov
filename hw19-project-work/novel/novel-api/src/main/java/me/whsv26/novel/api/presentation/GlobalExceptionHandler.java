@@ -2,8 +2,9 @@ package me.whsv26.novel.api.presentation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.whsv26.novel.api.domain.ChapterNotFoundException;
-import me.whsv26.novel.api.domain.NovelNotFoundException;
+import me.whsv26.novel.api.domain.exception.ChapterNotFoundException;
+import me.whsv26.novel.api.domain.exception.NovelNotFoundException;
+import me.whsv26.novel.api.presentation.dto.ErrorInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

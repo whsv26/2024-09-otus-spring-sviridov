@@ -1,10 +1,11 @@
 package me.whsv26.novel.api.application.port.in;
 
-import me.whsv26.novel.api.application.ChapterPreview;
-import me.whsv26.novel.api.domain.NovelId;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import me.whsv26.novel.api.application.dto.ChapterPreview;
+import me.whsv26.novel.api.application.dto.PagedResult;
+import me.whsv26.novel.api.domain.valueobject.NovelId;
 
+@FunctionalInterface
 public interface FindChapterByNovelIdUseCase {
-    Page<ChapterPreview> findByNovelId(NovelId novelId, Pageable pageable);
+
+    PagedResult<ChapterPreview> findByNovelId(NovelId novelId, int page, int size);
 }

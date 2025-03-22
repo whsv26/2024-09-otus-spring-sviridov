@@ -3,18 +3,17 @@ package me.whsv26.novel.api.application.service;
 import lombok.RequiredArgsConstructor;
 import me.whsv26.libs.auth.CurrentUser;
 import me.whsv26.libs.auth.CurrentUserProvider;
-import me.whsv26.novel.api.application.ChapterPreview;
+import me.whsv26.novel.api.application.dto.ChapterPreview;
+import me.whsv26.novel.api.application.dto.PagedResult;
 import me.whsv26.novel.api.application.port.in.ChapterUseCases;
 import me.whsv26.novel.api.application.port.out.ChapterRepository;
-import me.whsv26.novel.api.domain.NovelNotFoundException;
 import me.whsv26.novel.api.application.port.out.NovelRepository;
-import me.whsv26.novel.api.domain.Chapter;
-import me.whsv26.novel.api.domain.ChapterId;
-import me.whsv26.novel.api.domain.ChapterNotFoundException;
-import me.whsv26.novel.api.domain.Novel;
-import me.whsv26.novel.api.domain.NovelId;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import me.whsv26.novel.api.domain.exception.NovelNotFoundException;
+import me.whsv26.novel.api.domain.entity.Chapter;
+import me.whsv26.novel.api.domain.valueobject.ChapterId;
+import me.whsv26.novel.api.domain.exception.ChapterNotFoundException;
+import me.whsv26.novel.api.domain.entity.Novel;
+import me.whsv26.novel.api.domain.valueobject.NovelId;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +32,8 @@ public class ChapterService implements ChapterUseCases {
     private final Clock clock;
 
     @Override
-    public Page<ChapterPreview> findByNovelId(NovelId novelId, Pageable pageable) {
-        return chapterRepository.findByNovelId(novelId, pageable);
+    public PagedResult<ChapterPreview> findByNovelId(NovelId novelId, int page, int size) {
+        return chapterRepository.findByNovelId(novelId, page, size);
     }
 
     @Override

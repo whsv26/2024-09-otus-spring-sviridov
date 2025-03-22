@@ -1,9 +1,11 @@
-package me.whsv26.novel.api.infrastructure;
+package me.whsv26.novel.api.infrastructure.config;
 
-import me.whsv26.novel.api.domain.AuthorId;
-import me.whsv26.novel.api.domain.ChapterId;
-import me.whsv26.novel.api.domain.GenreId;
-import me.whsv26.novel.api.domain.NovelId;
+import me.whsv26.novel.api.domain.valueobject.AuthorId;
+import me.whsv26.novel.api.domain.valueobject.ChapterId;
+import me.whsv26.novel.api.domain.valueobject.GenreId;
+import me.whsv26.novel.api.domain.valueobject.NovelId;
+import me.whsv26.novel.api.infrastructure.converter.FromValueObjectConverter;
+import me.whsv26.novel.api.infrastructure.converter.ToValueObjectConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
@@ -16,7 +18,7 @@ import java.util.List;
 public class MongoConfig {
 
     @Bean
-    public MongoCustomConversions customConversions(){
+    public MongoCustomConversions customConversions() {
         return new MongoCustomConversions(List.of(
             new FromValueObjectConverter(),
             new ToValueObjectConverter<>(AuthorId::new),

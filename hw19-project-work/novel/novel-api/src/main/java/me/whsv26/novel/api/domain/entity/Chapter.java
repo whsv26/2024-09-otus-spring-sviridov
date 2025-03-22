@@ -1,9 +1,11 @@
-package me.whsv26.novel.api.domain;
+package me.whsv26.novel.api.domain.entity;
 
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import me.whsv26.novel.api.domain.valueobject.ChapterId;
+import me.whsv26.novel.api.domain.valueobject.NovelId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;

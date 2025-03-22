@@ -1,4 +1,4 @@
-package me.whsv26.novel.api.presentation;
+package me.whsv26.novel.api.presentation.dto;
 
 import java.util.Map;
 

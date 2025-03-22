@@ -1,10 +1,13 @@
-package me.whsv26.novel.api.domain;
+package me.whsv26.novel.api.domain.entity;
 
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import me.whsv26.novel.api.domain.valueobject.AuthorId;
+import me.whsv26.novel.api.domain.valueobject.GenreId;
+import me.whsv26.novel.api.domain.valueobject.NovelId;
 import me.whsv26.novel.model.NovelCreatedEvent;
 import me.whsv26.novel.model.NovelDeletedEvent;
 import me.whsv26.novel.model.NovelUpdatedEvent;

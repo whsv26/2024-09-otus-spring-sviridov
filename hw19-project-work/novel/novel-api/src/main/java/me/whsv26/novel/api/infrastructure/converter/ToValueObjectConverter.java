@@ -1,7 +1,7 @@
-package me.whsv26.novel.api.infrastructure;
+package me.whsv26.novel.api.infrastructure.converter;
 
 import lombok.AllArgsConstructor;
-import me.whsv26.novel.api.domain.ValueObject;
+import me.whsv26.novel.api.domain.valueobject.ValueObject;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.function.Function;

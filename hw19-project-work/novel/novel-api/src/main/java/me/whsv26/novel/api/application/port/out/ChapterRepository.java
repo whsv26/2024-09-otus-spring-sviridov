@@ -1,18 +1,25 @@
 package me.whsv26.novel.api.application.port.out;
 
-import me.whsv26.novel.api.application.ChapterPreview;
-import me.whsv26.novel.api.domain.Chapter;
-import me.whsv26.novel.api.domain.ChapterId;
-import me.whsv26.novel.api.domain.NovelId;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import me.whsv26.novel.api.application.dto.ChapterPreview;
+import me.whsv26.novel.api.application.dto.PagedResult;
+import me.whsv26.novel.api.domain.entity.Chapter;
+import me.whsv26.novel.api.domain.valueobject.ChapterId;
+import me.whsv26.novel.api.domain.valueobject.NovelId;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface ChapterRepository extends MongoRepository<Chapter, ChapterId> {
+public interface ChapterRepository {
 
-    Page<ChapterPreview> findByNovelId(NovelId novelId, Pageable pageable);
+    PagedResult<ChapterPreview> findByNovelId(NovelId novelId, int page, int size);
 
     List<ChapterPreview> findAllByNovelId(NovelId novelId);
+
+    Optional<Chapter> findById(ChapterId id);
+
+    Chapter save(Chapter entity);
+
+    void deleteById(ChapterId id);
+
+    void deleteAllById(List<ChapterId> ids);
 }

@@ -1,4 +1,4 @@
-package me.whsv26.novel.api.infrastructure;
+package me.whsv26.novel.api.infrastructure.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

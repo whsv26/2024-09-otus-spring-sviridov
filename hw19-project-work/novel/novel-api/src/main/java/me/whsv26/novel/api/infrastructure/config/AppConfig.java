@@ -1,4 +1,4 @@
-package me.whsv26.novel.api.infrastructure;
+package me.whsv26.novel.api.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.whsv26.libs.auth.CurrentUserProvider;

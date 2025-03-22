@@ -1,6 +1,7 @@
-package me.whsv26.novel.api.domain;
+package me.whsv26.novel.api.domain.exception;
 
 import lombok.Getter;
+import me.whsv26.novel.api.domain.valueobject.NovelId;
 
 @Getter
 public class NovelNotFoundException extends RuntimeException {

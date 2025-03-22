@@ -1,4 +1,4 @@
-package me.whsv26.novel.api.presentation;
+package me.whsv26.novel.api.presentation.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -6,11 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import me.whsv26.novel.api.application.port.in.NovelUseCases;
-import me.whsv26.novel.api.domain.AuthorId;
-import me.whsv26.novel.api.domain.GenreId;
-import me.whsv26.novel.api.domain.Novel;
-import me.whsv26.novel.api.domain.NovelId;
-import me.whsv26.novel.api.domain.ValueObject;
+import me.whsv26.novel.api.domain.valueobject.AuthorId;
+import me.whsv26.novel.api.domain.valueobject.GenreId;
+import me.whsv26.novel.api.domain.entity.Novel;
+import me.whsv26.novel.api.domain.valueobject.NovelId;
+import me.whsv26.novel.api.domain.valueobject.ValueObject;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.core.context.SecurityContextHolder;

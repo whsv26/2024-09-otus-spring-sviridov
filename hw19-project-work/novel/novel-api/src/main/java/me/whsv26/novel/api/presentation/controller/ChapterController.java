@@ -1,18 +1,19 @@
-package me.whsv26.novel.api.presentation;
+package me.whsv26.novel.api.presentation.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
-import me.whsv26.novel.api.application.ChapterPreview;
+import me.whsv26.novel.api.application.dto.ChapterPreview;
+import me.whsv26.novel.api.application.dto.PagedResult;
 import me.whsv26.novel.api.application.port.in.ChapterUseCases;
-import me.whsv26.novel.api.domain.Chapter;
-import me.whsv26.novel.api.domain.ChapterId;
-import me.whsv26.novel.api.domain.NovelId;
-import me.whsv26.novel.api.domain.ValueObject;
+import me.whsv26.novel.api.domain.entity.Chapter;
+import me.whsv26.novel.api.domain.valueobject.ChapterId;
+import me.whsv26.novel.api.domain.valueobject.NovelId;
+import me.whsv26.novel.api.domain.valueobject.ValueObject;
+import me.whsv26.novel.api.presentation.dto.PageMeta;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,9 +40,11 @@ public class ChapterController {
         String novelId,
         Pageable pageable
     ) {
-        var page = chapterService.findByNovelId(new NovelId(novelId), pageable);
+        var pageNumber = pageable.getPageNumber();
+        var pageSize = pageable.getPageSize();
+        var page = chapterService.findByNovelId(new NovelId(novelId), pageNumber, pageSize);
         return new ListNovelChaptersResponse(
-            page.stream().map(mapper::map).toList(),
+            page.getElements().stream().map(mapper::map).toList(),
             mapper.map(page)
         );
     }
@@ -51,8 +54,7 @@ public class ChapterController {
         @PathVariable("novelId")
         String novelId,
         @PathVariable("chapterId")
-        String chapterId,
-        Pageable pageable
+        String chapterId
     ) {
         var chapter = chapterService.findById(new ChapterId(chapterId));
         return new ReadNovelChapterResponse(mapper.map(chapter));
@@ -152,8 +154,8 @@ public class ChapterController {
             return source.value();
         }
 
-        @Mapping(source = "number", target = "page")
-        @Mapping(expression = "java(source.hasNext())", target = "hasNext")
-        PageMeta map(Page<?> source);
+        @Mapping(source = "pageNumber", target = "page")
+        @Mapping(source = "pageSize", target = "size")
+        PageMeta map(PagedResult<?> source);
     }
 }

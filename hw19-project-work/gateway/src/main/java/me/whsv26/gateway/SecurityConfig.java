@@ -8,9 +8,8 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity.CsrfSpec;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -25,18 +24,20 @@ public class SecurityConfig {
                 .pathMatchers(HttpMethod.POST, "/user/users").permitAll()
                 .anyExchange().authenticated()
             )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
+            .oauth2ResourceServer(oauth2 ->
+                oauth2.jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+            );
         return http.build();
     }
 
     @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+    public ReactiveJwtAuthenticationConverterAdapter jwtAuthenticationConverter() {
         var grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         grantedAuthoritiesConverter.setAuthoritiesClaimName("authorities");
         grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
 
         var jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-        return jwtAuthenticationConverter;
+        return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
     }
 }

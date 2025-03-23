@@ -64,8 +64,8 @@ public class AppConfig {
             .path(route.prefix() + "/**")
             .filters(filterSpec ->
                 filterSpec
-//                    .circuitBreaker(config -> configureCircuitBreaker(route, config))
-//                    .retry(config -> configureRetry(route, config))
+                    .circuitBreaker(config -> configureCircuitBreaker(route, config))
+                    .retry(config -> configureRetry(route, config))
                     .requestRateLimiter(config -> configureRateLimiter(route, rateLimiter, config))
                     .filters(filters)
                     .rewritePath(route.prefix() + "/(?<segment>.*)", "/api/${segment}")
@@ -86,6 +86,7 @@ public class AppConfig {
         rateLimiter.getConfig().put(route.id(), rateLimiterConfig);
         config.setRouteId(route.id());
         config.setRateLimiter(rateLimiter);
+        config.setKeyResolver(new PrincipalNameOrIPKeyResolver());
     }
 
     private static void configureRetry(ApiRoute route, RetryGatewayFilterFactory.RetryConfig config) {

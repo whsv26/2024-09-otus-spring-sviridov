@@ -5,13 +5,13 @@ services:
     ports:
       - "7777:8080"
     environment:
+      - SPRING_DATA_REDIS_HOST=gateway-redis
+      - SPRING_DATA_REDIS_PORT=6379
       - JWK_SET_URI=http://user-api:8080/internal/tokens
       - USER_API_URI=http://user-api:8080
       - NOVEL_API_URI=http://novel-api:8080
       - SEARCH_API_URI=http://search-api:8080
       - RATING_API_URI=http://rating-api:8080
-      - SPRING_DATA_REDIS_HOST=gateway-redis
-      - SPRING_DATA_REDIS_PORT=6379
 
   gateway-redis:
     image: redis:alpine

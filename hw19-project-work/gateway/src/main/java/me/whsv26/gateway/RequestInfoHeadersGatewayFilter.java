@@ -3,11 +3,13 @@ package me.whsv26.gateway;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-public class RequestIdFilter implements GatewayFilter {
+@Component
+public class RequestInfoHeadersGatewayFilter implements GatewayFilter {
 
     private static final String HEADER_X_REQUEST_ID = "X-Request-Id";
 

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import me.whsv26.libs.auth.CurrentUserProvider;
 import me.whsv26.rating.model.NovelRatingCommand;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,8 @@ public class RatingController {
 
     private final NovelRatingCommandSender novelRatingCommandSender;
 
+    private final CurrentUserProvider currentUserProvider;
+
     @GetMapping("/api/novels/{novelId}")
     public ReadNovelRatingResponse readNovelRating(
         @PathVariable("novelId")
@@ -45,8 +48,6 @@ public class RatingController {
 
     @PostMapping("/api/novels/{novelId}/ratings")
     public void createNovelRating(
-        @RequestHeader("X-User-ID")
-        String userId,
         @RequestHeader(name = "X-Idempotency-Key", required = false)
         String idempotencyKey,
         @PathVariable("novelId")
@@ -55,6 +56,7 @@ public class RatingController {
         @Valid
         CreateNovelRatingRequest request
     ) {
+        var userId = currentUserProvider.getCurrentUser().userId();
         var commandId = Optional.ofNullable(idempotencyKey)
             .orElseGet(() -> UUID.randomUUID().toString());
         var command = new NovelRatingCommand(commandId, novelId, userId, request.rating);

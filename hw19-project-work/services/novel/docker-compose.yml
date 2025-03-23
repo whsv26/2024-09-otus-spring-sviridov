@@ -16,10 +16,6 @@ services:
     depends_on:
       - novel-mongo
       - novel-redis
-    logging:
-      driver: "loki"
-      options:
-        loki-url: "http://loki:3100/loki/api/v1/push"
 
   novel-outbox:
     image: localhost:5000/novel-outbox:1.0.0
@@ -35,10 +31,6 @@ services:
       - SPRING_DATA_MONGODB_REPLICA_SET_NAME=rs0
     depends_on:
       - novel-mongo
-    logging:
-      driver: "loki"
-      options:
-        loki-url: "http://loki:3100/loki/api/v1/push"
 
   novel-mongo:
     image: mongo:7.0

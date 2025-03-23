@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class NovelController {
+public class NovelSearchController {
 
     private final NovelRepository novelRepository;
 

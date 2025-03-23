@@ -10,10 +10,6 @@ services:
     depends_on:
       search-elasticsearch:
         condition: service_healthy
-    logging:
-      driver: "loki"
-      options:
-        loki-url: "http://loki:3100/loki/api/v1/push"
 
   search-indexer:
     image: localhost:5000/search-indexer:1.0.0
@@ -26,10 +22,6 @@ services:
     depends_on:
       search-elasticsearch:
         condition: service_healthy
-    logging:
-      driver: "loki"
-      options:
-        loki-url: "http://loki:3100/loki/api/v1/push"
 
   search-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0

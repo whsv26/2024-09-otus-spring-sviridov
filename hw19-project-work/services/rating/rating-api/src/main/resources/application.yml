@@ -9,6 +9,6 @@ spring:
     redis:
       url: redis://localhost:6379
   kafka:
+    bootstrap-servers: "localhost:9092"
     producer:
-      bootstrap-servers: "localhost:9092"
       client-id: "rating-api"

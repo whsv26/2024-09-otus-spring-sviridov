@@ -11,16 +11,16 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>gateway</module>
-        <module>user/user-api</module>
-        <module>novel/novel-api</module>
-        <module>novel/novel-outbox</module>
-        <module>novel/novel-model</module>
-        <module>search/search-indexer</module>
-        <module>search/search-api</module>
-        <module>rating/rating-api</module>
-        <module>rating/rating-consumer</module>
-        <module>rating/rating-model</module>
+        <module>services/gateway</module>
+        <module>services/user/user-api</module>
+        <module>services/novel/novel-api</module>
+        <module>services/novel/novel-outbox</module>
+        <module>services/novel/novel-model</module>
+        <module>services/search/search-indexer</module>
+        <module>services/search/search-api</module>
+        <module>services/rating/rating-api</module>
+        <module>services/rating/rating-consumer</module>
+        <module>services/rating/rating-model</module>
         <module>libs/outbox</module>
         <module>libs/auth</module>
         <module>libs/idempotency</module>

@@ -9,6 +9,10 @@ services:
       - SPRING_DATA_REDIS_URL=redis://rating-redis:6379
     depends_on:
       - rating-redis
+    logging:
+      driver: "loki"
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
 
   rating-consumer:
     image: localhost:5000/rating-consumer:1.0.0
@@ -19,6 +23,10 @@ services:
       - SPRING_DATA_REDIS_URL=redis://rating-redis:6379
     depends_on:
       - rating-redis
+    logging:
+      driver: "loki"
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
 
   rating-redis:
     image: redis:alpine

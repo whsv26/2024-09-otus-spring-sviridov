@@ -1,9 +1,9 @@
 include:
-  - ./gateway/docker-compose.yml
-#  - ./novel/docker-compose.yml
-#  - ./rating/docker-compose.yml
-#  - ./search/docker-compose.yml
-  - ./user/docker-compose.yml
+  - ./services/gateway/docker-compose.yml
+#  - ./services/novel/docker-compose.yml
+#  - ./services/rating/docker-compose.yml
+#  - ./services/search/docker-compose.yml
+  - ./services/user/docker-compose.yml
 
 services:
   kafka:
@@ -34,3 +34,34 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS: "kafka:9092"
     depends_on:
       - kafka
+
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    container_name: alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000" # http://localhost:3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      #- grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+
+  loki:
+    image: grafana/loki:3.4.1
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki-config.yaml:/etc/loki/local-config.yaml
+    depends_on:
+      - alertmanager
+

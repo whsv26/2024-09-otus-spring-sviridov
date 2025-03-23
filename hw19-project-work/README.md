@@ -2,7 +2,11 @@
 
 ```shell
 cd hw19-project-work
-../mvnw clean && \ 
-../mvnw install -pl novel/novel-model,rating/rating-model,libs/outbox,libs/auth,libs/idempotency 
-../mvnw compile jib:build -pl gateway,user/user-api,novel/novel-api,novel/novel-outbox,search/search-indexer,search/search-api,rating/rating-api,rating/rating-consumer 
+../mvnw clean && ../mvnw install -pl libs/outbox,libs/auth,libs/idempotency,services/novel/novel-model,services/rating/rating-model 
+../mvnw compile jib:build -pl services/gateway,services/user/user-api,services/novel/novel-api,services/novel/novel-outbox,services/search/search-indexer,services/search/search-api,services/rating/rating-api,services/rating/rating-consumer 
+```
+
+MacOS
+```shell
+docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 ```

@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.whsv26.novel</groupId>
-    <artifactId>novel-api</artifactId>
+    <artifactId>rating-api</artifactId>
     <version>1.0.0</version>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.2</version>
+        <relativePath/>
+    </parent>
     <properties>
-        <java.version>17</java.version>
-        <resource.delimiter>@</resource.delimiter>
-        <maven.compiler.release>${java.version}</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot.run.main-class>${start-class}</spring-boot.run.main-class>
         <checkstyle-plugin.version>3.3.1</checkstyle-plugin.version>
         <checkstyle.version>10.15.0</checkstyle.version>
         <checkstyle.config.url>https://raw.githubusercontent.com/OtusTeam/Spring/master/checkstyle.xml</checkstyle.config.url>
@@ -20,36 +20,10 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <lombok.version>1.18.34</lombok.version>
     </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.3.2</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>me.whsv26.novel</groupId>
-            <artifactId>novel-model</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>me.whsv26.libs</groupId>
-            <artifactId>outbox</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>me.whsv26.libs</groupId>
-            <artifactId>auth</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>me.whsv26.libs</groupId>
-            <artifactId>idempotency</artifactId>
+            <groupId>me.whsv26.rating</groupId>
+            <artifactId>rating-model</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
@@ -57,8 +31,8 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -66,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -115,7 +89,7 @@
     <build>
         <resources>
             <resource>
-                <directory>${basedir}/src/main/resources</directory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>**/application*.yml</include>
@@ -124,7 +98,7 @@
                 </includes>
             </resource>
             <resource>
-                <directory>${basedir}/src/main/resources</directory>
+                <directory>src/main/resources</directory>
                 <excludes>
                     <exclude>**/application*.yml</exclude>
                     <exclude>**/application*.yaml</exclude>
@@ -208,7 +182,7 @@
                         <image>bellsoft/liberica-openjdk-alpine-musl:17-aarch64</image>
                     </from>
                     <to>
-                        <image>localhost:5000/novel-api:${project.version}</image>
+                        <image>localhost:5000/rating-api:${project.version}</image>
                     </to>
                     <allowInsecureRegistries>true</allowInsecureRegistries>
                 </configuration>

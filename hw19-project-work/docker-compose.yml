@@ -12,7 +12,7 @@ services:
     ports:
       - "9093:9093"
     volumes:
-      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./config/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
 
@@ -28,24 +28,13 @@ services:
     depends_on:
       - loki
 
-  fluentd:
-    platform: "linux/arm64"
-    build:
-      context: ./config/fluentd
-      dockerfile: Dockerfile
-    volumes:
-      - ./config/fluentd/fluentd.conf:/fluentd/etc/fluent.conf:ro
-    depends_on:
-      - kafka
-      - loki
-
   loki:
     image: grafana/loki:3.4.1
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
-      - ./loki-config.yaml:/etc/loki/local-config.yaml
+      - ./config/loki/loki-config.yaml:/etc/loki/local-config.yaml
     depends_on:
       - alertmanager
 

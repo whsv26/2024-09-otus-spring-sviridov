@@ -1,10 +1,9 @@
 spring:
   kafka:
+    bootstrap-servers: localhost:9092
     producer:
-      bootstrap-servers: localhost:9092
       client-id: "rating-consumer"
     consumer:
-      bootstrap-servers: localhost:9092
       group-id: rating-consumer
       client-id: rating-consumer-${random.uuid}
   data:

@@ -17,7 +17,7 @@ services:
     environment:
       - ELASTICSEARCH_HOST=search-elasticsearch
       - ELASTICSEARCH_PORT=9200
-      - SPRING_KAFKA_CONSUMER_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - USER_API_URL=http://user-api:8080
     depends_on:
       search-elasticsearch:

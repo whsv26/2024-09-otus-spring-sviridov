@@ -8,10 +8,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://user-postgres:5432/user
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=user
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
       - user-postgres
-      - kafka
 
   user-postgres:
     image: postgres:17.4

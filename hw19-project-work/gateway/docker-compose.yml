@@ -1,5 +1,5 @@
 services:
-  gateway:
+  gateway-api:
     image: localhost:5000/gateway:1.0.0
     pull_policy: always
     ports:
@@ -10,3 +10,11 @@ services:
       - NOVEL_API_URI=http://novel-api:8080
       - SEARCH_API_URI=http://search-api:8080
       - RATING_API_URI=http://rating-api:8080
+      - SPRING_DATA_REDIS_HOST=gateway-redis
+      - SPRING_DATA_REDIS_PORT=6379
+
+  gateway-redis:
+    image: redis:alpine
+    ports:
+      - "6377:6379"
+    command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]

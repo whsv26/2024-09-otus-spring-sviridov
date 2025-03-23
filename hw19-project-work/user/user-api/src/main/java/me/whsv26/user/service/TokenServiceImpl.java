@@ -4,9 +4,11 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import lombok.RequiredArgsConstructor;
 import me.whsv26.user.config.AuthConfig;
+import me.whsv26.user.config.CacheConfig;
 import me.whsv26.user.dto.PublicTokens;
 import me.whsv26.user.dto.Token;
 import me.whsv26.user.model.RichUserDetails;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,6 +37,7 @@ public class TokenServiceImpl implements TokenService {
 
     private final KeyPair keyPair;
 
+    @Cacheable(CacheConfig.CACHE_PUBLIC_TOKENS)
     @Override
     public PublicTokens listPublicTokens() {
         var publicKey = (RSAPublicKey) keyPair.getPublic();

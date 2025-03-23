@@ -1,10 +1,12 @@
 package me.whsv26.user.service;
 
 import lombok.RequiredArgsConstructor;
+import me.whsv26.user.config.CacheConfig;
 import me.whsv26.user.repository.UserRepository;
 import me.whsv26.user.model.User;
 import me.whsv26.user.model.exception.UserAlreadyExistsException;
 import me.whsv26.user.model.exception.UserNotFoundException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Cacheable(CacheConfig.CACHE_USERS)
     @Transactional(readOnly = true)
     @Override
     public User findById(UUID userId) {

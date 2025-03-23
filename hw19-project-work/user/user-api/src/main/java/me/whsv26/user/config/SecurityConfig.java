@@ -3,6 +3,10 @@ package me.whsv26.user.config;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import me.whsv26.libs.auth.CurrentUserProvider;
+import me.whsv26.libs.auth.PreAuthenticationFilter;
+import me.whsv26.libs.auth.SecurityContextHolderCurrentUserProvider;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +33,7 @@ import java.util.Base64;
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfiguration {
+public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -73,5 +77,20 @@ public class SecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(4);
+    }
+
+    @Bean
+    CurrentUserProvider currentUserProvider() {
+        return new SecurityContextHolderCurrentUserProvider();
+    }
+
+    @Bean
+    FilterRegistrationBean<PreAuthenticationFilter> preAuthenticationFilterRegistration() {
+        var filter = new PreAuthenticationFilter();
+        var registration = new FilterRegistrationBean<PreAuthenticationFilter>();
+        registration.setFilter(filter);
+        registration.addUrlPatterns("/*");
+        registration.setOrder(0);
+        return registration;
     }
 }

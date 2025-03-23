@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import me.whsv26.libs.auth.CurrentUserProvider;
 import me.whsv26.user.service.UserService;
 import me.whsv26.user.model.User;
 import org.mapstruct.Mapper;
@@ -24,6 +25,8 @@ public class UserController {
 
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
+    private final CurrentUserProvider currentUserProvider;
+
     @PostMapping("/api/users")
     public RegisterResponse register(@RequestBody @Valid RegisterRequest request) {
         var user = userService.register(request.username, request.password);
@@ -31,7 +34,8 @@ public class UserController {
     }
 
     @GetMapping("/api/users/me")
-    public ReadUserResponse readUser(@RequestHeader("X-User-ID") UUID userId) {
+    public ReadUserResponse readUser() {
+        var userId = UUID.fromString(currentUserProvider.getCurrentUser().userId());
         var user = userService.findById(userId);
         return new ReadUserResponse(userMapper.map(user));
     }

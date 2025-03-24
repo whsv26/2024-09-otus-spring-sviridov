@@ -6,7 +6,6 @@ cd hw19-project-work
 ../mvnw compile jib:build -pl services/gateway,services/user/user-api,services/novel/novel-api,services/novel/novel-outbox,services/search/search-indexer,services/search/search-api,services/rating/rating-api,services/rating/rating-consumer 
 ```
 
-MacOS
 ```shell
-docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
+{service_name="user-api"} | json | line_format `{{.message}}`
 ```

@@ -6,6 +6,7 @@ services:
     ports:
       - "8081:8080"
     environment:
+      - TRACING_URL=http://jaeger:4318/v1/traces
       - SPRING_DATASOURCE_URL=jdbc:postgresql://user-postgres:5432/user
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=user

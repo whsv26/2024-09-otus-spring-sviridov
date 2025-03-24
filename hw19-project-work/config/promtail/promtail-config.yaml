@@ -24,4 +24,3 @@ scrape_configs:
             traceId: "traceId"
       - labels:
           level: ""
-          traceId: ""

@@ -6,6 +6,15 @@ spring:
     consumer:
       group-id: search-indexer
       client-id: search-indexer-${random.uuid}
+
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL}
+  tracing:
+    sampling:
+      probability: 1.0
+
 application:
   kafka:
     consumer:

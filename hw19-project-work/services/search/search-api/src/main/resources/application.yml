@@ -2,6 +2,14 @@ spring:
   application:
     name: search-api
 
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL}
+  tracing:
+    sampling:
+      probability: 1.0
+
 application:
   elasticsearch:
     host: ${ELASTICSEARCH_HOST}

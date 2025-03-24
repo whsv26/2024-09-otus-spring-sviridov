@@ -6,6 +6,7 @@ services:
     ports:
       - "8083:8080"
     environment:
+      - TRACING_URL=http://jaeger:4318/v1/traces
       - ELASTICSEARCH_HOST=search-elasticsearch
       - ELASTICSEARCH_PORT=9200
     depends_on:
@@ -17,6 +18,7 @@ services:
     container_name: search-indexer
     pull_policy: always
     environment:
+      - TRACING_URL=http://jaeger:4318/v1/traces
       - ELASTICSEARCH_HOST=search-elasticsearch
       - ELASTICSEARCH_PORT=9200
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092

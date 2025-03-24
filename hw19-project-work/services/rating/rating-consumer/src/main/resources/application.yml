@@ -11,6 +11,7 @@ spring:
   data:
     redis:
       url: redis://localhost:6379
+
 application:
   kafka:
     consumer:
@@ -20,3 +21,11 @@ application:
     producer:
       rating-event:
         topic: "novel-rating-event"
+
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL}
+  tracing:
+    sampling:
+      probability: 1.0

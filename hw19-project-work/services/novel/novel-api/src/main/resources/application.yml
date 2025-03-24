@@ -16,3 +16,11 @@ application:
   redis:
     idempotency-processing-ttl: 2m
     idempotency-cache-ttl: 24h
+
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL}
+  tracing:
+    sampling:
+      probability: 1.0

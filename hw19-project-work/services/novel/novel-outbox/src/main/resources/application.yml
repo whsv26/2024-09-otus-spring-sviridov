@@ -10,3 +10,11 @@ spring:
       host: localhost
       port: 27017
       database: novel
+
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL}
+  tracing:
+    sampling:
+      probability: 1.0

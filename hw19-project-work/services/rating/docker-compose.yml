@@ -1,6 +1,7 @@
 services:
   rating-api:
     image: localhost:5000/rating-api:1.0.0
+    container_name: rating-api
     pull_policy: always
     ports:
       - "8084:8080"
@@ -12,6 +13,7 @@ services:
 
   rating-consumer:
     image: localhost:5000/rating-consumer:1.0.0
+    container_name: rating-consumer
     pull_policy: always
     environment:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
@@ -21,6 +23,7 @@ services:
 
   rating-redis:
     image: redis:alpine
+    container_name: rating-redis
     ports:
       - "6374:6379"
     command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]

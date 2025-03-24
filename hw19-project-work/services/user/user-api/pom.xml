@@ -111,6 +111,11 @@
             <version>33.2.0-jre</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>7.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

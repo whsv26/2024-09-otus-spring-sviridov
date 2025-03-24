@@ -5,6 +5,8 @@ application:
         topic: "novel-rating-command"
 
 spring:
+  application:
+    name: rating-api
   data:
     redis:
       url: redis://localhost:6379

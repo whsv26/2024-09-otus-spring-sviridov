@@ -1,6 +1,7 @@
 services:
   gateway-api:
     image: localhost:5000/gateway:1.0.0
+    container_name: gateway-api
     pull_policy: always
     ports:
       - "7777:8080"
@@ -15,6 +16,7 @@ services:
 
   gateway-redis:
     image: redis:alpine
+    container_name: gateway-redis
     ports:
       - "6377:6379"
     command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]

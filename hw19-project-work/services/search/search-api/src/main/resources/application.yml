@@ -1,3 +1,7 @@
+spring:
+  application:
+    name: search-api
+
 application:
   elasticsearch:
     host: ${ELASTICSEARCH_HOST}

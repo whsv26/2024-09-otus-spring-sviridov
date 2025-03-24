@@ -1,6 +1,7 @@
 services:
   search-api:
     image: localhost:5000/search-api:1.0.0
+    container_name: search-api
     pull_policy: always
     ports:
       - "8083:8080"
@@ -13,6 +14,7 @@ services:
 
   search-indexer:
     image: localhost:5000/search-indexer:1.0.0
+    container_name: search-indexer
     pull_policy: always
     environment:
       - ELASTICSEARCH_HOST=search-elasticsearch
@@ -25,6 +27,7 @@ services:
 
   search-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    container_name: search-elasticsearch
     environment:
       - discovery.type=single-node
       - bootstrap.memory_lock=true

@@ -1,10 +1,10 @@
 spring:
+  application:
+    name: gateway-api
   data:
     redis:
       host: localhost
       port: 6379
-  application:
-    name: api-gateway
   security:
     oauth2:
       resourceserver:

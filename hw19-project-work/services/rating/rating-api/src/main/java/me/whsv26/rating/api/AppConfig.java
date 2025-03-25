@@ -1,6 +1,7 @@
 package me.whsv26.rating.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.common.KeyValues;
 import me.whsv26.libs.auth.CurrentUserProvider;
 import me.whsv26.libs.auth.PreAuthenticationFilter;
 import me.whsv26.libs.auth.SecurityContextHolderCurrentUserProvider;
@@ -15,6 +16,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.micrometer.KafkaRecordSenderContext;
+import org.springframework.kafka.support.micrometer.KafkaTemplateObservationConvention;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 @Configuration
@@ -38,7 +41,9 @@ public class AppConfig {
     public KafkaTemplate<String, NovelRatingCommand> kafkaTemplate(
         ProducerFactory<String, NovelRatingCommand> producerFactory
     ) {
-        return new KafkaTemplate<>(producerFactory);
+        var kafkaTemplate = new KafkaTemplate<>(producerFactory);
+        kafkaTemplate.setObservationEnabled(true);
+        return kafkaTemplate;
     }
 
     @Bean

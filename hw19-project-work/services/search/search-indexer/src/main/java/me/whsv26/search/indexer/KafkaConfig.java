@@ -39,8 +39,11 @@ public class KafkaConfig {
         var listenerFactory = new ConcurrentKafkaListenerContainerFactory<String, NovelEvent>();
         listenerFactory.setConsumerFactory(consumerFactory);
         listenerFactory.setBatchListener(true);
-        listenerFactory.getContainerProperties().setAckMode(ContainerProperties.AckMode.BATCH);
         listenerFactory.setCommonErrorHandler(errorHandler);
+
+        var containerProperties = listenerFactory.getContainerProperties();
+        containerProperties.setAckMode(ContainerProperties.AckMode.BATCH);
+        containerProperties.setObservationEnabled(true);
 
         return listenerFactory;
     }
@@ -61,8 +64,11 @@ public class KafkaConfig {
         var listenerFactory = new ConcurrentKafkaListenerContainerFactory<String, NovelRatingEvent>();
         listenerFactory.setConsumerFactory(consumerFactory);
         listenerFactory.setBatchListener(true);
-        listenerFactory.getContainerProperties().setAckMode(ContainerProperties.AckMode.BATCH);
         listenerFactory.setCommonErrorHandler(errorHandler);
+
+        var containerProperties = listenerFactory.getContainerProperties();
+        containerProperties.setAckMode(ContainerProperties.AckMode.BATCH);
+        containerProperties.setObservationEnabled(true);
 
         return listenerFactory;
     }

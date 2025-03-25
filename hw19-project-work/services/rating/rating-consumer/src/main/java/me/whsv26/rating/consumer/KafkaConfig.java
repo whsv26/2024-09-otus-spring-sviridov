@@ -57,7 +57,9 @@ public class KafkaConfig {
     ) {
         var listenerFactory = new ConcurrentKafkaListenerContainerFactory<String, NovelRatingCommand>();
         listenerFactory.setConsumerFactory(consumerFactory);
-        listenerFactory.getContainerProperties().setAckMode(ContainerProperties.AckMode.BATCH);
+        var containerProperties = listenerFactory.getContainerProperties();
+        containerProperties.setAckMode(ContainerProperties.AckMode.BATCH);
+        containerProperties.setObservationEnabled(true);
 
         var fixedBackOff = new FixedBackOff(5000, 3);
         var errorHandler = new DefaultErrorHandler(

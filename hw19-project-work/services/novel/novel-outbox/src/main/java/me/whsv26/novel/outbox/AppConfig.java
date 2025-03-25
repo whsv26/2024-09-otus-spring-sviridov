@@ -32,7 +32,9 @@ public class AppConfig {
     public KafkaTemplate<String, String> kafkaTemplate(
         ProducerFactory<String, String> producerFactory
     ) {
-        return new KafkaTemplate<>(producerFactory);
+        var kafkaTemplate = new KafkaTemplate<>(producerFactory);
+        kafkaTemplate.setObservationEnabled(true);
+        return kafkaTemplate;
     }
 
     @Bean

@@ -65,3 +65,14 @@ resilience4j.circuitbreaker:
       waitDurationInOpenState: 30s # will reject calls for this duration after failure threshold is reached
       permittedNumberOfCallsInHalfOpenState: 5
       minimumNumberOfCalls: 50 # calls to calculate statistics before applying circuit breaker
+
+resilience4j.timelimiter:
+  instances:
+    user:
+      timeoutDuration: 3s
+    novel:
+      timeoutDuration: 3s
+    search:
+      timeoutDuration: 3s
+    rating:
+      timeoutDuration: 3s

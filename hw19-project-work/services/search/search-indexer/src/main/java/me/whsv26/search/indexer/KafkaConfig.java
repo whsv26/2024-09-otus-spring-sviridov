@@ -2,8 +2,6 @@ package me.whsv26.search.indexer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import me.whsv26.novel.model.NovelEvent;
-import me.whsv26.rating.model.NovelRatingEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -24,44 +22,28 @@ import org.springframework.util.backoff.FixedBackOff;
 public class KafkaConfig {
 
     @Bean
-    public ConsumerFactory<String, NovelEvent> consumerFactoryNovelEvent(
+    public ConsumerFactory<Object, Object> generalConsumerFactory(
         KafkaProperties kafkaProperties,
         ObjectMapper mapper
     ) {
-        return buildConsumerFactoryFor(kafkaProperties, mapper);
+        var props = kafkaProperties.buildConsumerProperties(new DefaultSslBundleRegistry());
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "me.whsv26.*");
+
+        var kafkaConsumerFactory = new DefaultKafkaConsumerFactory<>(props);
+        kafkaConsumerFactory.setValueDeserializer(new JsonDeserializer<>(mapper));
+        return kafkaConsumerFactory;
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, NovelEvent> kafkaListenerContainerFactoryNovelEvent(
-        ConsumerFactory<String, NovelEvent> consumerFactory,
+    public ConcurrentKafkaListenerContainerFactory<?, ?> generalKafkaListenerContainerFactory(
+        ConsumerFactory<Object, Object> consumerFactory,
         CommonErrorHandler errorHandler
     ) {
-        var listenerFactory = new ConcurrentKafkaListenerContainerFactory<String, NovelEvent>();
-        listenerFactory.setConsumerFactory(consumerFactory);
-        listenerFactory.setBatchListener(true);
-        listenerFactory.setCommonErrorHandler(errorHandler);
-
-        var containerProperties = listenerFactory.getContainerProperties();
-        containerProperties.setAckMode(ContainerProperties.AckMode.BATCH);
-        containerProperties.setObservationEnabled(true);
-
-        return listenerFactory;
-    }
-
-    @Bean
-    public ConsumerFactory<String, NovelRatingEvent> consumerFactoryNovelRatingEvent(
-        KafkaProperties kafkaProperties,
-        ObjectMapper mapper
-    ) {
-        return buildConsumerFactoryFor(kafkaProperties, mapper);
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, NovelRatingEvent> kafkaListenerContainerFactoryNovelRatingEvent(
-        ConsumerFactory<String, NovelRatingEvent> consumerFactory,
-        CommonErrorHandler errorHandler
-    ) {
-        var listenerFactory = new ConcurrentKafkaListenerContainerFactory<String, NovelRatingEvent>();
+        var listenerFactory = new ConcurrentKafkaListenerContainerFactory<>();
         listenerFactory.setConsumerFactory(consumerFactory);
         listenerFactory.setBatchListener(true);
         listenerFactory.setCommonErrorHandler(errorHandler);
@@ -85,21 +67,5 @@ public class KafkaConfig {
         );
         errorHandler.addNotRetryableExceptions(NullPointerException.class);
         return errorHandler;
-    }
-
-    private static <T> ConsumerFactory<String, T> buildConsumerFactoryFor(
-        KafkaProperties kafkaProperties,
-        ObjectMapper mapper
-    ) {
-        var props = kafkaProperties.buildConsumerProperties(new DefaultSslBundleRegistry());
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "me.whsv26.*");
-
-        var kafkaConsumerFactory = new DefaultKafkaConsumerFactory<String, T>(props);
-        kafkaConsumerFactory.setValueDeserializer(new JsonDeserializer<>(mapper));
-        return kafkaConsumerFactory;
     }
 }

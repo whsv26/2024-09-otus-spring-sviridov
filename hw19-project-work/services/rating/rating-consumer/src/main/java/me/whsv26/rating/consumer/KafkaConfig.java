@@ -93,6 +93,8 @@ public class KafkaConfig {
     public KafkaTemplate<String, NovelRatingEvent> kafkaTemplate(
         ProducerFactory<String, NovelRatingEvent> producerFactory
     ) {
-        return new KafkaTemplate<>(producerFactory);
+        var kafkaTemplate = new KafkaTemplate<>(producerFactory);
+        kafkaTemplate.setObservationEnabled(true);
+        return kafkaTemplate;
     }
 }

@@ -25,7 +25,7 @@ public class NovelRatingEventConsumer {
 
     @KafkaListener(
         topics = "${application.kafka.consumer.rating-event.topic}",
-        containerFactory = "kafkaListenerContainerFactoryNovelRatingEvent"
+        containerFactory = "generalKafkaListenerContainerFactory"
     )
     public void consumeMessage(@Payload List<NovelRatingEvent> events) {
         var operations = events.stream()

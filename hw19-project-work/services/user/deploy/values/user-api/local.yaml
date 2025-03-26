@@ -1,0 +1,49 @@
+fullnameOverride: user-api
+replicaCount: 1
+
+image:
+  repository: user-api
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
+
+serviceAccount:
+  create: false
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: probe
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: probe
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 3
+
+autoscaling:
+  enabled: false
+
+env:
+  - name: TRACING_URL
+    value: "http://jaeger.default:4318/v1/traces"
+  - name: SPRING_DATASOURCE_URL
+    value: "jdbc:postgresql://user-postgres.user:5432/user"
+  - name: SPRING_DATASOURCE_USERNAME
+    value: "user"
+  - name: SPRING_DATASOURCE_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: user-postgres
+        key: password

@@ -111,7 +111,7 @@
                         <image>bellsoft/liberica-openjdk-alpine-musl:17-aarch64</image>
                     </from>
                     <to>
-                        <image>localhost:5000/search-indexer:${project.version}</image>
+                        <image>search-indexer:${project.version}</image>
                     </to>
                     <allowInsecureRegistries>true</allowInsecureRegistries>
                 </configuration>

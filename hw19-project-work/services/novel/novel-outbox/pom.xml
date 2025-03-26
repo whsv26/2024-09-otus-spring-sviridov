@@ -98,7 +98,7 @@
                         <image>bellsoft/liberica-openjdk-alpine-musl:17-aarch64</image>
                     </from>
                     <to>
-                        <image>localhost:5000/novel-outbox:${project.version}</image>
+                        <image>novel-outbox:${project.version}</image>
                     </to>
                     <allowInsecureRegistries>true</allowInsecureRegistries>
                 </configuration>

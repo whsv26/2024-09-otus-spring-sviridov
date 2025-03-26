@@ -1,6 +1,6 @@
 services:
   gateway-api:
-    image: localhost:5000/gateway:1.0.0
+    image: localhost:5000/gateway-api:1.0.0
     container_name: gateway-api
     pull_policy: always
     ports:

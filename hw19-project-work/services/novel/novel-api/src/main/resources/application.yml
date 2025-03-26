@@ -24,3 +24,17 @@ management:
   tracing:
     sampling:
       probability: 1.0
+  server:
+    port: 90
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"

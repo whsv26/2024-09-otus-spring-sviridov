@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- Optional: include Spring Boot's default logback configuration -->
+
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <springProperty name="SPRING_APPLICATION_NAME" source="spring.application.name"/>

@@ -1,0 +1,15 @@
+environments:
+  local:
+
+---
+
+helmDefaults:
+  verify: false
+  wait: true
+  timeout: 300
+  recreatePods: false
+  force: false
+  createNamespace: false
+
+helmfiles:
+  - ../services/user/deploy/helmfile.yaml

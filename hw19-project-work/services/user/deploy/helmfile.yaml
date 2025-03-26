@@ -1,0 +1,18 @@
+environments:
+  local:
+
+---
+
+releases:
+  - name: user-postgres
+    namespace: user
+    chart: ../../../deploy/charts/postgres
+    values:
+      - ./values/user-postgres/{{ $.Environment.Name }}.yaml
+    wait: true
+  - name: user-api
+    namespace: user
+    chart: ../../../deploy/charts/app
+    values:
+      - ./values/user-api/{{ $.Environment.Name }}.yaml
+    wait: true

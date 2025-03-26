@@ -22,20 +22,11 @@ public class TraceIdHeaderGatewayFilter implements GatewayFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        exchange.getResponse().beforeCommit(() ->
-            Mono.defer(() ->
-                Mono.justOrEmpty(getCurrentTraceId())
-                    .doOnNext(traceId -> writeHeader(exchange, traceId))
-                    .then()
-            )
+        Optional.ofNullable(tracer.currentSpan())
+            .map(span -> span.context().traceId())
+            .ifPresent(traceId -> writeHeader(exchange, traceId));
 
-        );
         return chain.filter(exchange);
-    }
-
-    private Optional<String> getCurrentTraceId() {
-        return Optional.ofNullable(tracer.currentSpan())
-            .map(span -> span.context().traceId());
     }
 
     private static void writeHeader(ServerWebExchange exchange, String traceId) {

@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
     <groupId>me.whsv26.gateway</groupId>
-    <artifactId>gateway</artifactId>
+    <artifactId>gateway-api</artifactId>
     <version>1.0.0</version>
     <properties>
         <java.version>17</java.version>

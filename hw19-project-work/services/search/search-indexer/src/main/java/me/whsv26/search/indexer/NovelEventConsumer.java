@@ -40,7 +40,7 @@ public class NovelEventConsumer {
 
     @KafkaListener(
         topics = "${application.kafka.consumer.novel-event.topic}",
-        containerFactory = "kafkaListenerContainerFactory"
+        containerFactory = "generalKafkaListenerContainerFactory"
     )
     public void consumeMessage(@Payload List<NovelEvent> events) {
         var indexCoordinates = IndexCoordinates.of(props.index());

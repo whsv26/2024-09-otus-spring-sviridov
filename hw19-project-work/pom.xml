@@ -11,7 +11,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>services/gateway</module>
+        <module>services/gateway/gateway-api</module>
         <module>services/user/user-api</module>
         <module>services/novel/novel-api</module>
         <module>services/novel/novel-outbox</module>

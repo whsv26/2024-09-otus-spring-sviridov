@@ -45,12 +45,14 @@ public class KafkaConfig {
     ) {
         var listenerFactory = new ConcurrentKafkaListenerContainerFactory<>();
         listenerFactory.setConsumerFactory(consumerFactory);
-        listenerFactory.setBatchListener(true);
+        listenerFactory.setBatchListener(true); // tracing is not supported for batch listeners
         listenerFactory.setCommonErrorHandler(errorHandler);
 
         var containerProperties = listenerFactory.getContainerProperties();
         containerProperties.setAckMode(ContainerProperties.AckMode.BATCH);
-        containerProperties.setObservationEnabled(true);
+
+        // https://github.com/spring-cloud/spring-cloud-stream/issues/2926
+        containerProperties.setObservationEnabled(false);
 
         return listenerFactory;
     }

@@ -1,0 +1,46 @@
+package me.whsv26.gateway;
+
+import io.micrometer.tracing.Tracer;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
+
+import java.util.Optional;
+
+@Slf4j
+@RequiredArgsConstructor
+@Component
+@Order(-1)
+public class TraceIdHeaderGatewayFilter implements GatewayFilter {
+
+    private final Tracer tracer;
+
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        exchange.getResponse().beforeCommit(() ->
+            Mono.defer(() ->
+                Mono.justOrEmpty(getCurrentTraceId())
+                    .doOnNext(traceId -> writeHeader(exchange, traceId))
+                    .then()
+            )
+
+        );
+        return chain.filter(exchange);
+    }
+
+    private Optional<String> getCurrentTraceId() {
+        return Optional.ofNullable(tracer.currentSpan())
+            .map(span -> span.context().traceId());
+    }
+
+    private static void writeHeader(ServerWebExchange exchange, String traceId) {
+        exchange.getResponse()
+            .getHeaders()
+            .add("X-Trace-Id", traceId);
+    }
+}

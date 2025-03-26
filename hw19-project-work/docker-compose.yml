@@ -1,8 +1,8 @@
 include:
   - ./services/gateway/docker-compose.yml
-  - ./services/novel/docker-compose.yml
-  - ./services/rating/docker-compose.yml
-  - ./services/search/docker-compose.yml
+#  - ./services/novel/docker-compose.yml
+#  - ./services/rating/docker-compose.yml
+#  - ./services/search/docker-compose.yml
   - ./services/user/docker-compose.yml
 
 services:
@@ -11,7 +11,7 @@ services:
     container_name: jaeger
     ports:
       - "4318:4318" # OpenTelemetry Protocol (OTLP) over HTTP
-      - "16686:16686" # http://localhost:16686
+      - "16686:16686" # Jaeger UI: http://localhost:16686
     environment:
       - COLLECTOR_OTLP_ENABLED=true
 
@@ -29,11 +29,10 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - "3000:3000" # http://localhost:3000
+      - "3000:3000" # Grafana UI: http://localhost:3000
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
-      #- grafana-data:/var/lib/grafana
       - ./config/grafana/provisioning:/etc/grafana/provisioning
     depends_on:
       - loki
@@ -61,7 +60,7 @@ services:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
     ports:
-      - "9090:8080" # http://localhost:9090
+      - "9090:8080" # Kafka UI: http://localhost:9090
     environment:
       DYNAMIC_CONFIG_ENABLED: "true"
       KAFKA_CLUSTERS_0_NAME: "local-cluster"

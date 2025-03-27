@@ -1,5 +1,17 @@
 fullnameOverride: jaeger
 
-cassandra:
-  ## none, nano, small, medium, large, xlarge, 2xlarge
-  resourcesPreset: "medium"
+provisionDataStore:
+  cassandra: false
+allInOne:
+  enabled: true
+  extraEnv:
+    - name: COLLECTOR_OTLP_ENABLED
+      value: "true"
+storage:
+  type: memory
+agent:
+  enabled: false
+collector:
+  enabled: false
+query:
+  enabled: false

@@ -20,6 +20,7 @@ public class SecurityConfig {
         http
             .csrf(CsrfSpec::disable)
             .authorizeExchange(exchanges -> exchanges
+                .pathMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                 .pathMatchers(HttpMethod.POST, "/user/tokens").permitAll()
                 .pathMatchers(HttpMethod.POST, "/user/users").permitAll()
                 .anyExchange().authenticated()

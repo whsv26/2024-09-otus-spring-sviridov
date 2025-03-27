@@ -1,35 +1,45 @@
-annotations:
-  category: Infrastructure
-  images: |
-    - name: cassandra
-      image: docker.io/bitnami/cassandra:5.0.3-debian-12-r6
-    - name: jaeger
-      image: docker.io/bitnami/jaeger:2.4.0-debian-12-r0
-  licenses: Apache-2.0
 apiVersion: v2
-appVersion: 2.4.0
+appVersion: 1.53.0
 dependencies:
-- name: common
-  repository: oci://registry-1.docker.io/bitnamicharts
-  tags:
-  - bitnami-common
-  version: 2.x.x
-- condition: cassandra.enabled
+- condition: provisionDataStore.cassandra
   name: cassandra
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 12.x.x
-description: Jaeger is a distributed tracing system. It is used for monitoring and
-  troubleshooting microservices-based distributed systems.
-home: https://bitnami.com
-icon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/jaeger/img/jaeger-stack-220x234.png
+  repository: https://charts.helm.sh/incubator
+  version: 0.15.3
+- condition: provisionDataStore.elasticsearch
+  name: elasticsearch
+  repository: https://charts.bitnami.com/bitnami
+  version: 20.0.4
+- condition: provisionDataStore.kafka
+  name: kafka
+  repository: https://charts.bitnami.com/bitnami
+  version: 26.6.2
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  version: 2.x.x
+description: A Jaeger Helm chart for Kubernetes
+home: https://jaegertracing.io
+icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
 keywords:
 - jaeger
+- opentracing
 - tracing
-- monitoring
+- instrumentation
+kubeVersion: '>= 1.21-0'
 maintainers:
-- name: Broadcom, Inc. All Rights Reserved.
-  url: https://github.com/bitnami/charts
+- email: david.vonthenen@dell.com
+  name: dvonthenen
+- email: ankit.mehta@appian.com
+  name: mehta-ankit
+- email: michael.lorant@fairfaxmedia.com.au
+  name: mikelorant
+- email: naseem@transit.app
+  name: naseemkullah
+- email: me@pavelnikolov.net
+  name: pavelnikolov
+- email: jkowall@kowall.net
+  name: jkowall
 name: jaeger
 sources:
-- https://github.com/bitnami/charts/tree/main/bitnami/jaeger
-version: 5.1.12
+- https://hub.docker.com/u/jaegertracing/
+type: application
+version: 3.4.1

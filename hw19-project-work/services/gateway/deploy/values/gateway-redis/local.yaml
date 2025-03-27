@@ -2,4 +2,6 @@ fullnameOverride: gateway-redis
 architecture: standalone
 auth:
   enabled: true
+master:
+  resourcesPreset: "nano"
 

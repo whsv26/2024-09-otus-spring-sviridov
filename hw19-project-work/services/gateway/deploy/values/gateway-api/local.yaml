@@ -41,6 +41,10 @@ autoscaling:
   enabled: false
 
 env:
+  - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
+    value: "DEBUG"
+  - name: MANAGEMENT_TRACING_ENABLED
+    value: "false" # TODO remove
   - name: TRACING_URL
     value: "http://jaeger-collector.default:4318/v1/traces"
   - name: SPRING_DATA_REDIS_HOST

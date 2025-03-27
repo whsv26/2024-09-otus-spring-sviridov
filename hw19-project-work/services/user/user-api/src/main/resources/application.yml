@@ -25,6 +25,7 @@ management:
     tracing:
       endpoint: ${TRACING_URL}
   tracing:
+
     sampling:
       probability: 1.0
   server:

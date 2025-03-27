@@ -1,6 +1,10 @@
 fullnameOverride: user-postgres
+
 auth:
   enablePostgresUser: false
   database: "user"
   username: "user"
   password: "changeme"
+
+primary:
+  resourcesPreset: "nano"

@@ -12,6 +12,12 @@ helmDefaults:
   createNamespace: false
 
 helmfiles:
-  - ./helmfile-jaeger.yaml
   - ../services/user/deploy/helmfile.yaml
   - ../services/gateway/deploy/helmfile.yaml
+
+releases:
+  - name: jaeger
+    namespace: default
+    chart: ./charts/jaeger
+    values:
+      - ./values/jaeger/{{ $.Environment.Name }}.yaml

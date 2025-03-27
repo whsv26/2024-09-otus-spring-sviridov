@@ -108,7 +108,7 @@
                 <version>3.4.4</version>
                 <configuration>
                     <from>
-                        <image>bellsoft/liberica-openjdk-alpine-musl:17-aarch64</image>
+                        <image>bellsoft/liberica-openjdk-alpine-musl:17</image>
                     </from>
                     <to>
                         <image>search-indexer:${project.version}</image>

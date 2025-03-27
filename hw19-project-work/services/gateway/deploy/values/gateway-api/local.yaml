@@ -1,0 +1,64 @@
+fullnameOverride: gateway-api
+replicaCount: 1
+
+image:
+  repository: gateway-api
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
+
+serviceAccount:
+  create: false
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - paths:
+        - path: /
+          pathType: Prefix
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: probe
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: probe
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 3
+
+autoscaling:
+  enabled: false
+
+env:
+  - name: TRACING_URL
+    value: "http://jaeger-collector.default:4318/v1/traces"
+  - name: SPRING_DATA_REDIS_HOST
+    value: "gateway-redis-master.gateway"
+  - name: SPRING_DATA_REDIS_PORT
+    value: "6379"
+  - name: SPRING_DATA_REDIS_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: gateway-redis
+        key: redis-password
+  - name: JWK_SET_URI
+    value: "http://user-api.user:8080/internal/tokens"
+  - name: USER_API_URI
+    value: "http://user-api.user:8080"
+  - name: NOVEL_API_URI
+    value: "http://novel-api.novel:8080"
+  - name: SEARCH_API_URI
+    value: "http://search-api.search:8080"
+  - name: RATING_API_URI
+    value: "http://rating-api.rating:8080"

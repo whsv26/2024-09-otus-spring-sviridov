@@ -1,0 +1,5 @@
+fullnameOverride: gateway-redis
+architecture: standalone
+auth:
+  enabled: true
+

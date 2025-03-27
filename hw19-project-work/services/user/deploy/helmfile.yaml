@@ -6,7 +6,7 @@ environments:
 releases:
   - name: user-postgres
     namespace: user
-    chart: ../../../deploy/charts/postgres
+    chart: ../../../deploy/charts/postgresql
     values:
       - ./values/user-postgres/{{ $.Environment.Name }}.yaml
     wait: true

@@ -1,0 +1,5 @@
+fullnameOverride: jaeger
+
+cassandra:
+  ## none, nano, small, medium, large, xlarge, 2xlarge
+  resourcesPreset: "medium"

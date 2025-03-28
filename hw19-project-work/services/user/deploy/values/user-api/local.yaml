@@ -37,7 +37,7 @@ autoscaling:
 
 env:
   - name: TRACING_URL
-    value: "http://jaeger-collector.default:4318/v1/traces"
+    value: "http://jaeger-collector.jaeger:4318/v1/traces"
   - name: SPRING_DATASOURCE_URL
     value: "jdbc:postgresql://user-postgres.user:5432/user"
   - name: SPRING_DATASOURCE_USERNAME

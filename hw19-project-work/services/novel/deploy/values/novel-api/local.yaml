@@ -37,7 +37,7 @@ autoscaling:
 
 env:
   - name: TRACING_URL
-    value: "http://jaeger-collector.default:4318/v1/traces"
+    value: "http://jaeger-collector.jaeger:4318/v1/traces"
   - name: SPRING_DATA_MONGODB_HOST
     value: "novel-mongodb-0.novel-mongodb-headless.novel"
   - name: SPRING_DATA_MONGODB_PORT

@@ -44,7 +44,7 @@ env:
   - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
     value: "DEBUG"
   - name: TRACING_URL
-    value: "http://jaeger-collector.default:4318/v1/traces"
+    value: "http://jaeger-collector.jaeger:4318/v1/traces"
   - name: SPRING_DATA_REDIS_HOST
     value: "gateway-redis-master.gateway"
   - name: SPRING_DATA_REDIS_PORT

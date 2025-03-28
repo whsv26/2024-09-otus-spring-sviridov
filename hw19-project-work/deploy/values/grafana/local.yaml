@@ -1,0 +1,27 @@
+fullnameOverride: grafana
+
+admin:
+  user: "admin"
+  password: "admin"
+
+smtp:
+  enabled: false
+
+datasources:
+  secretDefinition:
+    datasources:
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki-query-frontend.loki:3100
+        isDefault: true
+        editable: false
+
+grafana:
+  replicaCount: 1
+  resourcesPreset: "nano"
+
+persistence:
+  enabled: true
+
+

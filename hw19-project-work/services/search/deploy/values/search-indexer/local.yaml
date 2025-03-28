@@ -31,12 +31,12 @@ autoscaling:
 
 env:
   - name: TRACING_URL
-    value: "http://jaeger-collector.default:4318/v1/traces"
+    value: "http://jaeger-collector.jaeger:4318/v1/traces"
   - name: ELASTICSEARCH_HOST
     value: "search-elasticsearch-coordinating-hl.search"
   - name: ELASTICSEARCH_PORT
     value: "9200"
   - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-    value: "kafka.default:9092"
+    value: "kafka.kafka:9092"
   - name: USER_API_URL
     value: "http://user-api.user:8080"

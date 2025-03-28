@@ -1,0 +1,27 @@
+environments:
+  local:
+
+---
+
+releases:
+  - name: search-api
+    namespace: search
+    chart: ../../../deploy/charts/app
+    values:
+      - ./values/search-api/{{ $.Environment.Name }}.yaml
+    needs:
+      - search-elasticsearch
+
+  - name: search-indexer
+    namespace: search
+    chart: ../../../deploy/charts/app
+    values:
+      - ./values/search-indexer/{{ $.Environment.Name }}.yaml
+    needs:
+      - search-elasticsearch
+
+  - name: search-elasticsearch
+    namespace: search
+    chart: ../../../deploy/charts/elasticsearch
+    values:
+      - ./values/search-elasticsearch/{{ $.Environment.Name }}.yaml

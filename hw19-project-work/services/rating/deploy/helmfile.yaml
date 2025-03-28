@@ -1,0 +1,27 @@
+environments:
+  local:
+
+---
+
+releases:
+  - name: rating-api
+    namespace: rating
+    chart: ../../../deploy/charts/app
+    values:
+      - ./values/rating-api/{{ $.Environment.Name }}.yaml
+    needs:
+      - rating-redis
+
+  - name: rating-consumer
+    namespace: rating
+    chart: ../../../deploy/charts/app
+    values:
+      - ./values/rating-consumer/{{ $.Environment.Name }}.yaml
+    needs:
+      - rating-redis
+
+  - name: rating-redis
+    namespace: rating
+    chart: ../../../deploy/charts/redis
+    values:
+      - ./values/rating-redis/{{ $.Environment.Name }}.yaml

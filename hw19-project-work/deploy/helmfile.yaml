@@ -15,6 +15,7 @@ helmfiles:
   - ../services/user/deploy/helmfile.yaml
   - ../services/gateway/deploy/helmfile.yaml
   - ../services/novel/deploy/helmfile.yaml
+  - ../services/rating/deploy/helmfile.yaml
 
 releases:
   - name: jaeger

@@ -24,13 +24,7 @@ livenessProbe:
   periodSeconds: 10
 
 readinessProbe:
-  httpGet:
-    path: /actuator/health/readiness
-    port: probe
-  initialDelaySeconds: 10
-  periodSeconds: 5
-  timeoutSeconds: 2
-  failureThreshold: 3
+  enabled: false
 
 autoscaling:
   enabled: false

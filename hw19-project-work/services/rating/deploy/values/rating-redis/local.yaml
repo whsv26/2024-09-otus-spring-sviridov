@@ -1,0 +1,7 @@
+fullnameOverride: rating-redis
+architecture: standalone
+auth:
+  enabled: true
+master:
+  resourcesPreset: "nano"
+

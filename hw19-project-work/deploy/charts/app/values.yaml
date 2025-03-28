@@ -91,6 +91,7 @@ livenessProbe:
     path: /
     port: http
 readinessProbe:
+  enabled: true
   httpGet:
     path: /
     port: http

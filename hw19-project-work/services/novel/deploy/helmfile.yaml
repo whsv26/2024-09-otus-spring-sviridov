@@ -11,6 +11,7 @@ releases:
       - ./values/novel-api/{{ $.Environment.Name }}.yaml
     needs:
       - novel-mongodb
+      - novel-redis
 
   - name: novel-outbox
     namespace: novel

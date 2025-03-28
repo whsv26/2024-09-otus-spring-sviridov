@@ -7,7 +7,8 @@ spring:
       port: 27017
       database: novel
     redis:
-      url: redis://localhost:6379
+      host: localhost
+      port: 6379
 application:
   kafka:
     producer:

@@ -10,7 +10,8 @@ spring:
       client-id: rating-consumer-${random.uuid}
   data:
     redis:
-      url: redis://localhost:6379
+      host: localhost
+      port: 6379
 
 application:
   kafka:

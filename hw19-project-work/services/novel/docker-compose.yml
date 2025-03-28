@@ -14,7 +14,8 @@ services:
       - SPRING_DATA_MONGODB_USERNAME=admin
       - SPRING_DATA_MONGODB_PASSWORD=admin
       - SPRING_DATA_MONGODB_REPLICA_SET_NAME=rs0
-      - SPRING_DATA_REDIS_URL=redis://novel-redis:6379
+      - SPRING_DATA_REDIS_HOST=novel-redis
+      - SPRING_DATA_REDIS_PORT=6379
     depends_on:
       - novel-mongo
       - novel-redis

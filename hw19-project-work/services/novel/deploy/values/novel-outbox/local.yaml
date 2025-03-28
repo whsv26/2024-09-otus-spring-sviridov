@@ -1,0 +1,61 @@
+fullnameOverride: novel-outbox
+replicaCount: 1
+
+image:
+  repository: novel-outbox
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
+
+serviceAccount:
+  create: false
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: probe
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: probe
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 3
+
+autoscaling:
+  enabled: false
+
+env:
+  - name: TRACING_URL
+    value: "http://jaeger-collector.default:4318/v1/traces"
+  - name: SPRING_DATA_MONGODB_HOST
+    value: "novel-mongodb-0.novel-mongodb-headless.novel"
+  - name: SPRING_DATA_MONGODB_PORT
+    value: "27017"
+  - name: SPRING_DATA_MONGODB_DATABASE
+    value: "novel"
+  - name: SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE
+    value: "novel"
+  - name: SPRING_DATA_MONGODB_USERNAME
+    value: "novel"
+  - name: SPRING_DATA_MONGODB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: novel-mongodb
+        key: mongodb-passwords
+  - name: SPRING_DATA_MONGODB_REPLICA_SET_NAME
+    value: "rs0"
+  - name: SPRING_DATA_REDIS_URL
+    value: "redis://novel-redis-master.novel:6379"
+  - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+    value: "kafka.default:9092"

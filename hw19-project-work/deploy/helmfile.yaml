@@ -14,6 +14,7 @@ helmDefaults:
 helmfiles:
   - ../services/user/deploy/helmfile.yaml
   - ../services/gateway/deploy/helmfile.yaml
+  - ../services/novel/deploy/helmfile.yaml
 
 releases:
   - name: jaeger
@@ -21,3 +22,9 @@ releases:
     chart: ./charts/jaeger
     values:
       - ./values/jaeger/{{ $.Environment.Name }}.yaml
+
+  - name: kafka
+    namespace: default
+    chart: ./charts/kafka
+    values:
+      - ./values/kafka/{{ $.Environment.Name }}.yaml

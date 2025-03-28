@@ -1,0 +1,7 @@
+fullnameOverride: novel-redis
+architecture: standalone
+auth:
+  enabled: true
+master:
+  resourcesPreset: "nano"
+

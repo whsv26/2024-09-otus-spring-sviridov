@@ -1,0 +1,33 @@
+environments:
+  local:
+
+---
+
+releases:
+  - name: novel-api
+    namespace: novel
+    chart: ../../../deploy/charts/app
+    values:
+      - ./values/novel-api/{{ $.Environment.Name }}.yaml
+    needs:
+      - novel-mongodb
+
+  - name: novel-outbox
+    namespace: novel
+    chart: ../../../deploy/charts/app
+    values:
+      - ./values/novel-outbox/{{ $.Environment.Name }}.yaml
+    needs:
+      - novel-mongodb
+
+  - name: novel-mongodb
+    namespace: novel
+    chart: ../../../deploy/charts/mongodb
+    values:
+      - ./values/novel-mongodb/{{ $.Environment.Name }}.yaml
+
+  - name: novel-redis
+    namespace: novel
+    chart: ../../../deploy/charts/redis
+    values:
+      - ./values/novel-redis/{{ $.Environment.Name }}.yaml

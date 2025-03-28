@@ -1,3 +1,4 @@
+nameOverride: rating-api
 fullnameOverride: rating-api
 replicaCount: 1
 

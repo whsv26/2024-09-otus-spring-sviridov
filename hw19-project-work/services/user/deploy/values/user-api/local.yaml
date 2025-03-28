@@ -1,3 +1,4 @@
+nameOverride: user-api
 fullnameOverride: user-api
 replicaCount: 1
 

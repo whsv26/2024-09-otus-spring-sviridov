@@ -14,9 +14,9 @@ helmDefaults:
 helmfiles:
   - ../services/user/deploy/helmfile.yaml
   - ../services/gateway/deploy/helmfile.yaml
-#  - ../services/novel/deploy/helmfile.yaml
-#  - ../services/rating/deploy/helmfile.yaml
-#  - ../services/search/deploy/helmfile.yaml
+  - ../services/novel/deploy/helmfile.yaml
+  - ../services/rating/deploy/helmfile.yaml
+  - ../services/search/deploy/helmfile.yaml
 
 releases:
   - name: jaeger
@@ -25,11 +25,11 @@ releases:
     values:
       - ./values/jaeger/{{ $.Environment.Name }}.yaml
 
-#  - name: kafka
-#    namespace: kafka
-#    chart: ./charts/kafka
-#    values:
-#      - ./values/kafka/{{ $.Environment.Name }}.yaml
+  - name: kafka
+    namespace: kafka
+    chart: ./charts/kafka
+    values:
+      - ./values/kafka/{{ $.Environment.Name }}.yaml
 
   - name: loki
     namespace: loki

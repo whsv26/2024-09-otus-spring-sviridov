@@ -22,6 +22,11 @@ grafana:
   resourcesPreset: "nano"
 
 persistence:
+  enabled: false
+
+ingress:
   enabled: true
-
-
+  pathType: Prefix
+  path: /
+  ingressClassName: "nginx"
+  hostname: grafana.local

@@ -1,3 +1,4 @@
+nameOverride: gateway-api
 fullnameOverride: gateway-api
 replicaCount: 1
 

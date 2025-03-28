@@ -1,3 +1,4 @@
+nameOverride: novel-outbox
 fullnameOverride: novel-outbox
 replicaCount: 1
 

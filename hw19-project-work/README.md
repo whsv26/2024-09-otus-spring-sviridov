@@ -1,5 +1,8 @@
-```shell
+```
 {service_name="user-api"} | json | line_format `{{.message}}`
+```
+```shell
+echo "$(minikube ip)$(printf '\t')grafana.local" | sudo tee -a /etc/hosts
 ```
 
 ## Установка

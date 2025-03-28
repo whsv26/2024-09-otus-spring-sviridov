@@ -1,3 +1,4 @@
+nameOverride: novel-api
 fullnameOverride: novel-api
 replicaCount: 1
 

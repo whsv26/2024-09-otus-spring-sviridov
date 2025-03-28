@@ -1,3 +1,4 @@
+nameOverride: search-api
 fullnameOverride: search-api
 replicaCount: 1
 

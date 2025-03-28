@@ -8,3 +8,10 @@ auth:
 
 primary:
   resourcesPreset: "nano"
+  persistence:
+    enabled: false
+
+readReplicas:
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false

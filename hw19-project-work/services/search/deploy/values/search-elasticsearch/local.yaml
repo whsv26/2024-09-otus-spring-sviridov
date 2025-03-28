@@ -1,22 +1,26 @@
 fullnameOverride: search-elasticsearch
 
+global:
+  kibanaEnabled: true
+
 master:
   masterOnly: false
   replicaCount: 1
   resourcesPreset: "small"
   persistence:
     enabled: false
+
 data:
   replicaCount: 1
   extraRoles: []
   resourcesPreset: "medium"
-  heapSize: 1024m
   persistence:
     enabled: false
+
 coordinating:
   replicaCount: 1
   resourcesPreset: "small"
-  heapSize: 128m
+
 ingest:
   enabled: false
   replicaCount: 0

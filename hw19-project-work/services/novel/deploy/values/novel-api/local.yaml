@@ -55,5 +55,12 @@ env:
         key: mongodb-passwords
   - name: SPRING_DATA_MONGODB_REPLICA_SET_NAME
     value: "rs0"
-  - name: SPRING_DATA_REDIS_URL
-    value: "redis://novel-redis-master.novel:6379"
+  - name: SPRING_DATA_REDIS_HOST
+    value: "novel-redis-master.novel"
+  - name: SPRING_DATA_REDIS_PORT
+    value: "6379"
+  - name: SPRING_DATA_REDIS_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: novel-redis
+        key: redis-password

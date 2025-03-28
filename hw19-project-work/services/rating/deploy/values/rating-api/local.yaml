@@ -40,5 +40,12 @@ env:
     value: "http://jaeger-collector.default:4318/v1/traces"
   - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
     value: "kafka.default:9092"
-  - name: SPRING_DATA_REDIS_URL
-    value: "redis://rating-redis-master.rating:6379"
+  - name: SPRING_DATA_REDIS_HOST
+    value: "rating-redis-master.rating"
+  - name: SPRING_DATA_REDIS_PORT
+    value: "6379"
+  - name: SPRING_DATA_REDIS_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: rating-redis
+        key: redis-password

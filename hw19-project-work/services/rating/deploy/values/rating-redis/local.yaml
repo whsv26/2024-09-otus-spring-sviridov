@@ -1,7 +1,19 @@
 fullnameOverride: rating-redis
+
 architecture: standalone
+
 auth:
   enabled: true
+
 master:
   resourcesPreset: "nano"
+  persistence:
+    enabled: false
 
+replica:
+  persistence:
+    enabled: false
+
+sentinel:
+  persistence:
+    enabled: false

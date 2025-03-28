@@ -3,3 +3,11 @@ fullnameOverride: kafka
 listeners:
   client:
     protocol: PLAINTEXT
+
+controller:
+  persistence:
+    enabled: false
+
+broker:
+  persistence:
+    enabled: false

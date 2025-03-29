@@ -67,5 +67,6 @@ eval $(minikube docker-env)
 helm plugin install https://github.com/databus23/helm-diff
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo add incubator https://charts.helm.sh/incubator
-helmfile destroy -e local -f deploy/helmfile.yaml && helmfile apply -e local -f deploy/helmfile.yaml
+helmfile apply -e local -f deploy/helmfile.yaml
+helmfile destroy -e local -f deploy/helmfile.yaml
 ```

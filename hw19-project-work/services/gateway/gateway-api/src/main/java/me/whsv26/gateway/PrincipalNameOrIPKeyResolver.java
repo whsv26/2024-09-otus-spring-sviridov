@@ -17,7 +17,8 @@ public class PrincipalNameOrIPKeyResolver implements KeyResolver {
     }
 
     private Optional<String> extractIP(ServerHttpRequest request) {
-        return extractFromXForwardedFor(request).or(() -> extractFromRemoteAddress(request));
+        return extractFromXForwardedFor(request)
+            .or(() -> extractFromRemoteAddress(request));
     }
 
     private static Optional<String> extractFromXForwardedFor(ServerHttpRequest request) {

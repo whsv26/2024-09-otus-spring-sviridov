@@ -12,33 +12,39 @@ helmDefaults:
   createNamespace: true
 
 helmfiles:
-  - ../services/user/deploy/helmfile.yaml
-  - ../services/gateway/deploy/helmfile.yaml
+#  - ../services/user/deploy/helmfile.yaml
+#  - ../services/gateway/deploy/helmfile.yaml
 #  - ../services/novel/deploy/helmfile.yaml
 #  - ../services/rating/deploy/helmfile.yaml
-#  - ../services/search/deploy/helmfile.yaml
+  - ../services/search/deploy/helmfile.yaml
 
 releases:
-  - name: jaeger
-    namespace: jaeger
-    chart: ./charts/jaeger
-    values:
-      - ./values/jaeger/{{ $.Environment.Name }}.yaml
-
+#  - name: jaeger
+#    namespace: jaeger
+#    chart: ./charts/jaeger
+#    values:
+#      - ./values/jaeger/{{ $.Environment.Name }}.yaml
+#
 #  - name: kafka
 #    namespace: kafka
 #    chart: ./charts/kafka
 #    values:
 #      - ./values/kafka/{{ $.Environment.Name }}.yaml
-
-  - name: loki
-    namespace: loki
-    chart: ./charts/loki
-    values:
-      - ./values/loki/{{ $.Environment.Name }}.yaml
-
+#
+#  - name: loki
+#    namespace: loki
+#    chart: ./charts/loki
+#    values:
+#      - ./values/loki/{{ $.Environment.Name }}.yaml
+#
   - name: grafana
     namespace: grafana
     chart: ./charts/grafana
     values:
       - ./values/grafana/{{ $.Environment.Name }}.yaml
+
+  - name: prometheus
+    namespace: prometheus
+    chart: ./charts/prometheus
+    values:
+      - ./values/prometheus/{{ $.Environment.Name }}.yaml

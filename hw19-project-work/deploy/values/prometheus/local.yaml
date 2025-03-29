@@ -1,0 +1,21 @@
+fullnameOverride: prometheus
+
+alertmanager:
+  enabled: true
+  replicaCount: 1
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false
+server:
+  extraScrapeConfigs:
+    - job_name: 'kafka'
+      static_configs:
+        - targets: ['kafka-jmx-metrics.kafka:5556']
+    - job_name: 'elasticsearch'
+      static_configs:
+        - targets: [ 'search-elasticsearch-metrics.search:9114' ]
+  alertingRules: {}
+  replicaCount: 1
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false

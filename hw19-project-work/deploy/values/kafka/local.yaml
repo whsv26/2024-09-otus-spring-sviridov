@@ -11,3 +11,7 @@ controller:
 broker:
   persistence:
     enabled: false
+
+metrics:
+  jmx:
+    enabled: true

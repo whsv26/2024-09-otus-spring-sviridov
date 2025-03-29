@@ -25,3 +25,5 @@ ingest:
   enabled: false
   replicaCount: 0
 
+metrics:
+  enabled: true

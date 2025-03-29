@@ -5,6 +5,12 @@ allInOne:
   extraEnv:
     - name: COLLECTOR_OTLP_ENABLED
       value: "true"
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+    hosts:
+      - jaeger.local
+    pathType: Prefix
 
 provisionDataStore:
   cassandra: false

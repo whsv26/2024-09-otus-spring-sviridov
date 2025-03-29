@@ -1,8 +1,8 @@
 services:
   search-api:
-    image: localhost:5000/search-api:1.0.0
+    image: search-api:1.0.0
     container_name: search-api
-    pull_policy: always
+    pull_policy: missing
     ports:
       - "8083:8080"
     environment:
@@ -14,9 +14,9 @@ services:
         condition: service_healthy
 
   search-indexer:
-    image: localhost:5000/search-indexer:1.0.0
+    image: search-indexer:1.0.0
     container_name: search-indexer
-    pull_policy: always
+    pull_policy: missing
     environment:
       - TRACING_URL=http://jaeger:4318/v1/traces
       - ELASTICSEARCH_HOST=search-elasticsearch

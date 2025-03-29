@@ -1,8 +1,8 @@
 services:
   user-api:
-    image: localhost:5000/user-api:1.0.0
+    image: user-api:1.0.0
     container_name: user-api
-    pull_policy: always
+    pull_policy: missing
     ports:
       - "8081:8080"
     environment:

@@ -3,6 +3,7 @@
 ```
 ```shell
 echo "$(minikube ip)$(printf '\t')grafana.local" | sudo tee -a /etc/hosts
+echo "$(minikube ip)$(printf '\t')jaeger.local" | sudo tee -a /etc/hosts
 ```
 
 http://grafana.local
@@ -15,7 +16,7 @@ http://grafana.local
 
 ```shell
 ../mvnw clean && ../mvnw install -pl libs/outbox,libs/auth,libs/idempotency,services/novel/novel-model,services/rating/rating-model 
-../mvnw compile jib:build -pl services/gateway/gateway-api,services/user/user-api,services/novel/novel-api,services/novel/novel-outbox,services/search/search-indexer,services/search/search-api,services/rating/rating-api,services/rating/rating-consumer 
+../mvnw compile jib:dockerBuild -pl services/gateway/gateway-api,services/user/user-api,services/novel/novel-api,services/novel/novel-outbox,services/search/search-indexer,services/search/search-api,services/rating/rating-api,services/rating/rating-consumer 
 ```
 
 ```shell

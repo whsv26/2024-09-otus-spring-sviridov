@@ -6,7 +6,7 @@ environments:
 releases:
   - name: rating-api
     namespace: rating
-    chart: ../../../deploy/charts/app
+    chart: ../../../deploy/charts/service
     values:
       - ./values/rating-api/{{ $.Environment.Name }}.yaml
     needs:
@@ -14,7 +14,7 @@ releases:
 
   - name: rating-consumer
     namespace: rating
-    chart: ../../../deploy/charts/app
+    chart: ../../../deploy/charts/service
     values:
       - ./values/rating-consumer/{{ $.Environment.Name }}.yaml
     needs:

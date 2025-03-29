@@ -6,7 +6,7 @@ environments:
 releases:
   - name: search-api
     namespace: search
-    chart: ../../../deploy/charts/app
+    chart: ../../../deploy/charts/service
     values:
       - ./values/search-api/{{ $.Environment.Name }}.yaml
     needs:
@@ -14,7 +14,7 @@ releases:
 
   - name: search-indexer
     namespace: search
-    chart: ../../../deploy/charts/app
+    chart: ../../../deploy/charts/service
     values:
       - ./values/search-indexer/{{ $.Environment.Name }}.yaml
     needs:

@@ -6,7 +6,7 @@ environments:
 releases:
   - name: user-api
     namespace: user
-    chart: ../../../deploy/charts/app
+    chart: ../../../deploy/charts/service
     values:
       - ./values/user-api/{{ $.Environment.Name }}.yaml
     needs:

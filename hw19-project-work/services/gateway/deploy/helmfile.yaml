@@ -6,7 +6,7 @@ environments:
 releases:
   - name: gateway-api
     namespace: gateway
-    chart: ../../../deploy/charts/app
+    chart: ../../../deploy/charts/service
     values:
       - ./values/gateway-api/{{ $.Environment.Name }}.yaml
     needs:

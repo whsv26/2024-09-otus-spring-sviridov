@@ -64,10 +64,22 @@ promtail:
           - cri: {}
           - json:
               expressions:
-                level: "level"
-                traceId: "traceId"
+                message: log
+                timestamp: time
+                stream: stream
+          - json:
+              source: message
+              expressions:
+                level: level
+                traceId: traceId
+          - timestamp:
+              format: RFC3339
+              source: timestamp
           - labels:
-              level: ""
+              level:
+              stream:
+          - output:
+              source: message
         kubernetes_sd_configs:
           - role: pod
         relabel_configs:

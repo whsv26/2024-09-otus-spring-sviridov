@@ -5,6 +5,8 @@
 echo "$(minikube ip)$(printf '\t')grafana.local" | sudo tee -a /etc/hosts
 ```
 
+http://grafana.local
+
 ## Установка
 
 ### В Docker Compose

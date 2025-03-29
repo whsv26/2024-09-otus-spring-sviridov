@@ -6,7 +6,7 @@ environments:
 releases:
   - name: novel-api
     namespace: novel
-    chart: ../../../deploy/charts/app
+    chart: ../../../deploy/charts/service
     values:
       - ./values/novel-api/{{ $.Environment.Name }}.yaml
     needs:
@@ -15,7 +15,7 @@ releases:
 
   - name: novel-outbox
     namespace: novel
-    chart: ../../../deploy/charts/app
+    chart: ../../../deploy/charts/service
     values:
       - ./values/novel-outbox/{{ $.Environment.Name }}.yaml
     needs:

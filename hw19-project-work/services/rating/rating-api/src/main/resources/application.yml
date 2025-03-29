@@ -24,7 +24,7 @@ management:
     sampling:
       probability: 1.0
   server:
-    port: 90
+    port: 9090
   health:
     defaults:
       enabled: true

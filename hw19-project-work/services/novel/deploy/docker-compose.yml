@@ -41,7 +41,6 @@ services:
     build:
       context: .
       dockerfile: mongodb.Dockerfile
-    image: mongo:7.0
     container_name: novel-mongo
     command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017", "--keyFile", "/data/keyfile"]
     healthcheck:

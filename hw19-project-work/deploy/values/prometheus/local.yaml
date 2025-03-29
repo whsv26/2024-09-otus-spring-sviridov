@@ -14,6 +14,13 @@ server:
     - job_name: 'elasticsearch'
       static_configs:
         - targets: [ 'search-elasticsearch-metrics.search:9114' ]
+    - job_name: 'redis'
+      static_configs:
+        - targets:
+            - 'gateway-redis-metrics.gateway:9121'
+            - 'novel-redis-metrics.novel:9121'
+            - 'rating-redis-metrics.rating:9121'
+
   alertingRules: {}
   replicaCount: 1
   resourcesPreset: "nano"

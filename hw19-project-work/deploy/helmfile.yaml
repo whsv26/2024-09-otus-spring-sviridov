@@ -13,10 +13,10 @@ helmDefaults:
 
 helmfiles:
 #  - ../services/user/deploy/helmfile.yaml
-#  - ../services/gateway/deploy/helmfile.yaml
-#  - ../services/novel/deploy/helmfile.yaml
+  - ../services/gateway/deploy/helmfile.yaml
+  - ../services/novel/deploy/helmfile.yaml
 #  - ../services/rating/deploy/helmfile.yaml
-  - ../services/search/deploy/helmfile.yaml
+#  - ../services/search/deploy/helmfile.yaml
 
 releases:
 #  - name: jaeger

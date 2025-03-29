@@ -17,3 +17,6 @@ replica:
 sentinel:
   persistence:
     enabled: false
+
+metrics:
+  enabled: true

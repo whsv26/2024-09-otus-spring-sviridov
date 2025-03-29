@@ -24,3 +24,6 @@ persistence:
 
 arbiter:
   enabled: false
+
+metrics:
+  enabled: true

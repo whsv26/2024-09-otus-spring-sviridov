@@ -39,19 +39,10 @@ ruler:
 tableManager:
   enabled: false
 
+# https://github.com/grafana/loki/issues/1153#issuecomment-2308251168
 promtail:
   enabled: true
   resourcesPreset: "nano"
-  extraVolumes:
-    - name: ulimit
-      hostPath:
-        path: /etc/security/limits.conf
-  extraVolumeMounts:
-    - name: ulimit
-      mountPath: /etc/security/limits.conf
-      readOnly: true
-#  containerSecurityContext:
-#    privileged: true
   configuration: |
     server:
       log_level: {{ .Values.promtail.logLevel }}

@@ -1,1 +1,0 @@
-![img.png](../presentation/public/jaeger-ui.png)

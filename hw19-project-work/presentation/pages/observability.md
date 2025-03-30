@@ -53,11 +53,8 @@ transition: slide-up
 - Для анализа и визуализации метрик используется **Grafana**
 
 ---
-transition: slide-down
----
 
 ## Метрики
-
 
 <br>
 <img src="/prometheus.png">

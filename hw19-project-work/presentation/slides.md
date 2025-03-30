@@ -3,7 +3,10 @@ theme: seriph
 transition: fade-out
 class: text-center
 author: Свиридов Александр
-remoteAssets: true
+presenter: false
+monaco: false
+record: false
+colorSchema: light
 ---
 
 # 📒 Платформа для публикации и поиска веб-новелл
@@ -45,38 +48,5 @@ src: ./pages/observability.md
 ---
 
 ---
-
----
-layout: image
-image: /structurizr-1-gateway.svg
-title: Gateway system container level
-backgroundSize: contain
----
-
----
-layout: image
-image: /structurizr-1-user.svg
-title: User system container level
-backgroundSize: contain
----
-
----
-layout: image
-image: /structurizr-1-novel.svg
-title: Novel system container level
-backgroundSize: contain
----
-
----
-layout: image
-image: /structurizr-1-rating.svg
-title: Rating system container level
-backgroundSize: contain
----
-
----
-layout: image
-image: /structurizr-1-search.svg
-title: Search system container level
-backgroundSize: contain
+src: ./pages/с4.md
 ---

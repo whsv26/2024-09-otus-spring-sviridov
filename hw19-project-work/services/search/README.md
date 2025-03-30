@@ -1,1 +1,1 @@
-![structurizr-1-search.svg](../../docs/structurizr-1-search.svg)
+![structurizr-1-search.svg](../../presentation/public/structurizr-1-search.svg)

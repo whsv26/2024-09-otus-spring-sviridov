@@ -1,0 +1,1 @@
+![structurizr-1-gateway.svg](../../docs/structurizr-1-gateway.svg)

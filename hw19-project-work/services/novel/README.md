@@ -1,0 +1,1 @@
+![structurizr-1-novel.svg](../../docs/structurizr-1-novel.svg)

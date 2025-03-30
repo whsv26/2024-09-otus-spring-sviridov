@@ -1,0 +1,1 @@
+![structurizr-1-rating.svg](../../docs/structurizr-1-rating.svg)

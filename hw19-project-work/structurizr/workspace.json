@@ -4,7 +4,7 @@
   "documentation" : { },
   "id" : 1,
   "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2025-03-30T02:40:39Z",
+  "lastModifiedDate" : "2025-03-30T02:48:51Z",
   "model" : {
     "people" : [ {
       "description" : "Конечный пользователь системы",
@@ -505,37 +505,37 @@
     },
     "containerViews" : [ {
       "dimensions" : {
-        "height" : 1991,
-        "width" : 2390
+        "height" : 1521,
+        "width" : 2300
       },
       "elements" : [ {
         "id" : "1",
-        "x" : 105,
-        "y" : 685
+        "x" : 229,
+        "y" : 165
       }, {
         "id" : "3",
-        "x" : 770,
-        "y" : 1415
+        "x" : 894,
+        "y" : 895
       }, {
         "id" : "4",
-        "x" : 95,
-        "y" : 1415
+        "x" : 219,
+        "y" : 895
       }, {
         "id" : "6",
-        "x" : 765,
-        "y" : 780
+        "x" : 889,
+        "y" : 260
       }, {
         "id" : "10",
-        "x" : 1525,
-        "y" : 1505
+        "x" : 1649,
+        "y" : 985
       }, {
         "id" : "18",
-        "x" : 1525,
-        "y" : 1140
+        "x" : 1649,
+        "y" : 620
       }, {
         "id" : "32",
-        "x" : 1525,
-        "y" : 780
+        "x" : 1649,
+        "y" : 260
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
       "key" : "gateway",
@@ -556,30 +556,29 @@
       "softwareSystemId" : "2"
     }, {
       "dimensions" : {
-        "height" : 1748,
-        "width" : 2480
+        "height" : 1756,
+        "width" : 1625
       },
       "elements" : [ {
         "id" : "2",
-        "x" : 105,
-        "y" : 235
+        "x" : 214,
+        "y" : 165
       }, {
         "id" : "7",
-        "x" : 110,
-        "y" : 795
+        "x" : 219,
+        "y" : 725
       }, {
         "id" : "8",
-        "x" : 110,
-        "y" : 1200
+        "x" : 219,
+        "y" : 1130
       }, {
         "id" : "18",
-        "x" : 865,
-        "y" : 785
+        "x" : 974,
+        "y" : 715
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
       "key" : "user",
       "order" : 3,
-      "paperSize" : "A5_Landscape",
       "relationships" : [ {
         "id" : "28"
       }, {
@@ -590,38 +589,37 @@
       "softwareSystemId" : "6"
     }, {
       "dimensions" : {
-        "height" : 1748,
-        "width" : 2480
+        "height" : 1756,
+        "width" : 1630
       },
       "elements" : [ {
         "id" : "2",
-        "x" : 115,
-        "y" : 225
+        "x" : 210,
+        "y" : 165
       }, {
         "id" : "11",
-        "x" : 125,
-        "y" : 700
+        "x" : 220,
+        "y" : 640
       }, {
         "id" : "12",
-        "x" : 130,
-        "y" : 1190
+        "x" : 225,
+        "y" : 1130
       }, {
         "id" : "13",
-        "x" : 865,
-        "y" : 1185
+        "x" : 960,
+        "y" : 1125
       }, {
         "id" : "14",
-        "x" : 860,
-        "y" : 695
+        "x" : 955,
+        "y" : 635
       }, {
         "id" : "18",
-        "x" : 865,
-        "y" : 225
+        "x" : 960,
+        "y" : 165
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
       "key" : "novel",
       "order" : 4,
-      "paperSize" : "A5_Landscape",
       "relationships" : [ {
         "id" : "15"
       }, {
@@ -636,38 +634,37 @@
       "softwareSystemId" : "10"
     }, {
       "dimensions" : {
-        "height" : 1748,
-        "width" : 2480
+        "height" : 1781,
+        "width" : 2170
       },
       "elements" : [ {
         "id" : "2",
-        "x" : 155,
-        "y" : 185
+        "x" : 219,
+        "y" : 165
       }, {
         "id" : "6",
-        "x" : 1455,
-        "y" : 630
+        "x" : 1519,
+        "y" : 610
       }, {
         "id" : "10",
-        "x" : 1455,
-        "y" : 1250
+        "x" : 1519,
+        "y" : 1230
       }, {
         "id" : "19",
-        "x" : 155,
-        "y" : 635
+        "x" : 219,
+        "y" : 615
       }, {
         "id" : "20",
-        "x" : 405,
-        "y" : 1175
+        "x" : 469,
+        "y" : 1155
       }, {
         "id" : "21",
-        "x" : 705,
-        "y" : 635
+        "x" : 769,
+        "y" : 615
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
       "key" : "search",
       "order" : 5,
-      "paperSize" : "A5_Landscape",
       "relationships" : [ {
         "id" : "23"
       }, {
@@ -682,33 +679,33 @@
       "softwareSystemId" : "18"
     }, {
       "dimensions" : {
-        "height" : 1991,
-        "width" : 2390
+        "height" : 1806,
+        "width" : 2364
       },
       "elements" : [ {
         "id" : "2",
-        "x" : 1730,
-        "y" : 295
+        "x" : 1699,
+        "y" : 165
       }, {
         "id" : "33",
-        "x" : 1725,
-        "y" : 740
+        "x" : 1694,
+        "y" : 610
       }, {
         "id" : "34",
-        "x" : 976,
-        "y" : 750
+        "x" : 945,
+        "y" : 620
       }, {
         "id" : "35",
-        "x" : 251,
-        "y" : 750
+        "x" : 220,
+        "y" : 620
       }, {
         "id" : "36",
-        "x" : 261,
-        "y" : 1300
+        "x" : 230,
+        "y" : 1170
       }, {
         "id" : "37",
-        "x" : 1216,
-        "y" : 1310
+        "x" : 1185,
+        "y" : 1180
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
       "key" : "rating",

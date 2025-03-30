@@ -62,28 +62,6 @@ workspace {
             novelOutbox -> novelEvent "Публикует события веб-новелл"
         }
 
-        search = softwareSystem "Поиск веб-новелл" {
-            description "Поиск веб-новелл по различным фильтрам: автор, рейтинг, название и т.д."
-            searchApi = container "search-api" {
-                description "Поиск веб-новелл по различным фильтрам: автор, рейтинг, название и т.д."
-                technology "Spring Boot, REST, API, Stateless"
-            }
-            searchElasticsearch = container "search-elasticsearch" {
-                description "Хранит веб-новеллы в формате, удобном для поиска"
-                technology "ElasticSearch"
-                tags "Database"
-            }
-            searchIndexer = container "search-indexer" {
-                description "Индексирует веб-новеллы"
-                technology "Spring Boot"
-            }
-
-            searchIndexer -> novel.novelEvent "Читает события об изменении веб-новелл"
-            searchIndexer -> user.userApi "Получает профиль автора"
-            searchIndexer -> searchElasticsearch "Записывает веб-новеллы в индекс"
-            searchApi -> searchElasticsearch "Выполняет поиск веб-новеллы по критериям"
-        }
-
         rating = softwareSystem "Оценка веб-новелл" {
             description "Позволяет ставить оценки к произведениям"
             ratingApi = container "rating-api" {
@@ -116,18 +94,37 @@ workspace {
             ratingConsumer -> ratingEvent "Публикует событие об изменении средней оценки произведения"
         }
 
+        search = softwareSystem "Поиск веб-новелл" {
+            description "Поиск веб-новелл по различным фильтрам: автор, рейтинг, название и т.д."
+            searchApi = container "search-api" {
+                description "Поиск веб-новелл по различным фильтрам: автор, рейтинг, название и т.д."
+                technology "Spring Boot, REST, API, Stateless"
+            }
+            searchElasticsearch = container "search-elasticsearch" {
+                description "Хранит веб-новеллы в формате, удобном для поиска"
+                technology "ElasticSearch"
+                tags "Database"
+            }
+            searchIndexer = container "search-indexer" {
+                description "Индексирует веб-новеллы"
+                technology "Spring Boot"
+            }
+
+            searchIndexer -> novel.novelEvent "Читает события об изменении веб-новелл"
+            searchIndexer -> rating.ratingEvent "Читает события об изменении рейтинга веб-новелл"
+            searchIndexer -> user.userApi "Получает профиль автора"
+            searchIndexer -> searchElasticsearch "Записывает веб-новеллы в индекс"
+            searchApi -> searchElasticsearch "Выполняет поиск веб-новеллы по критериям"
+        }
+
         client -> gateway.gatewayApi
-        gatewayToUser = gateway.gatewayApi -> user.userApi "Перенаправляет запросы; Получает публичный ключ для проверки JWT"
-        gatewayToNovel = gateway.gatewayApi -> novel.novelApi "Перенаправляет запросы"
-        gatewayToSearch = gateway.gatewayApi -> search.searchApi "Перенаправляет запросы"
-        gatewayToRating = gateway.gatewayApi -> rating.ratingApi "Перенаправляет запросы"
+        gateway.gatewayApi -> user.userApi "Перенаправляет запросы; Получает публичный ключ для проверки JWT"
+        gateway.gatewayApi -> novel.novelApi "Перенаправляет запросы"
+        gateway.gatewayApi -> search.searchApi "Перенаправляет запросы"
+        gateway.gatewayApi -> rating.ratingApi "Перенаправляет запросы"
     }
 
     views {
-        systemLandscape landscape {
-            include *
-        }
-
         container gateway gateway {
             include *
             exclude "search -> *"
@@ -135,26 +132,22 @@ workspace {
 
         container user user {
             include *
-            exclude "gateway -> *"
-            include gatewayToUser
+            exclude gateway
         }
 
         container novel novel {
             include *
-            exclude "gateway -> *"
-            include gatewayToNovel
+            exclude gateway
         }
 
         container search search {
             include *
-            exclude "gateway -> *"
-            include gatewayToSearch
+            exclude gateway
         }
 
         container rating rating {
             include *
-            exclude "gateway -> *"
-            include gatewayToRating
+            exclude gateway
         }
 
         styles {

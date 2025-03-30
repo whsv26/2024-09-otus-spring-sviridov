@@ -1,3 +1,8 @@
+```shell
+cd structurizr
+docker run -it --rm -p 8080:8080 -v ./:/usr/local/structurizr structurizr/lite
+```
+
 ```
 {service_name="user-api"} | json | line_format `{{.message}}`
 ```

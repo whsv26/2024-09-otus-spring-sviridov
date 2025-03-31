@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import me.whsv26.libs.auth.CurrentUser;
 import me.whsv26.libs.auth.CurrentUserProvider;
 import me.whsv26.novel.api.application.port.in.NovelUseCases;
+import me.whsv26.novel.api.domain.valueobject.CreateNovelDetails;
+import me.whsv26.novel.api.domain.valueobject.UpdateNovelDetails;
 import me.whsv26.novel.api.infrastructure.repository.MongoNovelRepository;
 import me.whsv26.novel.api.domain.valueobject.AuthorId;
 import me.whsv26.novel.api.domain.valueobject.GenreId;
@@ -40,7 +42,8 @@ public class NovelService implements NovelUseCases {
     @Transactional
     @Override
     public Novel create(AuthorId authorId, String title, String synopsis, List<GenreId> genres, List<String> tags) {
-        var novel = Novel.create(NovelId.next(), title, synopsis, authorId, genres, tags, clock);
+        var details = new CreateNovelDetails(NovelId.next(), title, synopsis, authorId, genres, tags);
+        var novel = Novel.create(details, clock);
         return novelRepository.save(novel);
     }
 
@@ -49,7 +52,8 @@ public class NovelService implements NovelUseCases {
     public Novel update(NovelId id, String title, String synopsis, List<GenreId> genres, List<String> tags) {
         var novel = findNovelById(id);
         ensureIsAuthorFor(currentUserProvider.getCurrentUser(), novel);
-        novel.update(title, synopsis, genres, tags, clock);
+        var details = new UpdateNovelDetails(title, synopsis, genres, tags);
+        novel.update(details, clock);
         return novelRepository.save(novel);
     }
 

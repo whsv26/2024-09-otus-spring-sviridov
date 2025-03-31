@@ -7,7 +7,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,29 +20,23 @@ public class NovelSearchController {
     private final NovelMapper novelMapper = Mappers.getMapper(NovelMapper.class);
 
     @GetMapping("/api/novels")
-    public SearchNovelsResponse searchNovels(
-        @RequestParam(name = "prompt", required = false) String prompt,
-        @RequestParam(name = "authorName", required = false) String authorName,
-        @RequestParam(name = "ratingFrom", required = false) Float ratingFrom,
-        @RequestParam(name = "ratingTo", required = false) Float ratingTo,
-        @RequestParam(name = "genres", required = false) List<String> genres,
-        @RequestParam(name = "tags", required = false) List<String> tags,
-        Pageable pageable
-    ) {
-        var page = novelRepository.search(
-            prompt,
-            authorName,
-            Range.of(ratingFrom, ratingTo).orElse(null),
-            genres,
-            tags,
-            pageable
-        );
-
+    public SearchNovelsResponse searchNovels(SearchNovelsRequest request, Pageable pageable) {
+        var searchParams = novelMapper.map(request);
+        var page = novelRepository.search(searchParams, pageable);
         return new SearchNovelsResponse(
             page.map(novelMapper::map).toList(),
             novelMapper.map(page)
         );
     }
+
+    public record SearchNovelsRequest(
+        String prompt,
+        String authorName,
+        Float ratingFrom,
+        Float ratingTo,
+        List<String> genres,
+        List<String> tags
+    ) {}
 
     public record SearchNovelsResponse(
         List<NovelResponse> novels,
@@ -64,10 +57,18 @@ public class NovelSearchController {
     @Mapper
     interface NovelMapper {
 
+        @Mapping(target = "ratingRange", expression = "java(map(source.ratingFrom(), source.ratingTo()))")
+        NovelSearchParams map(SearchNovelsRequest source);
+
         NovelResponse map(Novel source);
 
         @Mapping(source = "number", target = "page")
         @Mapping(expression = "java(source.hasNext())", target = "hasNext")
         PageMeta map(Page<?> source);
+
+        default Range<Float> map(Float ratingFrom, Float ratingTo) {
+            return Range.of(ratingFrom, ratingTo)
+                .orElse(null);
+        }
     }
 }

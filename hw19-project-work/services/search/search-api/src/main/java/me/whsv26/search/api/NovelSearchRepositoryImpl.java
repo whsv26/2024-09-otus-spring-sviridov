@@ -23,15 +23,8 @@ public class NovelSearchRepositoryImpl implements NovelSearchRepository {
     private final ElasticsearchOperations elasticsearchOperations;
 
     @Override
-    public Page<Novel> search(
-        String prompt,
-        String authorName,
-        Range<Float> ratingRange,
-        List<String> genres,
-        List<String> tags,
-        Pageable pageable
-    ) {
-        var query = buildQuery(prompt, authorName, ratingRange, genres, tags);
+    public Page<Novel> search(NovelSearchParams params, Pageable pageable) {
+        var query = buildQuery(params);
         var nativeQuery = new NativeQueryBuilder()
             .withQuery(query)
             .withPageable(pageable)
@@ -46,33 +39,27 @@ public class NovelSearchRepositoryImpl implements NovelSearchRepository {
         return new PageImpl<>(novels, pageable, searchHits.getTotalHits());
     }
 
-    private static Query buildQuery(
-        String prompt,
-        String authorName,
-        Range<Float> ratingRange,
-        List<String> genres,
-        List<String> tags
-    ) {
+    private static Query buildQuery(NovelSearchParams params) {
         var boolQuery = QueryBuilders.bool();
 
-        if (prompt != null) {
-            addTitleQuery(prompt, boolQuery);
+        if (params.prompt() != null) {
+            addTitleQuery(params.prompt(), boolQuery);
         }
 
-        if (authorName != null) {
-            addAuthorNameQuery(authorName, boolQuery);
+        if (params.authorName() != null) {
+            addAuthorNameQuery(params.authorName(), boolQuery);
         }
 
-        if (genres != null && !genres.isEmpty()) {
-            addGenresQuery(genres, boolQuery);
+        if (params.genres() != null && !params.genres().isEmpty()) {
+            addGenresQuery(params.genres(), boolQuery);
         }
 
-        if (tags != null && !tags.isEmpty()) {
-            addTagsQuery(tags, boolQuery);
+        if (params.tags() != null && !params.tags().isEmpty()) {
+            addTagsQuery(params.tags(), boolQuery);
         }
 
-        if (ratingRange != null) {
-            addRatingQuery(ratingRange, boolQuery);
+        if (params.ratingRange() != null) {
+            addRatingQuery(params.ratingRange(), boolQuery);
         }
 
         return boolQuery.build()._toQuery();

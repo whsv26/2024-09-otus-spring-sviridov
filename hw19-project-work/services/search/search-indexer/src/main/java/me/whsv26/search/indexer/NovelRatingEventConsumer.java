@@ -2,7 +2,6 @@ package me.whsv26.search.indexer;
 
 import lombok.RequiredArgsConstructor;
 import me.whsv26.rating.model.NovelRatingEvent;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.RefreshPolicy;
 import org.springframework.data.elasticsearch.core.document.Document;

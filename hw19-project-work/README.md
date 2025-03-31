@@ -1,3 +1,12 @@
+[Презентация проектной работы](https://whsv26.github.io/2024-09-otus-spring-sviridov/1)
+
+Проектная работа состоит из следующих систем:
+- Шлюз API ([gateway](services/gateway))
+- Управление пользователями ([user](services/user))
+- Управление контентом веб-новелл ([novel](services/novel))
+- Оценка веб-новелл ([rating](services/rating))
+- Поиск веб-новелл ([search](services/search))
+
 ## Как запустить
 
 ```shell

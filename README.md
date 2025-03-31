@@ -22,3 +22,4 @@
 - [Использовать метрики, healthchecks и logfile](hw16-spring-actuator)
 - [Обернуть приложение в docker-контейнер](hw17-docker)
 - [Обернуть внешние вызовы в Hystrix](hw18-resilience)
+- [Проектная работа](hw19-project-work)

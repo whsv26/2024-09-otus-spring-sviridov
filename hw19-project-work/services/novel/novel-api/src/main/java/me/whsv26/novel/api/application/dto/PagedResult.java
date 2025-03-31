@@ -18,4 +18,6 @@ public final class PagedResult<T> {
     private long totalElements;
 
     private int totalPages;
+
+    private boolean hasNext;
 }

@@ -11,7 +11,8 @@ public class PageAdapter {
             page.getNumber(),
             page.getSize(),
             page.getTotalElements(),
-            page.getTotalPages()
+            page.getTotalPages(),
+            page.hasNext()
         );
     }
 }

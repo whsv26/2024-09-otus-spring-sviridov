@@ -12,6 +12,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.Optional;
 
 @Component
@@ -31,8 +32,24 @@ public class NovelRatingCommandHandler {
         var idempotencyKey = "%s:%s".formatted(commandTopic, command.commandId());
         var counterKey = "novel:%s:rating-count".formatted(command.novelId());
         var totalKey = "novel:%s:total-rating".formatted(command.novelId());
+        var session = makeSession(command, idempotencyKey, counterKey, totalKey, idempotencyKeyTtl);
+        var isSkipped = redisTemplate.execute(session);
 
-        var isSkipped = redisTemplate.execute(new SessionCallback<>() {
+        if (Boolean.TRUE.equals(isSkipped)) {
+            log.warn("Duplicated command detected, skipping redis ops: {}", command.commandId());
+        }
+
+        sendEvent(command.commandId(), command.novelId(), counterKey, totalKey);
+    }
+
+    private SessionCallback<Object> makeSession(
+        NovelRatingCommand command,
+        String idempotencyKey,
+        String counterKey,
+        String totalKey,
+        Duration idempotencyKeyTtl
+    ) {
+        return new SessionCallback<>() {
             @SuppressWarnings("unchecked")
             @Override
             public <K, V> Boolean execute(@NonNull RedisOperations<K, V> operations) {
@@ -47,13 +64,7 @@ public class NovelRatingCommandHandler {
                 operations.opsForValue().set((K) idempotencyKey, (V) "1", idempotencyKeyTtl);
                 return operations.exec().isEmpty();
             }
-        });
-
-        if (Boolean.TRUE.equals(isSkipped)) {
-            log.warn("Duplicated command detected, skipping redis ops: {}", command.commandId());
-        }
-
-        sendEvent(command.commandId(), command.novelId(), counterKey, totalKey);
+        };
     }
 
     private void sendEvent(String eventId, String novelId, String counterKey, String totalKey) {

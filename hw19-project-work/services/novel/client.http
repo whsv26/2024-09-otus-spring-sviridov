@@ -50,18 +50,6 @@ Accept: application/json
 ### CHAPTERS
 ########################################################################################################################
 
-### List novel chapters (-content)
-GET {{baseUrl}}/novel/novels/{{novelId}}/chapters?page=0&size=2&sort=createdAt,asc
-Authorization: Bearer {{token}}
-Content-Type: application/json
-Accept: application/json
-
-### Read novel chapter (+content)
-GET {{baseUrl}}/novel/novels/{{novelId}}/chapters/{{chapterId}}
-Authorization: Bearer {{token}}
-Content-Type: application/json
-Accept: application/json
-
 ### Create novel chapter
 POST {{baseUrl}}/novel/novels/{{novelId}}/chapters
 Authorization: Bearer {{token}}
@@ -76,6 +64,18 @@ Accept: application/json
 > {%
     client.global.set("chapterId", response.body.chapter.id);
 %}
+
+### List novel chapters (-content)
+GET {{baseUrl}}/novel/novels/{{novelId}}/chapters?page=0&size=2&sort=createdAt,asc
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+### Read novel chapter (+content)
+GET {{baseUrl}}/novel/novels/{{novelId}}/chapters/{{chapterId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
 
 ### Update novel chapter
 PUT {{baseUrl}}/novel/novels/{{novelId}}/chapters/{{chapterId}}

@@ -5,7 +5,7 @@ environments:
 
 helmDefaults:
   verify: false
-  wait: true
+  wait: false
   timeout: 300
   recreatePods: false
   force: false

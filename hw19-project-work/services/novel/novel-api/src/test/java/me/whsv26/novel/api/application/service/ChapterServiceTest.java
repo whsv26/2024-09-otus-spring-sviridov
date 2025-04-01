@@ -54,9 +54,13 @@ class ChapterServiceTest {
     private ChapterService chapterService;
 
     private NovelId novelId;
+
     private ChapterId chapterId;
+
     private Novel novel;
+
     private Chapter chapter;
+
     private CurrentUser currentUser;
 
     @BeforeEach
@@ -136,13 +140,15 @@ class ChapterServiceTest {
     void create_ShouldSaveChapter_WhenUserIsAuthor() {
         when(novelRepository.findById(novelId)).thenReturn(Optional.of(novel));
         when(currentUserProvider.getCurrentUser()).thenReturn(currentUser);
-        when(chapterRepository.save(any(Chapter.class))).thenReturn(chapter);
+        when(chapterRepository.save(any(Chapter.class)))
+            .thenAnswer(invocation -> invocation.getArgument(0));
 
-        var result = chapterService.create(novelId, "New Chapter", "New Content");
+        var result = chapterService.create(novelId, chapter.getTitle(), chapter.getContent());
 
         assertThat(result)
             .isNotNull()
             .usingRecursiveComparison()
+            .ignoringFields("id")
             .isEqualTo(chapter);
     }
 
@@ -166,21 +172,22 @@ class ChapterServiceTest {
         when(novelRepository.findById(novel.getId())).thenReturn(Optional.of(novel));
         when(currentUserProvider.getCurrentUser()).thenReturn(currentUser);
 
-        var updatedChapter = new Chapter(
-            chapterId,
-            novelId,
-            "Updated Title",
-            "Updated Content",
-            clock
-        );
+        var updatedTitle = "Updated Title";
+        var updatedContent = "Updated Content";
+        var updatedChapter = chapter.toBuilder()
+            .title(updatedTitle)
+            .content(updatedContent)
+            .build();
 
-        when(chapterRepository.save(any(Chapter.class))).thenReturn(updatedChapter);
+        when(chapterRepository.save(any(Chapter.class)))
+            .thenAnswer(invocation -> invocation.getArgument(0));
 
-        var result = chapterService.update(chapterId, "Updated Title", "Updated Content");
+        var result = chapterService.update(chapterId, updatedTitle, updatedContent);
 
         assertThat(result)
             .isNotNull()
             .usingRecursiveComparison()
+            .ignoringFields("id")
             .isEqualTo(updatedChapter);
     }
 

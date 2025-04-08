@@ -23,12 +23,14 @@ releases:
 
   - name: novel-mongodb
     namespace: novel
-    chart: ../../../deploy/charts/mongodb
+    chart: oci://registry-1.docker.io/bitnamicharts/mongodb
+    version: 16.4.10
     values:
       - ./values/novel-mongodb/{{ $.Environment.Name }}.yaml
 
   - name: novel-redis
     namespace: novel
-    chart: ../../../deploy/charts/redis
+    chart: oci://registry-1.docker.io/bitnamicharts/redis
+    version: 20.11.4
     values:
       - ./values/novel-redis/{{ $.Environment.Name }}.yaml

@@ -22,6 +22,7 @@ releases:
 
   - name: search-elasticsearch
     namespace: search
-    chart: ../../../deploy/charts/elasticsearch
+    chart: oci://registry-1.docker.io/bitnamicharts/elasticsearch
+    version: 21.4.9
     values:
       - ./values/search-elasticsearch/{{ $.Environment.Name }}.yaml

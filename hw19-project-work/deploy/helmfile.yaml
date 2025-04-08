@@ -21,30 +21,35 @@ helmfiles:
 releases:
   - name: jaeger
     namespace: jaeger
-    chart: ./charts/jaeger
+    chart: jaegertracing/jaeger
+    version: 3.4.1
     values:
       - ./values/jaeger/{{ $.Environment.Name }}.yaml
 
   - name: kafka
     namespace: kafka
-    chart: ./charts/kafka
+    chart: oci://registry-1.docker.io/bitnamicharts/kafka
+    version: 32.1.1
     values:
       - ./values/kafka/{{ $.Environment.Name }}.yaml
 
   - name: loki
     namespace: loki
-    chart: ./charts/loki
+    chart: oci://registry-1.docker.io/bitnamicharts/grafana-loki
+    version: 4.7.6
     values:
       - ./values/loki/{{ $.Environment.Name }}.yaml
 
   - name: grafana
     namespace: grafana
-    chart: ./charts/grafana
+    chart: oci://registry-1.docker.io/bitnamicharts/grafana
+    version: 11.6.1
     values:
       - ./values/grafana/{{ $.Environment.Name }}.yaml
 
   - name: prometheus
     namespace: prometheus
-    chart: ./charts/prometheus
+    chart: oci://registry-1.docker.io/bitnamicharts/prometheus
+    version: 1.4.9
     values:
       - ./values/prometheus/{{ $.Environment.Name }}.yaml

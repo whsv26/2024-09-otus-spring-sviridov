@@ -14,6 +14,7 @@ releases:
 
   - name: user-postgres
     namespace: user
-    chart: ../../../deploy/charts/postgresql
+    chart: oci://registry-1.docker.io/bitnamicharts/postgresql
+    version: 16.4.15
     values:
       - ./values/user-postgres/{{ $.Environment.Name }}.yaml

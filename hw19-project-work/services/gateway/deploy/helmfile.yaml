@@ -14,6 +14,7 @@ releases:
 
   - name: gateway-redis
     namespace: gateway
-    chart: ../../../deploy/charts/redis
+    chart: oci://registry-1.docker.io/bitnamicharts/redis
+    version: 20.11.4
     values:
       - ./values/gateway-redis/{{ $.Environment.Name }}.yaml

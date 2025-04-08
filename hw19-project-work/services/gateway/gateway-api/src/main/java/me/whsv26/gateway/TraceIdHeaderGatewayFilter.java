@@ -1,5 +1,7 @@
 package me.whsv26.gateway;
 
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.TraceContext;
 import io.micrometer.tracing.Tracer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +25,8 @@ public class TraceIdHeaderGatewayFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         Optional.ofNullable(tracer.currentSpan())
-            .map(span -> span.context().traceId())
+            .map(Span::context)
+            .map(TraceContext::traceId)
             .ifPresent(traceId -> writeHeader(exchange, traceId));
 
         return chain.filter(exchange);

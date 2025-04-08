@@ -9,35 +9,28 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
 
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_CREATED_AT;
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_ID;
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_MESSAGE_TYPE;
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_PAYLOAD;
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_PROCESSED;
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_TOPIC;
-
 @Document(collection = "outbox")
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OutboxMessage {
 
     @Id
-    @Field(name = FIELD_ID)
+    @Field(name = "_id")
     private String id;
 
-    @Field(name = FIELD_MESSAGE_TYPE)
+    @Field(name = "messageType")
     private String messageType;
 
-    @Field(name = FIELD_TOPIC)
+    @Field(name = "topic")
     private String topic;
 
-    @Field(name = FIELD_PAYLOAD)
+    @Field(name = "payload")
     private String payload;
 
-    @Field(name = FIELD_CREATED_AT)
+    @Field(name = "createdAt")
     private LocalDateTime createdAt;
 
-    @Field(name = FIELD_PROCESSED)
+    @Field(name = "processed")
     private boolean processed;
 
     public static OutboxMessage of(

@@ -24,7 +24,11 @@ public class ErrorHandler implements ErrorWebExceptionHandler {
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
         if (thr instanceof ConnectException) {
-            log.error("Target host connection error", thr);
+            log.error(
+                "Target host connection error for request: {}",
+                serverWebExchange.getRequest().getURI(),
+                thr
+            );
             response.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE);
             var dataBuffer = bufferFactory.wrap("Target host connection error".getBytes());
             return response.writeWith(Mono.just(dataBuffer));

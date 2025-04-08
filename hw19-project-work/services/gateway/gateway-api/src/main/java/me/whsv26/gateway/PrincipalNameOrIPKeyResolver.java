@@ -5,6 +5,8 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.Optional;
 
 public class PrincipalNameOrIPKeyResolver implements KeyResolver {
@@ -28,9 +30,8 @@ public class PrincipalNameOrIPKeyResolver implements KeyResolver {
     }
 
     private static Optional<String> extractFromRemoteAddress(ServerHttpRequest request) {
-        return Optional
-            .ofNullable(request.getRemoteAddress())
-            .flatMap(socketAddress -> Optional.ofNullable(socketAddress.getAddress()))
-            .flatMap(address -> Optional.ofNullable(address.getHostAddress()));
+        return Optional.ofNullable(request.getRemoteAddress())
+            .map(InetSocketAddress::getAddress)
+            .map(InetAddress::getHostAddress);
     }
 }

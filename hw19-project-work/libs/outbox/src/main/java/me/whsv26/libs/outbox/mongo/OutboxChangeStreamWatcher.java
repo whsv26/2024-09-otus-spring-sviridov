@@ -17,13 +17,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_ID;
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_MESSAGE_TYPE;
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_OPERATION_TYPE;
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_PAYLOAD;
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_PROCESSED;
-import static me.whsv26.libs.outbox.mongo.OutboxMessageField.FIELD_TOPIC;
-
 @Slf4j
 @RequiredArgsConstructor
 public class OutboxChangeStreamWatcher {
@@ -37,7 +30,7 @@ public class OutboxChangeStreamWatcher {
     private final MongoTemplate mongoTemplate;
 
     public void watchForChanges() {
-        var filter = Filters.eq(FIELD_OPERATION_TYPE, "insert");
+        var filter = Filters.eq("operationType", "insert");
         var matchStage = Aggregates.match(filter);
         var pipeline = List.of(matchStage);
 
@@ -48,7 +41,7 @@ public class OutboxChangeStreamWatcher {
 
     private void handleOutboxedMessage(ChangeStreamDocument<Document> change) {
         Optional.ofNullable(change.getFullDocument())
-            .filter(doc -> !doc.getBoolean(FIELD_PROCESSED))
+            .filter(doc -> !doc.getBoolean("processed"))
             .ifPresent(doc -> {
                 publish(doc);
                 markAsProcessed(doc);
@@ -56,22 +49,22 @@ public class OutboxChangeStreamWatcher {
     }
 
     private void markAsProcessed(Document fullDocument) {
-        var documentId = fullDocument.getString(FIELD_ID);
-        var query = Query.query(Criteria.where(FIELD_ID).is(documentId));
-        var update = new Update().set(FIELD_PROCESSED, true);
+        var documentId = fullDocument.getString("_id");
+        var query = Query.query(Criteria.where("_id").is(documentId));
+        var update = new Update().set("processed", true);
         mongoTemplate.updateFirst(query, update, COLLECTION_NAME);
     }
 
     private void publish(Document fullDocument) {
-        var payload = fullDocument.getString(FIELD_PAYLOAD);
+        var payload = fullDocument.getString("payload");
         var record = buildProducerRecord(fullDocument, payload);
         kafkaTemplate.send(record);
         log.debug("Published outbox message: {}", payload);
     }
 
     private static ProducerRecord<String, String> buildProducerRecord(Document fullDocument, String payload) {
-        var typeId = fullDocument.getString(FIELD_MESSAGE_TYPE);
-        var topic = fullDocument.getString(FIELD_TOPIC);
+        var typeId = fullDocument.getString("messageType");
+        var topic = fullDocument.getString("topic");
         var record = new ProducerRecord<String, String>(topic, payload);
         record.headers().add(HEADER_TYPE_ID, typeId.getBytes(StandardCharsets.UTF_8));
         return record;

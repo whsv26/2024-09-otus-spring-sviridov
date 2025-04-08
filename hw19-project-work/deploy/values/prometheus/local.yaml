@@ -1,0 +1,45 @@
+fullnameOverride: prometheus
+
+alertmanager:
+  enabled: true
+  replicaCount: 1
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false
+
+server:
+  extraScrapeConfigs:
+    - job_name: 'kafka'
+      static_configs:
+        - targets:
+            - 'kafka-jmx-metrics.kafka:5556'
+    - job_name: 'elasticsearch'
+      static_configs:
+        - targets:
+            - 'search-elasticsearch-metrics.search:9114'
+    - job_name: 'mongodb'
+      static_configs:
+        - targets:
+            - 'novel-mongodb-metrics.novel:9216'
+    - job_name: 'redis'
+      static_configs:
+        - targets:
+            - 'gateway-redis-metrics.gateway:9121'
+            - 'novel-redis-metrics.novel:9121'
+            - 'rating-redis-metrics.rating:9121'
+    - job_name: 'spring-boot'
+      metrics_path: '/actuator/prometheus'
+      static_configs:
+        - targets:
+            - 'gateway-api.gateway:9090'
+            - 'novel-api.novel:9090'
+            - 'novel-outbox.novel:9090'
+            - 'rating-api.rating:9090'
+            - 'rating-consumer.rating:9090'
+            - 'search-api.search:9090'
+            - 'search-indexer.search:9090'
+            - 'user-api.user:9090'
+  replicaCount: 1
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false

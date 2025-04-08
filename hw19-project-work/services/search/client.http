@@ -1,0 +1,5 @@
+### Search for novels
+GET {{baseUrl}}/search/novels?prompt=story&authorName=whsv26&genres=Fantasy&tags=LitRPG
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json

@@ -1,0 +1,65 @@
+services:
+  novel-api:
+    image: novel-api:1.0.0
+    container_name: novel-api
+    pull_policy: missing
+    ports:
+      - "8082:8080"
+    environment:
+      - TRACING_URL=http://jaeger:4318/v1/traces
+      - SPRING_DATA_MONGODB_HOST=novel-mongo
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=novel
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+      - SPRING_DATA_MONGODB_USERNAME=admin
+      - SPRING_DATA_MONGODB_PASSWORD=admin
+      - SPRING_DATA_MONGODB_REPLICA_SET_NAME=rs0
+      - SPRING_DATA_REDIS_HOST=novel-redis
+      - SPRING_DATA_REDIS_PORT=6379
+    depends_on:
+      - novel-mongo
+      - novel-redis
+
+  novel-outbox:
+    image: novel-outbox:1.0.0
+    container_name: novel-outbox
+    pull_policy: missing
+    environment:
+      - TRACING_URL=http://jaeger:4318/v1/traces
+      - SPRING_DATA_MONGODB_HOST=novel-mongo
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=novel
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+      - SPRING_DATA_MONGODB_USERNAME=admin
+      - SPRING_DATA_MONGODB_PASSWORD=admin
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_DATA_MONGODB_REPLICA_SET_NAME=rs0
+    depends_on:
+      - novel-mongo
+
+  novel-mongo:
+    build:
+      context: .
+      dockerfile: mongodb.Dockerfile
+    container_name: novel-mongo
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017", "--keyFile", "/data/keyfile"]
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'novel-mongo:27017'}]}) }" | mongosh -u admin -p admin --authenticationDatabase admin --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: novel
+    ports:
+      - '27012:27017'
+
+  novel-redis:
+    image: redis:alpine
+    container_name: novel-redis
+    ports:
+      - "6372:6379"
+    command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]

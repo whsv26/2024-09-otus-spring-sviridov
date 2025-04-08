@@ -1,0 +1,39 @@
+application:
+  kafka:
+    producer:
+      rating-command:
+        topic: "novel-rating-command"
+
+spring:
+  application:
+    name: rating-api
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  kafka:
+    bootstrap-servers: "localhost:9092"
+    producer:
+      client-id: "rating-api"
+
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL}
+  tracing:
+    sampling:
+      probability: 1.0
+  server:
+    port: 9090
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"

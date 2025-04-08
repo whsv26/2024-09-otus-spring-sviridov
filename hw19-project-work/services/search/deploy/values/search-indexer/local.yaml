@@ -1,0 +1,43 @@
+nameOverride: search-indexer
+fullnameOverride: search-indexer
+replicaCount: 1
+
+image:
+  repository: search-indexer
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
+
+serviceAccount:
+  create: false
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: probe
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+env:
+  - name: TRACING_URL
+    value: "http://jaeger-collector.jaeger:4318/v1/traces"
+  - name: ELASTICSEARCH_HOST
+    value: "search-elasticsearch-coordinating-hl.search"
+  - name: ELASTICSEARCH_PORT
+    value: "9200"
+  - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+    value: "kafka.kafka:9092"
+  - name: USER_API_URL
+    value: "http://user-api.user:8080"

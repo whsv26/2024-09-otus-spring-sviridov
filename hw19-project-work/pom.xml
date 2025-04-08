@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.otus</groupId>
+    <artifactId>hw19-project-work</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>services/gateway/gateway-api</module>
+        <module>services/user/user-api</module>
+        <module>services/novel/novel-api</module>
+        <module>services/novel/novel-outbox</module>
+        <module>services/novel/novel-model</module>
+        <module>services/search/search-indexer</module>
+        <module>services/search/search-api</module>
+        <module>services/rating/rating-api</module>
+        <module>services/rating/rating-consumer</module>
+        <module>services/rating/rating-model</module>
+        <module>libs/outbox</module>
+        <module>libs/auth</module>
+        <module>libs/idempotency</module>
+    </modules>
+</project>

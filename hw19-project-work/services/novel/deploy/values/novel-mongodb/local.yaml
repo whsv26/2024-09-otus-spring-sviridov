@@ -1,0 +1,29 @@
+fullnameOverride: novel-mongodb
+
+architecture: replicaset
+
+auth:
+  enabled: true
+  username: "novel"
+  password: "changeme"
+  database: "novel"
+
+replicaSetName: rs0
+replicaSetHostnames: true
+enableJournal: true
+
+replicaSetConfigurationSettings:
+  enabled: false
+  configuration: {}
+
+replicaCount: 1
+resourcesPreset: "small"
+
+persistence:
+  enabled: false
+
+arbiter:
+  enabled: false
+
+metrics:
+  enabled: true

@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: search-indexer
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: search-indexer
+      client-id: search-indexer-${random.uuid}
+
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL}
+  tracing:
+    sampling:
+      probability: 1.0
+  server:
+    port: 9090
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+application:
+  kafka:
+    consumer:
+      novel-event:
+        topic: "novel-event"
+      rating-event:
+        topic: "novel-rating-event"
+  elasticsearch:
+    host: ${ELASTICSEARCH_HOST}
+    port: ${ELASTICSEARCH_PORT}
+    index: "novels"
+  rest:
+    user-api:
+      url: ${USER_API_URL}

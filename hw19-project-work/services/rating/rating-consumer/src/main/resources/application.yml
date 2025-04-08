@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: rating-consumer
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      client-id: "rating-consumer"
+    consumer:
+      group-id: rating-consumer
+      client-id: rating-consumer-${random.uuid}
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+application:
+  kafka:
+    consumer:
+      rating-command:
+        topic: "novel-rating-command"
+        idempotency-key-ttl: 24h
+    producer:
+      rating-event:
+        topic: "novel-rating-event"
+
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL}
+  tracing:
+    sampling:
+      probability: 1.0
+  server:
+    port: 9090
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"

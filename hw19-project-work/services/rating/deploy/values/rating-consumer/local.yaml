@@ -1,0 +1,46 @@
+nameOverride: rating-consumer
+fullnameOverride: rating-consumer
+replicaCount: 1
+
+image:
+  repository: rating-consumer
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
+
+serviceAccount:
+  create: false
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: probe
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+env:
+  - name: TRACING_URL
+    value: "http://jaeger-collector.jaeger:4318/v1/traces"
+  - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+    value: "kafka.kafka:9092"
+  - name: SPRING_DATA_REDIS_HOST
+    value: "rating-redis-master.rating"
+  - name: SPRING_DATA_REDIS_PORT
+    value: "6379"
+  - name: SPRING_DATA_REDIS_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: rating-redis
+        key: redis-password

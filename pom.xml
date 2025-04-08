@@ -29,5 +29,6 @@
         <module>hw16-spring-actuator</module>
         <module>hw17-docker</module>
         <module>hw18-resilience</module>
+        <module>hw19-project-work</module>
     </modules>
 </project>

@@ -1,0 +1,94 @@
+spring:
+  reactor:
+    context-propagation: auto
+  application:
+    name: gateway-api
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${JWK_SET_URI}
+
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL}
+  tracing:
+    sampling:
+      probability: 1.0
+  server:
+    port: 9090
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+application:
+  public-key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/Dnh8tp1y+yBV6XItMSb8kzyvwojGZU4d9V9qvoroPKZDQ4LGfZdz8Xdsc84AqZSIizxV4griM1xJ/WyoVuRQgErEQG5xeEOyqVZ4CEbRuf1Ajq/Be4SK9hcNNCIE7k3HubzRIx0D9GnvrhOLHf5pJ4AnbQyX/lXZxKSW+QE3j9VV67k4JGt2Y5kx5TiVDlfKNOwsTDLakjUFRt7Gfo0fHhJbybelkgECbS+HeKSUx25u6rNo2Nj0J7DskRcPWZSpQ3MKh+iBAa1atSruridJjw44qKI1ZkRwuSdNblNhEg7K5jwXXLV0eF2aLxT4517NYKLnu0jHbrihjWy/k7mwIDAQAB"
+  api-routes:
+    - id: "user"
+      prefix: "/user"
+      uri: ${USER_API_URI}
+    - id: "novel"
+      prefix: "/novel"
+      uri: ${NOVEL_API_URI}
+    - id: "search"
+      prefix: "/search"
+      uri: ${SEARCH_API_URI}
+    - id: "rating"
+      prefix: "/rating"
+      uri: ${RATING_API_URI}
+
+resilience4j.circuitbreaker:
+  instances:
+    user:
+      slidingWindowSize: 60 # seconds
+      slidingWindowType: TIME_BASED # for high call frequency
+      failureRateThreshold: 50 # percents
+      waitDurationInOpenState: 30s # will reject calls for this duration after failure threshold is reached
+      permittedNumberOfCallsInHalfOpenState: 5
+      minimumNumberOfCalls: 50 # calls to calculate statistics before applying circuit breaker
+    novel:
+      slidingWindowSize: 100 # calls
+      slidingWindowType: COUNT_BASED  # for low call frequency
+      failureRateThreshold: 50 # percents
+      waitDurationInOpenState: 60s # will reject calls for this duration after failure threshold is reached
+      permittedNumberOfCallsInHalfOpenState: 5
+      minimumNumberOfCalls: 50 # calls to calculate statistics before applying circuit breaker
+    search:
+      slidingWindowSize: 60 # seconds
+      slidingWindowType: TIME_BASED # for high call frequency
+      failureRateThreshold: 50 # percents
+      waitDurationInOpenState: 30s # will reject calls for this duration after failure threshold is reached
+      permittedNumberOfCallsInHalfOpenState: 5
+      minimumNumberOfCalls: 50 # calls to calculate statistics before applying circuit breaker
+    rating:
+      slidingWindowSize: 60 # seconds
+      slidingWindowType: TIME_BASED # for high call frequency
+      failureRateThreshold: 50 # percents
+      waitDurationInOpenState: 30s # will reject calls for this duration after failure threshold is reached
+      permittedNumberOfCallsInHalfOpenState: 5
+      minimumNumberOfCalls: 50 # calls to calculate statistics before applying circuit breaker
+
+resilience4j.timelimiter:
+  instances:
+    user:
+      timeoutDuration: 3s
+    novel:
+      timeoutDuration: 3s
+    search:
+      timeoutDuration: 3s
+    rating:
+      timeoutDuration: 3s

@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: novel-outbox
+  kafka:
+    bootstrap-servers: "localhost:9092"
+    producer:
+      client-id: "novel-outbox"
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: novel
+
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL}
+  tracing:
+    sampling:
+      probability: 1.0
+  server:
+    port: 9090
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"

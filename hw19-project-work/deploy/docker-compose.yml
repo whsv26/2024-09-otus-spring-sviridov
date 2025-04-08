@@ -1,0 +1,184 @@
+include:
+  - ../services/gateway/deploy/docker-compose.yml
+  - ../services/novel/deploy/docker-compose.yml
+  - ../services/rating/deploy/docker-compose.yml
+  - ../services/search/deploy/docker-compose.yml
+  - ../services/user/deploy/docker-compose.yml
+
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:1.67.0
+    container_name: jaeger
+    ports:
+      - "4318:4318" # OpenTelemetry Protocol (OTLP) over HTTP
+      - "16686:16686" # Jaeger UI: http://localhost:16686
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    container_name: alertmanager
+    ports:
+      - "9093:9093"
+    configs:
+      - source: alertmanager
+        target: /etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000" # Grafana UI: http://localhost:3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    configs:
+      - source: grafana
+        target: /etc/grafana/provisioning/datasources/datasource.yml
+    depends_on:
+      - loki
+
+  loki:
+    image: grafana/loki:3.4.1
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    configs:
+      - source: loki
+        target: /etc/loki/local-config.yaml
+    depends_on:
+      - alertmanager
+
+  promtail:
+    image: grafana/promtail:3.4.1
+    container_name: promtail
+    configs:
+      - source: promtail
+        target: /etc/promtail/config.yaml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -config.file=/etc/promtail/config.yaml
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "9090:8080" # Kafka UI: http://localhost:9090
+    environment:
+      DYNAMIC_CONFIG_ENABLED: "true"
+      KAFKA_CLUSTERS_0_NAME: "local-cluster"
+      KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS: "kafka:9092"
+    depends_on:
+      - kafka
+
+  kafka:
+    image: apache/kafka:3.9.0
+    container_name: kafka
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092,CONTROLLER://localhost:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+
+configs:
+  alertmanager:
+    content: |
+      global:
+        resolve_timeout: 5m
+      route:
+        group_by: ['alertname']
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 3h
+        receiver: 'null'
+      receivers:
+        - name: 'null'
+  grafana:
+    content: |
+      apiVersion: 1
+      datasources:
+        - name: Loki
+          type: loki
+          access: proxy
+          url: http://loki:3100
+          isDefault: true
+          editable: false
+  loki:
+    content: |
+      auth_enabled: false
+      server:
+        http_listen_port: 3100
+        grpc_listen_port: 9096
+        grpc_server_max_concurrent_streams: 1000
+      common:
+        instance_addr: 127.0.0.1
+        path_prefix: /tmp/loki
+        storage:
+          filesystem:
+            chunks_directory: /tmp/loki/chunks
+            rules_directory: /tmp/loki/rules
+        replication_factor: 1
+        ring:
+          kvstore:
+            store: inmemory
+      query_range:
+        results_cache:
+          cache:
+            embedded_cache:
+              enabled: true
+              max_size_mb: 100
+      limits_config:
+        metric_aggregation_enabled: true
+      schema_config:
+        configs:
+          - from: 2020-10-24
+            store: tsdb
+            object_store: filesystem
+            schema: v13
+            index:
+              prefix: index_
+              period: 24h
+      pattern_ingester:
+        enabled: true
+        metric_aggregation:
+          loki_address: loki:3100
+      ruler:
+        alertmanager_url: http://alertmanager:9093
+      frontend:
+        encoding: protobuf
+
+  promtail:
+    content: |
+      server:
+        http_listen_port: 9080
+        grpc_listen_port: 0
+      positions:
+        filename: /tmp/positions.yaml
+      clients:
+        - url: http://loki:3100/loki/api/v1/push
+      scrape_configs:
+        - job_name: docker
+          docker_sd_configs:
+            - host: unix:///var/run/docker.sock
+              refresh_interval: 5s
+          relabel_configs:
+            - source_labels: ['__meta_docker_container_name']
+              regex: '/(.*)'
+              target_label: 'container'
+          pipeline_stages:
+            - json:
+                expressions:
+                  level: "level"
+                  traceId: "traceId"
+            - labels:
+                level: ""

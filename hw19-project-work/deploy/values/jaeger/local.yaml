@@ -1,0 +1,28 @@
+fullnameOverride: jaeger
+
+allInOne:
+  enabled: true
+  extraEnv:
+    - name: COLLECTOR_OTLP_ENABLED
+      value: "true"
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+    hosts:
+      - jaeger.local
+    pathType: Prefix
+
+provisionDataStore:
+  cassandra: false
+
+storage:
+  type: memory
+
+agent:
+  enabled: false
+
+collector:
+  enabled: false
+
+query:
+  enabled: false

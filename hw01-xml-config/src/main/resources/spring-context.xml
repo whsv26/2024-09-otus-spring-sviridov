@@ -6,7 +6,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="appProperties" class="ru.otus.hw.config.AppProperties">
+    <bean id="appProperties" class="ru.otus.hw.infrastructure.AppProperties">
         <constructor-arg name="testFileName" value="questions.csv"/>
     </bean>
 

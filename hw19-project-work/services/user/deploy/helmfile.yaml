@@ -1,0 +1,19 @@
+environments:
+  local:
+
+---
+
+releases:
+  - name: user-api
+    namespace: user
+    chart: ../../../deploy/charts/service
+    values:
+      - ./values/user-api/{{ $.Environment.Name }}.yaml
+    needs:
+      - user-postgres
+
+  - name: user-postgres
+    namespace: user
+    chart: ../../../deploy/charts/postgresql
+    values:
+      - ./values/user-postgres/{{ $.Environment.Name }}.yaml

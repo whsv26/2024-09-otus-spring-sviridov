@@ -1,0 +1,23 @@
+services:
+  gateway-api:
+    image: gateway-api:1.0.0
+    container_name: gateway-api
+    pull_policy: missing
+    ports:
+      - "7777:8080"
+    environment:
+      - TRACING_URL=http://jaeger:4318/v1/traces
+      - SPRING_DATA_REDIS_HOST=gateway-redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - JWK_SET_URI=http://user-api:8080/internal/tokens
+      - USER_API_URI=http://user-api:8080
+      - NOVEL_API_URI=http://novel-api:8080
+      - SEARCH_API_URI=http://search-api:8080
+      - RATING_API_URI=http://rating-api:8080
+
+  gateway-redis:
+    image: redis:alpine
+    container_name: gateway-redis
+    ports:
+      - "6377:6379"
+    command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]

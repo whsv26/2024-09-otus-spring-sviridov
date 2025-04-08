@@ -1,0 +1,95 @@
+########################################################################################################################
+### NOVELS
+########################################################################################################################
+
+### Create novel
+POST {{baseUrl}}/novel/novels
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+X-Idempotency-Key: 9fa78254-585a-4d68-a351-2c7ccf3d14e0
+#X-Idempotency-Key: {{$random.uuid}}
+
+{
+  "title": "Very interesting story",
+  "synopsis": "Some short description",
+  "genres": ["Fantasy", "Horror"],
+  "tags": ["LitRPG", "Progression"]
+}
+
+> {%
+   client.global.set("novelId", response.body.novel.id);
+%}
+
+### Read novel info
+GET {{baseUrl}}/novel/novels/{{novelId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+### Update novel
+PUT {{baseUrl}}/novel/novels/{{novelId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Very interesting story (updated)",
+  "synopsis": "Some short description (updated)",
+  "genres": ["Fantasy"],
+  "tags": ["LitRPG"]
+}
+
+### Delete novel
+DELETE {{baseUrl}}/novel/novels/{{novelId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+########################################################################################################################
+### CHAPTERS
+########################################################################################################################
+
+### Create novel chapter
+POST {{baseUrl}}/novel/novels/{{novelId}}/chapters
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "1. Unexpected truck",
+  "content": "Bla bla, car!..."
+}
+
+> {%
+    client.global.set("chapterId", response.body.chapter.id);
+%}
+
+### List novel chapters (-content)
+GET {{baseUrl}}/novel/novels/{{novelId}}/chapters?page=0&size=2&sort=createdAt,asc
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+### Read novel chapter (+content)
+GET {{baseUrl}}/novel/novels/{{novelId}}/chapters/{{chapterId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+### Update novel chapter
+PUT {{baseUrl}}/novel/novels/{{novelId}}/chapters/{{chapterId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "1. Unexpected truck (updated)",
+  "content": "Bla bla, car! So unexpected... "
+}
+
+### Delete novel chapter
+DELETE {{baseUrl}}/novel/novels/{{novelId}}/chapters/{{chapterId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json

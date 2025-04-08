@@ -1,0 +1,19 @@
+environments:
+  local:
+
+---
+
+releases:
+  - name: gateway-api
+    namespace: gateway
+    chart: ../../../deploy/charts/service
+    values:
+      - ./values/gateway-api/{{ $.Environment.Name }}.yaml
+    needs:
+      - gateway-redis
+
+  - name: gateway-redis
+    namespace: gateway
+    chart: ../../../deploy/charts/redis
+    values:
+      - ./values/gateway-redis/{{ $.Environment.Name }}.yaml

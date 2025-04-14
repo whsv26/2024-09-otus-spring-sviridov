@@ -125,6 +125,11 @@ workspace {
     }
 
     views {
+        systemLandscape landscape {
+            include *
+            exclude "search -> *"
+        }
+
         container gateway gateway {
             include *
             exclude "search -> *"

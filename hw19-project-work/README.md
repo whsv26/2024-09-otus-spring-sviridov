@@ -1,13 +1,13 @@
 Platform for publishing and discovering web novels
 
-[Presentation](https://whsv26.github.io/2024-09-otus-spring-sviridov/1)
-
-The project consists of the following systems:
+The project consists of the following systems, described in [presentation](https://whsv26.github.io/2024-09-otus-spring-sviridov/1):
 - API Gateway ([gateway](services/gateway))
 - User Management ([user](services/user))
 - Web Novel Content Management ([novel](services/novel))
 - Web Novel Rating ([rating](services/rating))
 - Web Novel Search ([search](services/search))
+
+![structurizr-1-landscape.svg](presentation/public/structurizr-1-landscape.svg)
 
 ## How to Run
 

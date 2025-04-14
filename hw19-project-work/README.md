@@ -1,4 +1,6 @@
-[Project Work Presentation](https://whsv26.github.io/2024-09-otus-spring-sviridov/1)
+Platform for publishing and discovering web novels
+
+[Presentation](https://whsv26.github.io/2024-09-otus-spring-sviridov/1)
 
 The project consists of the following systems:
 - API Gateway ([gateway](services/gateway))

@@ -3,125 +3,125 @@ workspace {
     !identifiers hierarchical
 
     model {
-        client = person "Пользователь" {
-            description "Конечный пользователь системы"
+        client = person "User" {
+            description "End user of the system"
         }
 
-        gateway = softwareSystem "Шлюз API" {
-            description "• Маршрутизация трафика\n• Проверка JWT\n• Resilience (Circuit Breaker, Rate Limiter, e.t.c.)\n• Трассировка запросов"
+        gateway = softwareSystem "API Gateway" {
+            description "• Traffic routing\n• JWT validation\n• Resilience (Circuit Breaker, Rate Limiter, etc.)\n• Request tracing"
             gatewayApi = container "gateway-api" {
-                description "• Маршрутизация трафика\n• Проверка JWT\n• Resilience (Circuit Breaker, Rate Limiter, e.t.c.)\n• Трассировка запросов"
+                description "• Traffic routing\n• JWT validation\n• Resilience (Circuit Breaker, Rate Limiter, etc.)\n• Request tracing"
                 technology "Spring Cloud API Gateway, REST, API, Stateless, WebFlux"
             }
             gatewayRedis = container "gateway-redis" {
-                description "Хранит состояние Rate Limiter"
+                description "Stores Rate Limiter state"
                 technology "Redis"
                 tags "Database"
             }
 
-            gatewayApi -> gatewayRedis "Чтение/Запись"
+            gatewayApi -> gatewayRedis "Read/Write"
         }
 
-        user = softwareSystem "Управление пользователями" {
-            description "• Регистрация пользователей\n• Выдача JWT токенов\n• Управление профилями"
+        user = softwareSystem "User Management" {
+            description "• User registration\n• JWT token issuance\n• Profile management"
             userApi = container "user-api" {
-                description "• Регистрация пользователей\n• Выдача JWT токенов\n• Управление профилями"
+                description "• User registration\n• JWT token issuance\n• Profile management"
                 technology "Spring Boot, REST, API, Stateless"
             }
             userPostgres = container "user-postgres" {
-                description "Хранит пользователей приложения"
+                description "Stores application users"
                 technology "PostgreSQL"
                 tags "Database"
             }
-            userApi -> userPostgres "Чтение/Запись пользователей"
+            userApi -> userPostgres "Read/Write users"
         }
 
-        novel = softwareSystem "Управление контентом веб-новелл" {
-            description "• Загрузка и редактирование произведений\n• Структурирование по главам"
+        novel = softwareSystem "Web Novel Content Management" {
+            description "• Uploading and editing works\n• Structuring by chapters"
             novelApi = container "novel-api" {
-                description "• Загрузка и редактирование произведений\n• Структурирование по главам"
+                description "• Uploading and editing works\n• Structuring by chapters"
                 technology "Spring Boot, REST, API, Stateless"
             }
             novelMongodb = container "novel-mongodb" {
-                description "Хранит веб-новеллы и их события"
+                description "Stores web novels and their events"
                 technology "MongoDB"
                 tags "Database"
             }
             novelOutbox = container "novel-outbox" {
-                description "Публикует события об изменении состояния веб-новелл\n"
+                description "Publishes events about web novel state changes"
                 technology "Spring Boot, CDC, Change Stream"
             }
             novelEvent = container "novel-event" {
-                description "События о создании, изменении или удалении веб-новеллы"
+                description "Events about creation, modification, or deletion of a web novel"
                 technology "Kafka"
                 tags "Topic"
             }
 
-            novelApi -> novelMongodb "Чтение/Запись веб-новелл и их событий"
-            novelOutbox -> novelMongodb "Читает события веб-новелл"
-            novelOutbox -> novelEvent "Публикует события веб-новелл"
+            novelApi -> novelMongodb "Read/Write web novels and their events"
+            novelOutbox -> novelMongodb "Reads web novel events"
+            novelOutbox -> novelEvent "Publishes web novel events"
         }
 
-        rating = softwareSystem "Оценка веб-новелл" {
-            description "Позволяет ставить оценки к произведениям"
+        rating = softwareSystem "Web Novel Rating" {
+            description "Allows users to rate works"
             ratingApi = container "rating-api" {
-                description "Позволяет ставить оценки к произведениям"
+                description "Allows users to rate works"
                 technology "Spring Boot, REST, API, Stateless"
             }
             ratingCommand = container "rating-command" {
-                description "Команды на добавление оценки произведения"
+                description "Commands for adding a work rating"
                 technology "Kafka"
                 tags "Topic"
             }
             ratingConsumer = container "rating-consumer" {
-                description "Транзакционно и идемпотентно меняет текущую среднюю оценку веб-новеллы"
+                description "Transactionally and idempotently updates the current average rating of a web novel"
                 technology "Spring Boot"
             }
             ratingEvent = container "rating-event" {
-                description "События об изменении средней оценки произведения"
+                description "Events about changes in the average rating of a work"
                 technology "Kafka"
                 tags "Topic"
             }
             ratingRedis = container "rating-redis" {
-                description "• Хранит счетчик и сумму рейтинга\n• Хранит ключи идемпотентности"
+                description "• Stores rating counter and sum\n• Stores idempotency keys"
                 technology "Redis"
                 tags "Database"
             }
-            ratingApi -> ratingCommand "Отправляет команду на добавление оценки произведению"
-            ratingApi -> ratingRedis "Получает среднюю оценку произведения по счетчику и сумме рейтинга"
-            ratingConsumer -> ratingCommand "Читает команду на добавление оценки произведению"
-            ratingConsumer -> ratingRedis "Транзакционно и идемпотентно увеличивает счетчик и сумму рейтинга"
-            ratingConsumer -> ratingEvent "Публикует событие об изменении средней оценки произведения"
+            ratingApi -> ratingCommand "Sends command to add rating to a work"
+            ratingApi -> ratingRedis "Gets average rating using counter and sum"
+            ratingConsumer -> ratingCommand "Reads command to add rating to a work"
+            ratingConsumer -> ratingRedis "Transactionally and idempotently increases rating counter and sum"
+            ratingConsumer -> ratingEvent "Publishes event about change in average rating"
         }
 
-        search = softwareSystem "Поиск веб-новелл" {
-            description "Поиск веб-новелл по различным фильтрам: автор, рейтинг, название и т.д."
+        search = softwareSystem "Web Novel Search" {
+            description "Search for web novels using various filters: author, rating, title, etc."
             searchApi = container "search-api" {
-                description "Поиск веб-новелл по различным фильтрам: автор, рейтинг, название и т.д."
+                description "Search for web novels using various filters: author, rating, title, etc."
                 technology "Spring Boot, REST, API, Stateless"
             }
             searchElasticsearch = container "search-elasticsearch" {
-                description "Хранит веб-новеллы в формате, удобном для поиска"
+                description "Stores web novels in a format suitable for search"
                 technology "ElasticSearch"
                 tags "Database"
             }
             searchIndexer = container "search-indexer" {
-                description "Индексирует веб-новеллы"
+                description "Indexes web novels"
                 technology "Spring Boot"
             }
 
-            searchIndexer -> novel.novelEvent "Читает события об изменении веб-новелл"
-            searchIndexer -> rating.ratingEvent "Читает события об изменении рейтинга веб-новелл"
-            searchIndexer -> user.userApi "Получает профиль автора"
-            searchIndexer -> searchElasticsearch "Записывает веб-новеллы в индекс"
-            searchApi -> searchElasticsearch "Выполняет поиск веб-новеллы по критериям"
+            searchIndexer -> novel.novelEvent "Reads events about web novel changes"
+            searchIndexer -> rating.ratingEvent "Reads events about web novel rating changes"
+            searchIndexer -> user.userApi "Retrieves author profile"
+            searchIndexer -> searchElasticsearch "Writes web novels to index"
+            searchApi -> searchElasticsearch "Performs web novel search by criteria"
         }
 
         client -> gateway.gatewayApi
-        gateway.gatewayApi -> user.userApi "Перенаправляет запросы; Получает публичный ключ для проверки JWT"
-        gateway.gatewayApi -> novel.novelApi "Перенаправляет запросы"
-        gateway.gatewayApi -> search.searchApi "Перенаправляет запросы"
-        gateway.gatewayApi -> rating.ratingApi "Перенаправляет запросы"
+        gateway.gatewayApi -> user.userApi "Forwards requests; Retrieves public key for JWT validation"
+        gateway.gatewayApi -> novel.novelApi "Forwards requests"
+        gateway.gatewayApi -> search.searchApi "Forwards requests"
+        gateway.gatewayApi -> rating.ratingApi "Forwards requests"
     }
 
     views {

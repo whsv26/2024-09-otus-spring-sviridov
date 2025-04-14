@@ -3,14 +3,13 @@
   "description" : "Description",
   "documentation" : { },
   "id" : 1,
-  "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2025-03-30T07:09:38Z",
+  "lastModifiedDate" : "2025-04-14T11:09:30Z",
   "model" : {
     "people" : [ {
-      "description" : "Конечный пользователь системы",
+      "description" : "End user of the system",
       "id" : "1",
       "location" : "Unspecified",
-      "name" : "Пользователь",
+      "name" : "User",
       "properties" : {
         "structurizr.dsl.identifier" : "client"
       },
@@ -29,7 +28,7 @@
     } ],
     "softwareSystems" : [ {
       "containers" : [ {
-        "description" : "• Маршрутизация трафика\n• Проверка JWT\n• Resilience (Circuit Breaker, Rate Limiter, e.t.c.)\n• Трассировка запросов",
+        "description" : "• Traffic routing\n• JWT validation\n• Resilience (Circuit Breaker, Rate Limiter, etc.)\n• Request tracing",
         "documentation" : { },
         "id" : "3",
         "name" : "gateway-api",
@@ -37,55 +36,55 @@
           "structurizr.dsl.identifier" : "gateway.gatewayapi"
         },
         "relationships" : [ {
-          "description" : "Чтение/Запись",
+          "description" : "Read/Write",
           "destinationId" : "4",
           "id" : "5",
           "sourceId" : "3",
           "tags" : "Relationship"
         }, {
-          "description" : "Перенаправляет запросы; Получает публичный ключ для проверки JWT",
+          "description" : "Forwards requests; Retrieves public key for JWT validation",
           "destinationId" : "7",
           "id" : "49",
           "sourceId" : "3",
           "tags" : "Relationship"
         }, {
-          "description" : "Перенаправляет запросы; Получает публичный ключ для проверки JWT",
+          "description" : "Forwards requests; Retrieves public key for JWT validation",
           "destinationId" : "6",
           "id" : "50",
           "linkedRelationshipId" : "49",
           "sourceId" : "3"
         }, {
-          "description" : "Перенаправляет запросы",
+          "description" : "Forwards requests",
           "destinationId" : "11",
           "id" : "53",
           "sourceId" : "3",
           "tags" : "Relationship"
         }, {
-          "description" : "Перенаправляет запросы",
+          "description" : "Forwards requests",
           "destinationId" : "10",
           "id" : "54",
           "linkedRelationshipId" : "53",
           "sourceId" : "3"
         }, {
-          "description" : "Перенаправляет запросы",
+          "description" : "Forwards requests",
           "destinationId" : "30",
           "id" : "57",
           "sourceId" : "3",
           "tags" : "Relationship"
         }, {
-          "description" : "Перенаправляет запросы",
+          "description" : "Forwards requests",
           "destinationId" : "29",
           "id" : "58",
           "linkedRelationshipId" : "57",
           "sourceId" : "3"
         }, {
-          "description" : "Перенаправляет запросы",
+          "description" : "Forwards requests",
           "destinationId" : "19",
           "id" : "61",
           "sourceId" : "3",
           "tags" : "Relationship"
         }, {
-          "description" : "Перенаправляет запросы",
+          "description" : "Forwards requests",
           "destinationId" : "18",
           "id" : "62",
           "linkedRelationshipId" : "61",
@@ -94,7 +93,7 @@
         "tags" : "Element,Container",
         "technology" : "Spring Cloud API Gateway, REST, API, Stateless, WebFlux"
       }, {
-        "description" : "Хранит состояние Rate Limiter",
+        "description" : "Stores Rate Limiter state",
         "documentation" : { },
         "id" : "4",
         "name" : "gateway-redis",
@@ -104,58 +103,58 @@
         "tags" : "Element,Container,Database",
         "technology" : "Redis"
       } ],
-      "description" : "• Маршрутизация трафика\n• Проверка JWT\n• Resilience (Circuit Breaker, Rate Limiter, e.t.c.)\n• Трассировка запросов",
+      "description" : "• Traffic routing\n• JWT validation\n• Resilience (Circuit Breaker, Rate Limiter, etc.)\n• Request tracing",
       "documentation" : { },
       "id" : "2",
       "location" : "Unspecified",
-      "name" : "Шлюз API",
+      "name" : "API Gateway",
       "properties" : {
         "structurizr.dsl.identifier" : "gateway"
       },
       "relationships" : [ {
-        "description" : "Перенаправляет запросы; Получает публичный ключ для проверки JWT",
+        "description" : "Forwards requests; Retrieves public key for JWT validation",
         "destinationId" : "7",
         "id" : "51",
         "linkedRelationshipId" : "49",
         "sourceId" : "2"
       }, {
-        "description" : "Перенаправляет запросы; Получает публичный ключ для проверки JWT",
+        "description" : "Forwards requests; Retrieves public key for JWT validation",
         "destinationId" : "6",
         "id" : "52",
         "linkedRelationshipId" : "49",
         "sourceId" : "2"
       }, {
-        "description" : "Перенаправляет запросы",
+        "description" : "Forwards requests",
         "destinationId" : "11",
         "id" : "55",
         "linkedRelationshipId" : "53",
         "sourceId" : "2"
       }, {
-        "description" : "Перенаправляет запросы",
+        "description" : "Forwards requests",
         "destinationId" : "10",
         "id" : "56",
         "linkedRelationshipId" : "53",
         "sourceId" : "2"
       }, {
-        "description" : "Перенаправляет запросы",
+        "description" : "Forwards requests",
         "destinationId" : "30",
         "id" : "59",
         "linkedRelationshipId" : "57",
         "sourceId" : "2"
       }, {
-        "description" : "Перенаправляет запросы",
+        "description" : "Forwards requests",
         "destinationId" : "29",
         "id" : "60",
         "linkedRelationshipId" : "57",
         "sourceId" : "2"
       }, {
-        "description" : "Перенаправляет запросы",
+        "description" : "Forwards requests",
         "destinationId" : "19",
         "id" : "63",
         "linkedRelationshipId" : "61",
         "sourceId" : "2"
       }, {
-        "description" : "Перенаправляет запросы",
+        "description" : "Forwards requests",
         "destinationId" : "18",
         "id" : "64",
         "linkedRelationshipId" : "61",
@@ -164,7 +163,7 @@
       "tags" : "Element,Software System"
     }, {
       "containers" : [ {
-        "description" : "• Регистрация пользователей\n• Выдача JWT токенов\n• Управление профилями",
+        "description" : "• User registration\n• JWT token issuance\n• Profile management",
         "documentation" : { },
         "id" : "7",
         "name" : "user-api",
@@ -172,7 +171,7 @@
           "structurizr.dsl.identifier" : "user.userapi"
         },
         "relationships" : [ {
-          "description" : "Чтение/Запись пользователей",
+          "description" : "Read/Write users",
           "destinationId" : "8",
           "id" : "9",
           "sourceId" : "7",
@@ -181,7 +180,7 @@
         "tags" : "Element,Container",
         "technology" : "Spring Boot, REST, API, Stateless"
       }, {
-        "description" : "Хранит пользователей приложения",
+        "description" : "Stores application users",
         "documentation" : { },
         "id" : "8",
         "name" : "user-postgres",
@@ -191,18 +190,18 @@
         "tags" : "Element,Container,Database",
         "technology" : "PostgreSQL"
       } ],
-      "description" : "• Регистрация пользователей\n• Выдача JWT токенов\n• Управление профилями",
+      "description" : "• User registration\n• JWT token issuance\n• Profile management",
       "documentation" : { },
       "id" : "6",
       "location" : "Unspecified",
-      "name" : "Управление пользователями",
+      "name" : "User Management",
       "properties" : {
         "structurizr.dsl.identifier" : "user"
       },
       "tags" : "Element,Software System"
     }, {
       "containers" : [ {
-        "description" : "• Загрузка и редактирование произведений\n• Структурирование по главам",
+        "description" : "• Uploading and editing works\n• Structuring by chapters",
         "documentation" : { },
         "id" : "11",
         "name" : "novel-api",
@@ -210,7 +209,7 @@
           "structurizr.dsl.identifier" : "novel.novelapi"
         },
         "relationships" : [ {
-          "description" : "Чтение/Запись веб-новелл и их событий",
+          "description" : "Read/Write web novels and their events",
           "destinationId" : "12",
           "id" : "15",
           "sourceId" : "11",
@@ -219,7 +218,7 @@
         "tags" : "Element,Container",
         "technology" : "Spring Boot, REST, API, Stateless"
       }, {
-        "description" : "Хранит веб-новеллы и их события",
+        "description" : "Stores web novels and their events",
         "documentation" : { },
         "id" : "12",
         "name" : "novel-mongodb",
@@ -229,7 +228,7 @@
         "tags" : "Element,Container,Database",
         "technology" : "MongoDB"
       }, {
-        "description" : "Публикует события об изменении состояния веб-новелл\n",
+        "description" : "Publishes events about web novel state changes",
         "documentation" : { },
         "id" : "13",
         "name" : "novel-outbox",
@@ -237,13 +236,13 @@
           "structurizr.dsl.identifier" : "novel.noveloutbox"
         },
         "relationships" : [ {
-          "description" : "Читает события веб-новелл",
+          "description" : "Reads web novel events",
           "destinationId" : "12",
           "id" : "16",
           "sourceId" : "13",
           "tags" : "Relationship"
         }, {
-          "description" : "Публикует события веб-новелл",
+          "description" : "Publishes web novel events",
           "destinationId" : "14",
           "id" : "17",
           "sourceId" : "13",
@@ -252,7 +251,7 @@
         "tags" : "Element,Container",
         "technology" : "Spring Boot, CDC, Change Stream"
       }, {
-        "description" : "События о создании, изменении или удалении веб-новеллы",
+        "description" : "Events about creation, modification, or deletion of a web novel",
         "documentation" : { },
         "id" : "14",
         "name" : "novel-event",
@@ -262,18 +261,18 @@
         "tags" : "Element,Container,Topic",
         "technology" : "Kafka"
       } ],
-      "description" : "• Загрузка и редактирование произведений\n• Структурирование по главам",
+      "description" : "• Uploading and editing works\n• Structuring by chapters",
       "documentation" : { },
       "id" : "10",
       "location" : "Unspecified",
-      "name" : "Управление контентом веб-новелл",
+      "name" : "Web Novel Content Management",
       "properties" : {
         "structurizr.dsl.identifier" : "novel"
       },
       "tags" : "Element,Software System"
     }, {
       "containers" : [ {
-        "description" : "Позволяет ставить оценки к произведениям",
+        "description" : "Allows users to rate works",
         "documentation" : { },
         "id" : "19",
         "name" : "rating-api",
@@ -281,13 +280,13 @@
           "structurizr.dsl.identifier" : "rating.ratingapi"
         },
         "relationships" : [ {
-          "description" : "Отправляет команду на добавление оценки произведению",
+          "description" : "Sends command to add rating to a work",
           "destinationId" : "20",
           "id" : "24",
           "sourceId" : "19",
           "tags" : "Relationship"
         }, {
-          "description" : "Получает среднюю оценку произведения по счетчику и сумме рейтинга",
+          "description" : "Gets average rating using counter and sum",
           "destinationId" : "23",
           "id" : "25",
           "sourceId" : "19",
@@ -296,7 +295,7 @@
         "tags" : "Element,Container",
         "technology" : "Spring Boot, REST, API, Stateless"
       }, {
-        "description" : "Команды на добавление оценки произведения",
+        "description" : "Commands for adding a work rating",
         "documentation" : { },
         "id" : "20",
         "name" : "rating-command",
@@ -306,7 +305,7 @@
         "tags" : "Element,Container,Topic",
         "technology" : "Kafka"
       }, {
-        "description" : "Транзакционно и идемпотентно меняет текущую среднюю оценку веб-новеллы",
+        "description" : "Transactionally and idempotently updates the current average rating of a web novel",
         "documentation" : { },
         "id" : "21",
         "name" : "rating-consumer",
@@ -314,19 +313,19 @@
           "structurizr.dsl.identifier" : "rating.ratingconsumer"
         },
         "relationships" : [ {
-          "description" : "Читает команду на добавление оценки произведению",
+          "description" : "Reads command to add rating to a work",
           "destinationId" : "20",
           "id" : "26",
           "sourceId" : "21",
           "tags" : "Relationship"
         }, {
-          "description" : "Транзакционно и идемпотентно увеличивает счетчик и сумму рейтинга",
+          "description" : "Transactionally and idempotently increases rating counter and sum",
           "destinationId" : "23",
           "id" : "27",
           "sourceId" : "21",
           "tags" : "Relationship"
         }, {
-          "description" : "Публикует событие об изменении средней оценки произведения",
+          "description" : "Publishes event about change in average rating",
           "destinationId" : "22",
           "id" : "28",
           "sourceId" : "21",
@@ -335,7 +334,7 @@
         "tags" : "Element,Container",
         "technology" : "Spring Boot"
       }, {
-        "description" : "События об изменении средней оценки произведения",
+        "description" : "Events about changes in the average rating of a work",
         "documentation" : { },
         "id" : "22",
         "name" : "rating-event",
@@ -345,7 +344,7 @@
         "tags" : "Element,Container,Topic",
         "technology" : "Kafka"
       }, {
-        "description" : "• Хранит счетчик и сумму рейтинга\n• Хранит ключи идемпотентности",
+        "description" : "• Stores rating counter and sum\n• Stores idempotency keys",
         "documentation" : { },
         "id" : "23",
         "name" : "rating-redis",
@@ -355,18 +354,18 @@
         "tags" : "Element,Container,Database",
         "technology" : "Redis"
       } ],
-      "description" : "Позволяет ставить оценки к произведениям",
+      "description" : "Allows users to rate works",
       "documentation" : { },
       "id" : "18",
       "location" : "Unspecified",
-      "name" : "Оценка веб-новелл",
+      "name" : "Web Novel Rating",
       "properties" : {
         "structurizr.dsl.identifier" : "rating"
       },
       "tags" : "Element,Software System"
     }, {
       "containers" : [ {
-        "description" : "Поиск веб-новелл по различным фильтрам: автор, рейтинг, название и т.д.",
+        "description" : "Search for web novels using various filters: author, rating, title, etc.",
         "documentation" : { },
         "id" : "30",
         "name" : "search-api",
@@ -374,7 +373,7 @@
           "structurizr.dsl.identifier" : "search.searchapi"
         },
         "relationships" : [ {
-          "description" : "Выполняет поиск веб-новеллы по критериям",
+          "description" : "Performs web novel search by criteria",
           "destinationId" : "31",
           "id" : "46",
           "sourceId" : "30",
@@ -383,7 +382,7 @@
         "tags" : "Element,Container",
         "technology" : "Spring Boot, REST, API, Stateless"
       }, {
-        "description" : "Хранит веб-новеллы в формате, удобном для поиска",
+        "description" : "Stores web novels in a format suitable for search",
         "documentation" : { },
         "id" : "31",
         "name" : "search-elasticsearch",
@@ -393,7 +392,7 @@
         "tags" : "Element,Container,Database",
         "technology" : "ElasticSearch"
       }, {
-        "description" : "Индексирует веб-новеллы",
+        "description" : "Indexes web novels",
         "documentation" : { },
         "id" : "32",
         "name" : "search-indexer",
@@ -401,43 +400,43 @@
           "structurizr.dsl.identifier" : "search.searchindexer"
         },
         "relationships" : [ {
-          "description" : "Читает события об изменении веб-новелл",
+          "description" : "Reads events about web novel changes",
           "destinationId" : "14",
           "id" : "33",
           "sourceId" : "32",
           "tags" : "Relationship"
         }, {
-          "description" : "Читает события об изменении веб-новелл",
+          "description" : "Reads events about web novel changes",
           "destinationId" : "10",
           "id" : "34",
           "linkedRelationshipId" : "33",
           "sourceId" : "32"
         }, {
-          "description" : "Читает события об изменении рейтинга веб-новелл",
+          "description" : "Reads events about web novel rating changes",
           "destinationId" : "22",
           "id" : "37",
           "sourceId" : "32",
           "tags" : "Relationship"
         }, {
-          "description" : "Читает события об изменении рейтинга веб-новелл",
+          "description" : "Reads events about web novel rating changes",
           "destinationId" : "18",
           "id" : "38",
           "linkedRelationshipId" : "37",
           "sourceId" : "32"
         }, {
-          "description" : "Получает профиль автора",
+          "description" : "Retrieves author profile",
           "destinationId" : "7",
           "id" : "41",
           "sourceId" : "32",
           "tags" : "Relationship"
         }, {
-          "description" : "Получает профиль автора",
+          "description" : "Retrieves author profile",
           "destinationId" : "6",
           "id" : "42",
           "linkedRelationshipId" : "41",
           "sourceId" : "32"
         }, {
-          "description" : "Записывает веб-новеллы в индекс",
+          "description" : "Writes web novels to index",
           "destinationId" : "31",
           "id" : "45",
           "sourceId" : "32",
@@ -446,46 +445,46 @@
         "tags" : "Element,Container",
         "technology" : "Spring Boot"
       } ],
-      "description" : "Поиск веб-новелл по различным фильтрам: автор, рейтинг, название и т.д.",
+      "description" : "Search for web novels using various filters: author, rating, title, etc.",
       "documentation" : { },
       "id" : "29",
       "location" : "Unspecified",
-      "name" : "Поиск веб-новелл",
+      "name" : "Web Novel Search",
       "properties" : {
         "structurizr.dsl.identifier" : "search"
       },
       "relationships" : [ {
-        "description" : "Читает события об изменении веб-новелл",
+        "description" : "Reads events about web novel changes",
         "destinationId" : "14",
         "id" : "35",
         "linkedRelationshipId" : "33",
         "sourceId" : "29"
       }, {
-        "description" : "Читает события об изменении веб-новелл",
+        "description" : "Reads events about web novel changes",
         "destinationId" : "10",
         "id" : "36",
         "linkedRelationshipId" : "33",
         "sourceId" : "29"
       }, {
-        "description" : "Читает события об изменении рейтинга веб-новелл",
+        "description" : "Reads events about web novel rating changes",
         "destinationId" : "22",
         "id" : "39",
         "linkedRelationshipId" : "37",
         "sourceId" : "29"
       }, {
-        "description" : "Читает события об изменении рейтинга веб-новелл",
+        "description" : "Reads events about web novel rating changes",
         "destinationId" : "18",
         "id" : "40",
         "linkedRelationshipId" : "37",
         "sourceId" : "29"
       }, {
-        "description" : "Получает профиль автора",
+        "description" : "Retrieves author profile",
         "destinationId" : "7",
         "id" : "43",
         "linkedRelationshipId" : "41",
         "sourceId" : "29"
       }, {
-        "description" : "Получает профиль автора",
+        "description" : "Retrieves author profile",
         "destinationId" : "6",
         "id" : "44",
         "linkedRelationshipId" : "41",
@@ -496,13 +495,12 @@
   },
   "name" : "Name",
   "properties" : {
-    "structurizr.dsl" : "d29ya3NwYWNlIHsKCiAgICAhaWRlbnRpZmllcnMgaGllcmFyY2hpY2FsCgogICAgbW9kZWwgewogICAgICAgIGNsaWVudCA9IHBlcnNvbiAi0J/QvtC70YzQt9C+0LLQsNGC0LXQu9GMIiB7CiAgICAgICAgICAgIGRlc2NyaXB0aW9uICLQmtC+0L3QtdGH0L3Ri9C5INC/0L7Qu9GM0LfQvtCy0LDRgtC10LvRjCDRgdC40YHRgtC10LzRiyIKICAgICAgICB9CgogICAgICAgIGdhdGV3YXkgPSBzb2Z0d2FyZVN5c3RlbSAi0KjQu9GO0LcgQVBJIiB7CiAgICAgICAgICAgIGRlc2NyaXB0aW9uICLigKIg0JzQsNGA0YjRgNGD0YLQuNC30LDRhtC40Y8g0YLRgNCw0YTQuNC60LBcbuKAoiDQn9GA0L7QstC10YDQutCwIEpXVFxu4oCiIFJlc2lsaWVuY2UgKENpcmN1aXQgQnJlYWtlciwgUmF0ZSBMaW1pdGVyLCBlLnQuYy4pXG7igKIg0KLRgNCw0YHRgdC40YDQvtCy0LrQsCDQt9Cw0L/RgNC+0YHQvtCyIgogICAgICAgICAgICBnYXRld2F5QXBpID0gY29udGFpbmVyICJnYXRld2F5LWFwaSIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIuKAoiDQnNCw0YDRiNGA0YPRgtC40LfQsNGG0LjRjyDRgtGA0LDRhNC40LrQsFxu4oCiINCf0YDQvtCy0LXRgNC60LAgSldUXG7igKIgUmVzaWxpZW5jZSAoQ2lyY3VpdCBCcmVha2VyLCBSYXRlIExpbWl0ZXIsIGUudC5jLilcbuKAoiDQotGA0LDRgdGB0LjRgNC+0LLQutCwINC30LDQv9GA0L7RgdC+0LIiCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJTcHJpbmcgQ2xvdWQgQVBJIEdhdGV3YXksIFJFU1QsIEFQSSwgU3RhdGVsZXNzLCBXZWJGbHV4IgogICAgICAgICAgICB9CiAgICAgICAgICAgIGdhdGV3YXlSZWRpcyA9IGNvbnRhaW5lciAiZ2F0ZXdheS1yZWRpcyIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gItCl0YDQsNC90LjRgiDRgdC+0YHRgtC+0Y/QvdC40LUgUmF0ZSBMaW1pdGVyIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiUmVkaXMiCiAgICAgICAgICAgICAgICB0YWdzICJEYXRhYmFzZSIKICAgICAgICAgICAgfQoKICAgICAgICAgICAgZ2F0ZXdheUFwaSAtPiBnYXRld2F5UmVkaXMgItCn0YLQtdC90LjQtS/Ql9Cw0L/QuNGB0YwiCiAgICAgICAgfQoKICAgICAgICB1c2VyID0gc29mdHdhcmVTeXN0ZW0gItCj0L/RgNCw0LLQu9C10L3QuNC1INC/0L7Qu9GM0LfQvtCy0LDRgtC10LvRj9C80LgiIHsKICAgICAgICAgICAgZGVzY3JpcHRpb24gIuKAoiDQoNC10LPQuNGB0YLRgNCw0YbQuNGPINC/0L7Qu9GM0LfQvtCy0LDRgtC10LvQtdC5XG7igKIg0JLRi9C00LDRh9CwIEpXVCDRgtC+0LrQtdC90L7Qslxu4oCiINCj0L/RgNCw0LLQu9C10L3QuNC1INC/0YDQvtGE0LjQu9GP0LzQuCIKICAgICAgICAgICAgdXNlckFwaSA9IGNvbnRhaW5lciAidXNlci1hcGkiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICLigKIg0KDQtdCz0LjRgdGC0YDQsNGG0LjRjyDQv9C+0LvRjNC30L7QstCw0YLQtdC70LXQuVxu4oCiINCS0YvQtNCw0YfQsCBKV1Qg0YLQvtC60LXQvdC+0LJcbuKAoiDQo9C/0YDQsNCy0LvQtdC90LjQtSDQv9GA0L7RhNC40LvRj9C80LgiCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJTcHJpbmcgQm9vdCwgUkVTVCwgQVBJLCBTdGF0ZWxlc3MiCiAgICAgICAgICAgIH0KICAgICAgICAgICAgdXNlclBvc3RncmVzID0gY29udGFpbmVyICJ1c2VyLXBvc3RncmVzIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAi0KXRgNCw0L3QuNGCINC/0L7Qu9GM0LfQvtCy0LDRgtC10LvQtdC5INC/0YDQuNC70L7QttC10L3QuNGPIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiUG9zdGdyZVNRTCIKICAgICAgICAgICAgICAgIHRhZ3MgIkRhdGFiYXNlIgogICAgICAgICAgICB9CiAgICAgICAgICAgIHVzZXJBcGkgLT4gdXNlclBvc3RncmVzICLQp9GC0LXQvdC40LUv0JfQsNC/0LjRgdGMINC/0L7Qu9GM0LfQvtCy0LDRgtC10LvQtdC5IgogICAgICAgIH0KCiAgICAgICAgbm92ZWwgPSBzb2Z0d2FyZVN5c3RlbSAi0KPQv9GA0LDQstC70LXQvdC40LUg0LrQvtC90YLQtdC90YLQvtC8INCy0LXQsS3QvdC+0LLQtdC70LsiIHsKICAgICAgICAgICAgZGVzY3JpcHRpb24gIuKAoiDQl9Cw0LPRgNGD0LfQutCwINC4INGA0LXQtNCw0LrRgtC40YDQvtCy0LDQvdC40LUg0L/RgNC+0LjQt9Cy0LXQtNC10L3QuNC5XG7igKIg0KHRgtGA0YPQutGC0YPRgNC40YDQvtCy0LDQvdC40LUg0L/QviDQs9C70LDQstCw0LwiCiAgICAgICAgICAgIG5vdmVsQXBpID0gY29udGFpbmVyICJub3ZlbC1hcGkiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICLigKIg0JfQsNCz0YDRg9C30LrQsCDQuCDRgNC10LTQsNC60YLQuNGA0L7QstCw0L3QuNC1INC/0YDQvtC40LfQstC10LTQtdC90LjQuVxu4oCiINCh0YLRgNGD0LrRgtGD0YDQuNGA0L7QstCw0L3QuNC1INC/0L4g0LPQu9Cw0LLQsNC8IgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiU3ByaW5nIEJvb3QsIFJFU1QsIEFQSSwgU3RhdGVsZXNzIgogICAgICAgICAgICB9CiAgICAgICAgICAgIG5vdmVsTW9uZ29kYiA9IGNvbnRhaW5lciAibm92ZWwtbW9uZ29kYiIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gItCl0YDQsNC90LjRgiDQstC10LEt0L3QvtCy0LXQu9C70Ysg0Lgg0LjRhSDRgdC+0LHRi9GC0LjRjyIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIk1vbmdvREIiCiAgICAgICAgICAgICAgICB0YWdzICJEYXRhYmFzZSIKICAgICAgICAgICAgfQogICAgICAgICAgICBub3ZlbE91dGJveCA9IGNvbnRhaW5lciAibm92ZWwtb3V0Ym94IiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAi0J/Rg9Cx0LvQuNC60YPQtdGCINGB0L7QsdGL0YLQuNGPINC+0LEg0LjQt9C80LXQvdC10L3QuNC4INGB0L7RgdGC0L7Rj9C90LjRjyDQstC10LEt0L3QvtCy0LXQu9C7XG4iCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJTcHJpbmcgQm9vdCwgQ0RDLCBDaGFuZ2UgU3RyZWFtIgogICAgICAgICAgICB9CiAgICAgICAgICAgIG5vdmVsRXZlbnQgPSBjb250YWluZXIgIm5vdmVsLWV2ZW50IiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAi0KHQvtCx0YvRgtC40Y8g0L4g0YHQvtC30LTQsNC90LjQuCwg0LjQt9C80LXQvdC10L3QuNC4INC40LvQuCDRg9C00LDQu9C10L3QuNC4INCy0LXQsS3QvdC+0LLQtdC70LvRiyIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIkthZmthIgogICAgICAgICAgICAgICAgdGFncyAiVG9waWMiCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIG5vdmVsQXBpIC0+IG5vdmVsTW9uZ29kYiAi0KfRgtC10L3QuNC1L9CX0LDQv9C40YHRjCDQstC10LEt0L3QvtCy0LXQu9C7INC4INC40YUg0YHQvtCx0YvRgtC40LkiCiAgICAgICAgICAgIG5vdmVsT3V0Ym94IC0+IG5vdmVsTW9uZ29kYiAi0KfQuNGC0LDQtdGCINGB0L7QsdGL0YLQuNGPINCy0LXQsS3QvdC+0LLQtdC70LsiCiAgICAgICAgICAgIG5vdmVsT3V0Ym94IC0+IG5vdmVsRXZlbnQgItCf0YPQsdC70LjQutGD0LXRgiDRgdC+0LHRi9GC0LjRjyDQstC10LEt0L3QvtCy0LXQu9C7IgogICAgICAgIH0KCiAgICAgICAgcmF0aW5nID0gc29mdHdhcmVTeXN0ZW0gItCe0YbQtdC90LrQsCDQstC10LEt0L3QvtCy0LXQu9C7IiB7CiAgICAgICAgICAgIGRlc2NyaXB0aW9uICLQn9C+0LfQstC+0LvRj9C10YIg0YHRgtCw0LLQuNGC0Ywg0L7RhtC10L3QutC4INC6INC/0YDQvtC40LfQstC10LTQtdC90LjRj9C8IgogICAgICAgICAgICByYXRpbmdBcGkgPSBjb250YWluZXIgInJhdGluZy1hcGkiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICLQn9C+0LfQstC+0LvRj9C10YIg0YHRgtCw0LLQuNGC0Ywg0L7RhtC10L3QutC4INC6INC/0YDQvtC40LfQstC10LTQtdC90LjRj9C8IgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiU3ByaW5nIEJvb3QsIFJFU1QsIEFQSSwgU3RhdGVsZXNzIgogICAgICAgICAgICB9CiAgICAgICAgICAgIHJhdGluZ0NvbW1hbmQgPSBjb250YWluZXIgInJhdGluZy1jb21tYW5kIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAi0JrQvtC80LDQvdC00Ysg0L3QsCDQtNC+0LHQsNCy0LvQtdC90LjQtSDQvtGG0LXQvdC60Lgg0L/RgNC+0LjQt9Cy0LXQtNC10L3QuNGPIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiS2Fma2EiCiAgICAgICAgICAgICAgICB0YWdzICJUb3BpYyIKICAgICAgICAgICAgfQogICAgICAgICAgICByYXRpbmdDb25zdW1lciA9IGNvbnRhaW5lciAicmF0aW5nLWNvbnN1bWVyIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAi0KLRgNCw0L3Qt9Cw0LrRhtC40L7QvdC90L4g0Lgg0LjQtNC10LzQv9C+0YLQtdC90YLQvdC+INC80LXQvdGP0LXRgiDRgtC10LrRg9GJ0YPRjiDRgdGA0LXQtNC90Y7RjiDQvtGG0LXQvdC60YMg0LLQtdCxLdC90L7QstC10LvQu9GLIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiU3ByaW5nIEJvb3QiCiAgICAgICAgICAgIH0KICAgICAgICAgICAgcmF0aW5nRXZlbnQgPSBjb250YWluZXIgInJhdGluZy1ldmVudCIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gItCh0L7QsdGL0YLQuNGPINC+0LEg0LjQt9C80LXQvdC10L3QuNC4INGB0YDQtdC00L3QtdC5INC+0YbQtdC90LrQuCDQv9GA0L7QuNC30LLQtdC00LXQvdC40Y8iCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJLYWZrYSIKICAgICAgICAgICAgICAgIHRhZ3MgIlRvcGljIgogICAgICAgICAgICB9CiAgICAgICAgICAgIHJhdGluZ1JlZGlzID0gY29udGFpbmVyICJyYXRpbmctcmVkaXMiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICLigKIg0KXRgNCw0L3QuNGCINGB0YfQtdGC0YfQuNC6INC4INGB0YPQvNC80YMg0YDQtdC50YLQuNC90LPQsFxu4oCiINCl0YDQsNC90LjRgiDQutC70Y7Rh9C4INC40LTQtdC80L/QvtGC0LXQvdGC0L3QvtGB0YLQuCIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlJlZGlzIgogICAgICAgICAgICAgICAgdGFncyAiRGF0YWJhc2UiCiAgICAgICAgICAgIH0KICAgICAgICAgICAgcmF0aW5nQXBpIC0+IHJhdGluZ0NvbW1hbmQgItCe0YLQv9GA0LDQstC70Y/QtdGCINC60L7QvNCw0L3QtNGDINC90LAg0LTQvtCx0LDQstC70LXQvdC40LUg0L7RhtC10L3QutC4INC/0YDQvtC40LfQstC10LTQtdC90LjRjiIKICAgICAgICAgICAgcmF0aW5nQXBpIC0+IHJhdGluZ1JlZGlzICLQn9C+0LvRg9GH0LDQtdGCINGB0YDQtdC00L3RjtGOINC+0YbQtdC90LrRgyDQv9GA0L7QuNC30LLQtdC00LXQvdC40Y8g0L/QviDRgdGH0LXRgtGH0LjQutGDINC4INGB0YPQvNC80LUg0YDQtdC50YLQuNC90LPQsCIKICAgICAgICAgICAgcmF0aW5nQ29uc3VtZXIgLT4gcmF0aW5nQ29tbWFuZCAi0KfQuNGC0LDQtdGCINC60L7QvNCw0L3QtNGDINC90LAg0LTQvtCx0LDQstC70LXQvdC40LUg0L7RhtC10L3QutC4INC/0YDQvtC40LfQstC10LTQtdC90LjRjiIKICAgICAgICAgICAgcmF0aW5nQ29uc3VtZXIgLT4gcmF0aW5nUmVkaXMgItCi0YDQsNC90LfQsNC60YbQuNC+0L3QvdC+INC4INC40LTQtdC80L/QvtGC0LXQvdGC0L3QviDRg9Cy0LXQu9C40YfQuNCy0LDQtdGCINGB0YfQtdGC0YfQuNC6INC4INGB0YPQvNC80YMg0YDQtdC50YLQuNC90LPQsCIKICAgICAgICAgICAgcmF0aW5nQ29uc3VtZXIgLT4gcmF0aW5nRXZlbnQgItCf0YPQsdC70LjQutGD0LXRgiDRgdC+0LHRi9GC0LjQtSDQvtCxINC40LfQvNC10L3QtdC90LjQuCDRgdGA0LXQtNC90LXQuSDQvtGG0LXQvdC60Lgg0L/RgNC+0LjQt9Cy0LXQtNC10L3QuNGPIgogICAgICAgIH0KCiAgICAgICAgc2VhcmNoID0gc29mdHdhcmVTeXN0ZW0gItCf0L7QuNGB0Log0LLQtdCxLdC90L7QstC10LvQuyIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAi0J/QvtC40YHQuiDQstC10LEt0L3QvtCy0LXQu9C7INC/0L4g0YDQsNC30LvQuNGH0L3Ri9C8INGE0LjQu9GM0YLRgNCw0Lw6INCw0LLRgtC+0YAsINGA0LXQudGC0LjQvdCzLCDQvdCw0LfQstCw0L3QuNC1INC4INGCLtC0LiIKICAgICAgICAgICAgc2VhcmNoQXBpID0gY29udGFpbmVyICJzZWFyY2gtYXBpIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAi0J/QvtC40YHQuiDQstC10LEt0L3QvtCy0LXQu9C7INC/0L4g0YDQsNC30LvQuNGH0L3Ri9C8INGE0LjQu9GM0YLRgNCw0Lw6INCw0LLRgtC+0YAsINGA0LXQudGC0LjQvdCzLCDQvdCw0LfQstCw0L3QuNC1INC4INGCLtC0LiIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlNwcmluZyBCb290LCBSRVNULCBBUEksIFN0YXRlbGVzcyIKICAgICAgICAgICAgfQogICAgICAgICAgICBzZWFyY2hFbGFzdGljc2VhcmNoID0gY29udGFpbmVyICJzZWFyY2gtZWxhc3RpY3NlYXJjaCIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gItCl0YDQsNC90LjRgiDQstC10LEt0L3QvtCy0LXQu9C70Ysg0LIg0YTQvtGA0LzQsNGC0LUsINGD0LTQvtCx0L3QvtC8INC00LvRjyDQv9C+0LjRgdC60LAiCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJFbGFzdGljU2VhcmNoIgogICAgICAgICAgICAgICAgdGFncyAiRGF0YWJhc2UiCiAgICAgICAgICAgIH0KICAgICAgICAgICAgc2VhcmNoSW5kZXhlciA9IGNvbnRhaW5lciAic2VhcmNoLWluZGV4ZXIiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICLQmNC90LTQtdC60YHQuNGA0YPQtdGCINCy0LXQsS3QvdC+0LLQtdC70LvRiyIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlNwcmluZyBCb290IgogICAgICAgICAgICB9CgogICAgICAgICAgICBzZWFyY2hJbmRleGVyIC0+IG5vdmVsLm5vdmVsRXZlbnQgItCn0LjRgtCw0LXRgiDRgdC+0LHRi9GC0LjRjyDQvtCxINC40LfQvNC10L3QtdC90LjQuCDQstC10LEt0L3QvtCy0LXQu9C7IgogICAgICAgICAgICBzZWFyY2hJbmRleGVyIC0+IHJhdGluZy5yYXRpbmdFdmVudCAi0KfQuNGC0LDQtdGCINGB0L7QsdGL0YLQuNGPINC+0LEg0LjQt9C80LXQvdC10L3QuNC4INGA0LXQudGC0LjQvdCz0LAg0LLQtdCxLdC90L7QstC10LvQuyIKICAgICAgICAgICAgc2VhcmNoSW5kZXhlciAtPiB1c2VyLnVzZXJBcGkgItCf0L7Qu9GD0YfQsNC10YIg0L/RgNC+0YTQuNC70Ywg0LDQstGC0L7RgNCwIgogICAgICAgICAgICBzZWFyY2hJbmRleGVyIC0+IHNlYXJjaEVsYXN0aWNzZWFyY2ggItCX0LDQv9C40YHRi9Cy0LDQtdGCINCy0LXQsS3QvdC+0LLQtdC70LvRiyDQsiDQuNC90LTQtdC60YEiCiAgICAgICAgICAgIHNlYXJjaEFwaSAtPiBzZWFyY2hFbGFzdGljc2VhcmNoICLQktGL0L/QvtC70L3Rj9C10YIg0L/QvtC40YHQuiDQstC10LEt0L3QvtCy0LXQu9C70Ysg0L/QviDQutGA0LjRgtC10YDQuNGP0LwiCiAgICAgICAgfQoKICAgICAgICBjbGllbnQgLT4gZ2F0ZXdheS5nYXRld2F5QXBpCiAgICAgICAgZ2F0ZXdheS5nYXRld2F5QXBpIC0+IHVzZXIudXNlckFwaSAi0J/QtdGA0LXQvdCw0L/RgNCw0LLQu9GP0LXRgiDQt9Cw0L/RgNC+0YHRizsg0J/QvtC70YPRh9Cw0LXRgiDQv9GD0LHQu9C40YfQvdGL0Lkg0LrQu9GO0Ycg0LTQu9GPINC/0YDQvtCy0LXRgNC60LggSldUIgogICAgICAgIGdhdGV3YXkuZ2F0ZXdheUFwaSAtPiBub3ZlbC5ub3ZlbEFwaSAi0J/QtdGA0LXQvdCw0L/RgNCw0LLQu9GP0LXRgiDQt9Cw0L/RgNC+0YHRiyIKICAgICAgICBnYXRld2F5LmdhdGV3YXlBcGkgLT4gc2VhcmNoLnNlYXJjaEFwaSAi0J/QtdGA0LXQvdCw0L/RgNCw0LLQu9GP0LXRgiDQt9Cw0L/RgNC+0YHRiyIKICAgICAgICBnYXRld2F5LmdhdGV3YXlBcGkgLT4gcmF0aW5nLnJhdGluZ0FwaSAi0J/QtdGA0LXQvdCw0L/RgNCw0LLQu9GP0LXRgiDQt9Cw0L/RgNC+0YHRiyIKICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgY29udGFpbmVyIGdhdGV3YXkgZ2F0ZXdheSB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBleGNsdWRlICJzZWFyY2ggLT4gKiIKICAgICAgICB9CgogICAgICAgIGNvbnRhaW5lciB1c2VyIHVzZXIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgZXhjbHVkZSBnYXRld2F5CiAgICAgICAgfQoKICAgICAgICBjb250YWluZXIgbm92ZWwgbm92ZWwgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgZXhjbHVkZSBnYXRld2F5CiAgICAgICAgfQoKICAgICAgICBjb250YWluZXIgc2VhcmNoIHNlYXJjaCB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBleGNsdWRlIGdhdGV3YXkKICAgICAgICB9CgogICAgICAgIGNvbnRhaW5lciByYXRpbmcgcmF0aW5nIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGV4Y2x1ZGUgZ2F0ZXdheQogICAgICAgIH0KCiAgICAgICAgc3R5bGVzIHsKICAgICAgICAgICAgZWxlbWVudCAiRGF0YWJhc2UiIHsKICAgICAgICAgICAgICAgIHNoYXBlIGN5bGluZGVyCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGVsZW1lbnQgIlRvcGljIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBwaXBlCiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIHRoZW1lIGRlZmF1bHQKICAgIH0KfQ=="
+    "structurizr.dsl" : "d29ya3NwYWNlIHsKCiAgICAhaWRlbnRpZmllcnMgaGllcmFyY2hpY2FsCgogICAgbW9kZWwgewogICAgICAgIGNsaWVudCA9IHBlcnNvbiAiVXNlciIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiRW5kIHVzZXIgb2YgdGhlIHN5c3RlbSIKICAgICAgICB9CgogICAgICAgIGdhdGV3YXkgPSBzb2Z0d2FyZVN5c3RlbSAiQVBJIEdhdGV3YXkiIHsKICAgICAgICAgICAgZGVzY3JpcHRpb24gIuKAoiBUcmFmZmljIHJvdXRpbmdcbuKAoiBKV1QgdmFsaWRhdGlvblxu4oCiIFJlc2lsaWVuY2UgKENpcmN1aXQgQnJlYWtlciwgUmF0ZSBMaW1pdGVyLCBldGMuKVxu4oCiIFJlcXVlc3QgdHJhY2luZyIKICAgICAgICAgICAgZ2F0ZXdheUFwaSA9IGNvbnRhaW5lciAiZ2F0ZXdheS1hcGkiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICLigKIgVHJhZmZpYyByb3V0aW5nXG7igKIgSldUIHZhbGlkYXRpb25cbuKAoiBSZXNpbGllbmNlIChDaXJjdWl0IEJyZWFrZXIsIFJhdGUgTGltaXRlciwgZXRjLilcbuKAoiBSZXF1ZXN0IHRyYWNpbmciCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJTcHJpbmcgQ2xvdWQgQVBJIEdhdGV3YXksIFJFU1QsIEFQSSwgU3RhdGVsZXNzLCBXZWJGbHV4IgogICAgICAgICAgICB9CiAgICAgICAgICAgIGdhdGV3YXlSZWRpcyA9IGNvbnRhaW5lciAiZ2F0ZXdheS1yZWRpcyIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlN0b3JlcyBSYXRlIExpbWl0ZXIgc3RhdGUiCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJSZWRpcyIKICAgICAgICAgICAgICAgIHRhZ3MgIkRhdGFiYXNlIgogICAgICAgICAgICB9CgogICAgICAgICAgICBnYXRld2F5QXBpIC0+IGdhdGV3YXlSZWRpcyAiUmVhZC9Xcml0ZSIKICAgICAgICB9CgogICAgICAgIHVzZXIgPSBzb2Z0d2FyZVN5c3RlbSAiVXNlciBNYW5hZ2VtZW50IiB7CiAgICAgICAgICAgIGRlc2NyaXB0aW9uICLigKIgVXNlciByZWdpc3RyYXRpb25cbuKAoiBKV1QgdG9rZW4gaXNzdWFuY2VcbuKAoiBQcm9maWxlIG1hbmFnZW1lbnQiCiAgICAgICAgICAgIHVzZXJBcGkgPSBjb250YWluZXIgInVzZXItYXBpIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAi4oCiIFVzZXIgcmVnaXN0cmF0aW9uXG7igKIgSldUIHRva2VuIGlzc3VhbmNlXG7igKIgUHJvZmlsZSBtYW5hZ2VtZW50IgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiU3ByaW5nIEJvb3QsIFJFU1QsIEFQSSwgU3RhdGVsZXNzIgogICAgICAgICAgICB9CiAgICAgICAgICAgIHVzZXJQb3N0Z3JlcyA9IGNvbnRhaW5lciAidXNlci1wb3N0Z3JlcyIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlN0b3JlcyBhcHBsaWNhdGlvbiB1c2VycyIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlBvc3RncmVTUUwiCiAgICAgICAgICAgICAgICB0YWdzICJEYXRhYmFzZSIKICAgICAgICAgICAgfQogICAgICAgICAgICB1c2VyQXBpIC0+IHVzZXJQb3N0Z3JlcyAiUmVhZC9Xcml0ZSB1c2VycyIKICAgICAgICB9CgogICAgICAgIG5vdmVsID0gc29mdHdhcmVTeXN0ZW0gIldlYiBOb3ZlbCBDb250ZW50IE1hbmFnZW1lbnQiIHsKICAgICAgICAgICAgZGVzY3JpcHRpb24gIuKAoiBVcGxvYWRpbmcgYW5kIGVkaXRpbmcgd29ya3NcbuKAoiBTdHJ1Y3R1cmluZyBieSBjaGFwdGVycyIKICAgICAgICAgICAgbm92ZWxBcGkgPSBjb250YWluZXIgIm5vdmVsLWFwaSIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIuKAoiBVcGxvYWRpbmcgYW5kIGVkaXRpbmcgd29ya3NcbuKAoiBTdHJ1Y3R1cmluZyBieSBjaGFwdGVycyIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlNwcmluZyBCb290LCBSRVNULCBBUEksIFN0YXRlbGVzcyIKICAgICAgICAgICAgfQogICAgICAgICAgICBub3ZlbE1vbmdvZGIgPSBjb250YWluZXIgIm5vdmVsLW1vbmdvZGIiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJTdG9yZXMgd2ViIG5vdmVscyBhbmQgdGhlaXIgZXZlbnRzIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiTW9uZ29EQiIKICAgICAgICAgICAgICAgIHRhZ3MgIkRhdGFiYXNlIgogICAgICAgICAgICB9CiAgICAgICAgICAgIG5vdmVsT3V0Ym94ID0gY29udGFpbmVyICJub3ZlbC1vdXRib3giIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJQdWJsaXNoZXMgZXZlbnRzIGFib3V0IHdlYiBub3ZlbCBzdGF0ZSBjaGFuZ2VzIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiU3ByaW5nIEJvb3QsIENEQywgQ2hhbmdlIFN0cmVhbSIKICAgICAgICAgICAgfQogICAgICAgICAgICBub3ZlbEV2ZW50ID0gY29udGFpbmVyICJub3ZlbC1ldmVudCIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkV2ZW50cyBhYm91dCBjcmVhdGlvbiwgbW9kaWZpY2F0aW9uLCBvciBkZWxldGlvbiBvZiBhIHdlYiBub3ZlbCIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIkthZmthIgogICAgICAgICAgICAgICAgdGFncyAiVG9waWMiCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIG5vdmVsQXBpIC0+IG5vdmVsTW9uZ29kYiAiUmVhZC9Xcml0ZSB3ZWIgbm92ZWxzIGFuZCB0aGVpciBldmVudHMiCiAgICAgICAgICAgIG5vdmVsT3V0Ym94IC0+IG5vdmVsTW9uZ29kYiAiUmVhZHMgd2ViIG5vdmVsIGV2ZW50cyIKICAgICAgICAgICAgbm92ZWxPdXRib3ggLT4gbm92ZWxFdmVudCAiUHVibGlzaGVzIHdlYiBub3ZlbCBldmVudHMiCiAgICAgICAgfQoKICAgICAgICByYXRpbmcgPSBzb2Z0d2FyZVN5c3RlbSAiV2ViIE5vdmVsIFJhdGluZyIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiQWxsb3dzIHVzZXJzIHRvIHJhdGUgd29ya3MiCiAgICAgICAgICAgIHJhdGluZ0FwaSA9IGNvbnRhaW5lciAicmF0aW5nLWFwaSIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkFsbG93cyB1c2VycyB0byByYXRlIHdvcmtzIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiU3ByaW5nIEJvb3QsIFJFU1QsIEFQSSwgU3RhdGVsZXNzIgogICAgICAgICAgICB9CiAgICAgICAgICAgIHJhdGluZ0NvbW1hbmQgPSBjb250YWluZXIgInJhdGluZy1jb21tYW5kIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiQ29tbWFuZHMgZm9yIGFkZGluZyBhIHdvcmsgcmF0aW5nIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiS2Fma2EiCiAgICAgICAgICAgICAgICB0YWdzICJUb3BpYyIKICAgICAgICAgICAgfQogICAgICAgICAgICByYXRpbmdDb25zdW1lciA9IGNvbnRhaW5lciAicmF0aW5nLWNvbnN1bWVyIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiVHJhbnNhY3Rpb25hbGx5IGFuZCBpZGVtcG90ZW50bHkgdXBkYXRlcyB0aGUgY3VycmVudCBhdmVyYWdlIHJhdGluZyBvZiBhIHdlYiBub3ZlbCIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlNwcmluZyBCb290IgogICAgICAgICAgICB9CiAgICAgICAgICAgIHJhdGluZ0V2ZW50ID0gY29udGFpbmVyICJyYXRpbmctZXZlbnQiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJFdmVudHMgYWJvdXQgY2hhbmdlcyBpbiB0aGUgYXZlcmFnZSByYXRpbmcgb2YgYSB3b3JrIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiS2Fma2EiCiAgICAgICAgICAgICAgICB0YWdzICJUb3BpYyIKICAgICAgICAgICAgfQogICAgICAgICAgICByYXRpbmdSZWRpcyA9IGNvbnRhaW5lciAicmF0aW5nLXJlZGlzIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAi4oCiIFN0b3JlcyByYXRpbmcgY291bnRlciBhbmQgc3VtXG7igKIgU3RvcmVzIGlkZW1wb3RlbmN5IGtleXMiCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJSZWRpcyIKICAgICAgICAgICAgICAgIHRhZ3MgIkRhdGFiYXNlIgogICAgICAgICAgICB9CiAgICAgICAgICAgIHJhdGluZ0FwaSAtPiByYXRpbmdDb21tYW5kICJTZW5kcyBjb21tYW5kIHRvIGFkZCByYXRpbmcgdG8gYSB3b3JrIgogICAgICAgICAgICByYXRpbmdBcGkgLT4gcmF0aW5nUmVkaXMgIkdldHMgYXZlcmFnZSByYXRpbmcgdXNpbmcgY291bnRlciBhbmQgc3VtIgogICAgICAgICAgICByYXRpbmdDb25zdW1lciAtPiByYXRpbmdDb21tYW5kICJSZWFkcyBjb21tYW5kIHRvIGFkZCByYXRpbmcgdG8gYSB3b3JrIgogICAgICAgICAgICByYXRpbmdDb25zdW1lciAtPiByYXRpbmdSZWRpcyAiVHJhbnNhY3Rpb25hbGx5IGFuZCBpZGVtcG90ZW50bHkgaW5jcmVhc2VzIHJhdGluZyBjb3VudGVyIGFuZCBzdW0iCiAgICAgICAgICAgIHJhdGluZ0NvbnN1bWVyIC0+IHJhdGluZ0V2ZW50ICJQdWJsaXNoZXMgZXZlbnQgYWJvdXQgY2hhbmdlIGluIGF2ZXJhZ2UgcmF0aW5nIgogICAgICAgIH0KCiAgICAgICAgc2VhcmNoID0gc29mdHdhcmVTeXN0ZW0gIldlYiBOb3ZlbCBTZWFyY2giIHsKICAgICAgICAgICAgZGVzY3JpcHRpb24gIlNlYXJjaCBmb3Igd2ViIG5vdmVscyB1c2luZyB2YXJpb3VzIGZpbHRlcnM6IGF1dGhvciwgcmF0aW5nLCB0aXRsZSwgZXRjLiIKICAgICAgICAgICAgc2VhcmNoQXBpID0gY29udGFpbmVyICJzZWFyY2gtYXBpIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiU2VhcmNoIGZvciB3ZWIgbm92ZWxzIHVzaW5nIHZhcmlvdXMgZmlsdGVyczogYXV0aG9yLCByYXRpbmcsIHRpdGxlLCBldGMuIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiU3ByaW5nIEJvb3QsIFJFU1QsIEFQSSwgU3RhdGVsZXNzIgogICAgICAgICAgICB9CiAgICAgICAgICAgIHNlYXJjaEVsYXN0aWNzZWFyY2ggPSBjb250YWluZXIgInNlYXJjaC1lbGFzdGljc2VhcmNoIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiU3RvcmVzIHdlYiBub3ZlbHMgaW4gYSBmb3JtYXQgc3VpdGFibGUgZm9yIHNlYXJjaCIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIkVsYXN0aWNTZWFyY2giCiAgICAgICAgICAgICAgICB0YWdzICJEYXRhYmFzZSIKICAgICAgICAgICAgfQogICAgICAgICAgICBzZWFyY2hJbmRleGVyID0gY29udGFpbmVyICJzZWFyY2gtaW5kZXhlciIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkluZGV4ZXMgd2ViIG5vdmVscyIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlNwcmluZyBCb290IgogICAgICAgICAgICB9CgogICAgICAgICAgICBzZWFyY2hJbmRleGVyIC0+IG5vdmVsLm5vdmVsRXZlbnQgIlJlYWRzIGV2ZW50cyBhYm91dCB3ZWIgbm92ZWwgY2hhbmdlcyIKICAgICAgICAgICAgc2VhcmNoSW5kZXhlciAtPiByYXRpbmcucmF0aW5nRXZlbnQgIlJlYWRzIGV2ZW50cyBhYm91dCB3ZWIgbm92ZWwgcmF0aW5nIGNoYW5nZXMiCiAgICAgICAgICAgIHNlYXJjaEluZGV4ZXIgLT4gdXNlci51c2VyQXBpICJSZXRyaWV2ZXMgYXV0aG9yIHByb2ZpbGUiCiAgICAgICAgICAgIHNlYXJjaEluZGV4ZXIgLT4gc2VhcmNoRWxhc3RpY3NlYXJjaCAiV3JpdGVzIHdlYiBub3ZlbHMgdG8gaW5kZXgiCiAgICAgICAgICAgIHNlYXJjaEFwaSAtPiBzZWFyY2hFbGFzdGljc2VhcmNoICJQZXJmb3JtcyB3ZWIgbm92ZWwgc2VhcmNoIGJ5IGNyaXRlcmlhIgogICAgICAgIH0KCiAgICAgICAgY2xpZW50IC0+IGdhdGV3YXkuZ2F0ZXdheUFwaQogICAgICAgIGdhdGV3YXkuZ2F0ZXdheUFwaSAtPiB1c2VyLnVzZXJBcGkgIkZvcndhcmRzIHJlcXVlc3RzOyBSZXRyaWV2ZXMgcHVibGljIGtleSBmb3IgSldUIHZhbGlkYXRpb24iCiAgICAgICAgZ2F0ZXdheS5nYXRld2F5QXBpIC0+IG5vdmVsLm5vdmVsQXBpICJGb3J3YXJkcyByZXF1ZXN0cyIKICAgICAgICBnYXRld2F5LmdhdGV3YXlBcGkgLT4gc2VhcmNoLnNlYXJjaEFwaSAiRm9yd2FyZHMgcmVxdWVzdHMiCiAgICAgICAgZ2F0ZXdheS5nYXRld2F5QXBpIC0+IHJhdGluZy5yYXRpbmdBcGkgIkZvcndhcmRzIHJlcXVlc3RzIgogICAgfQoKICAgIHZpZXdzIHsKICAgICAgICBjb250YWluZXIgZ2F0ZXdheSBnYXRld2F5IHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGV4Y2x1ZGUgInNlYXJjaCAtPiAqIgogICAgICAgIH0KCiAgICAgICAgY29udGFpbmVyIHVzZXIgdXNlciB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBleGNsdWRlIGdhdGV3YXkKICAgICAgICB9CgogICAgICAgIGNvbnRhaW5lciBub3ZlbCBub3ZlbCB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBleGNsdWRlIGdhdGV3YXkKICAgICAgICB9CgogICAgICAgIGNvbnRhaW5lciBzZWFyY2ggc2VhcmNoIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGV4Y2x1ZGUgZ2F0ZXdheQogICAgICAgIH0KCiAgICAgICAgY29udGFpbmVyIHJhdGluZyByYXRpbmcgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgZXhjbHVkZSBnYXRld2F5CiAgICAgICAgfQoKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICBlbGVtZW50ICJEYXRhYmFzZSIgewogICAgICAgICAgICAgICAgc2hhcGUgY3lsaW5kZXIKICAgICAgICAgICAgfQoKICAgICAgICAgICAgZWxlbWVudCAiVG9waWMiIHsKICAgICAgICAgICAgICAgIHNoYXBlIHBpcGUKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgdGhlbWUgZGVmYXVsdAogICAgfQp9"
   },
   "views" : {
     "configuration" : {
       "branding" : { },
       "lastSavedView" : "gateway",
-      "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
           "shape" : "Cylinder",

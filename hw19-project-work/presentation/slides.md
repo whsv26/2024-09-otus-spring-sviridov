@@ -2,46 +2,46 @@
 theme: seriph
 transition: fade-out
 class: text-center
-author: Свиридов Александр
+author: Alexander Sviridov
 presenter: false
 monaco: false
 record: false
 colorSchema: light
 ---
 
-# 📒 Платформа для публикации и поиска веб-новелл
+# 📒 Platform for Publishing and Discovering Web Novels
 
-Аналог www.royalroad.com
+An analogue of www.royalroad.com
 
 ---
 
-# Введение
+# Introduction
 
-Приложение позволяет:
-- **Авторам**
-  - создавать, редактировать и удалять свои веб-новеллы
-  - публиковать главы своих веб-новелл
+The application allows:
+- **Authors**
+  - to create, edit, and delete their web novels
+  - to publish chapters of their web novels
 
-- **Читателям** 
-  - искать подходящие произведения по различным критериям
-  - читать веб-новеллы
-  - выставлять оценки веб-новеллам
+- **Readers** 
+  - to search for suitable works using various criteria
+  - to read web novels
+  - to rate web novels
 
 ---
 transition: slide-up
 ---
 
-# Архитектура приложения
+# Application Architecture
 
-Приложение реализовано в микросервисной архитектуре с применением современных стандартов разработки облачных приложений и за счет этого обладает хорошей _масштабируемостью_, _отказоустойчивостью_ и _наблюдаемостью_.
+The application is implemented using a microservices architecture, applying modern cloud-native development standards, and thus offers strong _scalability_, _fault tolerance_, and _observability_.
 
-- Приложение предоставляет гарантии доставки сообщений с помощью паттерна Outbox, реализованного через механизм CDC посредством Change Stream'ов в MongoDB. 
-- Приложение использует подход идемпотентной обработки POST-запросов и сообщений в Kafka-консьюмерах
-- В приложении используются механизмы отказоустойчивости
-  - Circuit Breaker (Для HTTP-статуса 503 Service Unavailable)
-  - Rate Limiter по IP (Token Bucket)
+- The application guarantees message delivery using the Outbox pattern implemented via CDC with MongoDB Change Streams.
+- The application uses an idempotent approach for handling POST requests and Kafka consumer messages.
+- The application implements fault tolerance mechanisms:
+  - Circuit Breaker (for HTTP status 503 Service Unavailable)
+  - IP-based Rate Limiter (Token Bucket)
   - Time Limiter (Timeout)
-  - Retry (Для транзиентных HTTP-статусов)
+  - Retry (for transient HTTP statuses)
 
 ---
 src: ./pages/observability.md

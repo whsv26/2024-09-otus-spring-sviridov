@@ -1,22 +1,22 @@
-Перенести приложение для тестирования студентов на Spring Boot
+Migrate the Student Testing Application to Spring Boot
 
-## Цель
+## Goal
 
-Использовать возможности Spring Boot, чтобы разрабатывать современные приложения, так, как их сейчас и разрабатывают.
+Use Spring Boot features to develop modern applications the way they are developed today.
 
-## Результат
+## Result
 
-Production-ready приложение на Spring Boot
+A production-ready application based on Spring Boot
 
-## Описание
+## Description
 
-- Приложении должно быть основано на [заготовке](https://github.com/OtusTeam/Spring/tree/master/templates/hw03-spring-boot) домашней работы.
-- Создать проект, используя [Spring Boot Initializr](https://start.spring.io)
-- Перенести приложение проведения опросов из прошлого домашнего задания
-- Перенести все свойства в application.yml
-- Локализовать выводимые сообщения и вопросы (в CSV-файле)
-  - MessageSource должен быть из автоконфигурации Spring Boot
-- Сделать собственный баннер для приложения
-- Вместо отдельных зависимостей в файле сборки, для тестирования использовать spring-boot-starter-test
-- Использовать ANSI-цвета для баннера (опционально)
-- Если Ваш язык отличается от русского и английского - локализовать в нём (опционально)
+- The application should be based on the [homework template](https://github.com/OtusTeam/Spring/tree/master/templates/hw03-spring-boot).
+- Create the project using [Spring Boot Initializr](https://start.spring.io)
+- Migrate the student survey application from the previous homework
+- Move all properties into `application.yml`
+- Localize output messages and questions (from the CSV file)
+  - `MessageSource` should come from Spring Boot autoconfiguration
+- Create a custom banner for the application
+- Instead of individual test dependencies in the build file, use `spring-boot-starter-test`
+- Use ANSI colors for the banner (optional)
+- If your language differs from Russian or English – localize in your language (optional)

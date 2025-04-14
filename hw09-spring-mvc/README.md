@@ -1,17 +1,17 @@
-CRUD приложение с Web UI и хранением данных в БД
+CRUD application with Web UI and database storage
 
-## Цель
+## Goal
 
-Разрабатывать полноценные классические Web-приложения
+Develop full-featured classic Web applications
 
-## Результат
+## Result
 
-Web-приложение полностью на стеке Spring
+A full Web application using the Spring stack
 
-## Описание
+## Description
 
-- Создать приложение с хранением сущностей в БД (можно взять библиотеку и DAO/репозитории из прошлых занятий)
-- Использовать классический View на Thymeleaf, classic Controllers
-- Для книг (главной сущности) на UI должны быть доступные все CRUD операции. CRUD остальных сущностей - по желанию/необходимости;
-- Протестировать контроллер(ы) для CRUD операций над книгами с помощью @WebMvcTest и моков сервисов;
-- Локализацию делать НЕ нужно - она строго опциональна;
+- Create an application with entity storage in a database (you may reuse a library and DAO/repositories from previous assignments)
+- Use classic Views with Thymeleaf and traditional Controllers
+- For books (the main entity), all CRUD operations should be available via the UI. CRUD for other entities is optional/as needed
+- Test the controller(s) for CRUD operations on books using @WebMvcTest and mocked services
+- Localization is NOT required — it is strictly optional

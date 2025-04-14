@@ -1,28 +1,27 @@
-Переписать приложение для хранения книг на ORM
+Rewrite the Book Storage Application Using ORM
 
-## Цель
+## Goal
 
-Полноценно работать с JPA + Hibernate для подключения к реляционным БД посредством ORM-фреймворка
+Work effectively with JPA + Hibernate to connect to relational databases through an ORM framework
 
-## Результат
+## Result
 
-Высокоуровневое приложение с JPA-маппингом сущностей
+A high-level application with JPA entity mapping
 
-## Описание
+## Description
 
-Домашнее задание выполняется переписыванием предыдущего на JPA.
+This homework involves rewriting the previous assignment using JPA.
 
-- Использовать JPA, Hibernate только в качестве JPA-провайдера
-- Spring Data пока использовать нельзя
-- Загрузка связей сущностей не должна приводить к большому количеству запросов к БД или избыточному по объему набору данных (проблема N+1 и проблема произведения таблиц)
-- Добавить сущность "комментария к книге", реализовать CRUD для новой сущности. Получение всех комментариев делать не нужно. Только конкретного комментария по id и всех комментариев по конкретной книге по ее id
-- DDL через Hibernate должно быть отключено
-- LAZY-связи не должны присутствовать в equals/hashCode/toString. В т.ч. за счет @Data
-- Аннотация @Transactional должна присутствовать только на методах сервиса
-- Покрыть репозитории тестами, используя H2 базу данных и @DataJpaTest
-- Написать интеграционные тесты сервисов книг и комментариев, которые будут проверять работу с БД. 
-  - Транзакционность в этих тестах должна быть отключена, чтобы не влияла на транзакции в сервисах. 
-  - Проверить, что доступ к связям, которые используются снаружи серивсов не вызывают LazyInitialzationException. 
-  - Не забыть учесть кэширование контекста в тестах
-- Добавить в решение тесты из [заготовки](https://github.com/OtusTeam/Spring/tree/master/templates/hw06-jpa). Для приема работы тесты должны проходить
-
+- Use JPA with Hibernate only as the JPA provider
+- Spring Data is not allowed at this stage
+- Entity relationship loading should avoid excessive database queries or unnecessarily large data sets (avoid N+1 problem and cartesian product issue)
+- Add an entity "book comment" and implement CRUD for it. You do not need to retrieve all comments — only a specific comment by its ID and all comments for a specific book by its ID
+- DDL generation via Hibernate should be disabled
+- LAZY relationships should not be included in equals/hashCode/toString methods. This also applies when using @Data
+- The @Transactional annotation should only be present on service methods
+- Cover repositories with tests using an H2 database and @DataJpaTest
+- Write integration tests for book and comment services to verify database operations.
+  - Transactions in these tests should be disabled so they don’t affect service transactions
+  - Ensure that access to relationships used outside of services does not trigger LazyInitializationException
+  - Don’t forget to consider context caching in tests
+- Include tests from the [template](https://github.com/OtusTeam/Spring/tree/master/templates/hw06-jpa). All tests must pass for the assignment to be accepted

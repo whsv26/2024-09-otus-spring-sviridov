@@ -1,17 +1,16 @@
-Переписать приложение с использованием AJAX и REST-контроллеров
+Rewrite the Application Using AJAX and REST Controllers
 
-## Цель
+## Goal
 
-Использовать Spring MVC для разработки современных AJAX/SPA приложений c помощью Spring MVC
+Use Spring MVC to develop modern AJAX/SPA applications with Spring MVC
 
-## Результат
+## Result
 
-Современное приложение на стеке Spring
+A modern application on the Spring stack
 
-## Описание
+## Description
 
-- Переписать приложение с классических View на AJAX архитектуру и REST-контроллеры
-- Минимум: получение одной сущности и отображение её на странице с помощью XmlHttpRequest, fetch api или jQuery
-- Опционально максимум: полноценное SPA приложение на React/Vue/Angular, только REST-контроллеры
-- Протестировать все эндпойнты REST-контроллеров с моками зависимостей
-
+- Rewrite the application from classic Views to an AJAX architecture and REST controllers
+- Minimum: fetch a single entity and display it on a page using XmlHttpRequest, fetch API, or jQuery
+- Optional maximum: a full-fledged SPA application using React/Vue/Angular, using only REST controllers
+- Test all REST controller endpoints with mocked dependencies

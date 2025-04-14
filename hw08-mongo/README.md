@@ -1,17 +1,16 @@
-Использовать MongoDB и spring-data для хранения информации о книгах
+Use MongoDB and Spring Data for storing book information
 
-## Цель
+## Goal
 
-После выполнения ДЗ вы сможете использовать Spring Data MongoDB и саму MongoDB для разработки приложений с хранением данных в нереляционной БД.
+After completing this homework, you will be able to use Spring Data MongoDB and MongoDB itself to develop applications that store data in a non-relational database.
 
-## Результат
+## Result
 
-Приложение с использованием MongoDB
+Application using MongoDB
 
-## Описание
+## Description
 
-- Использовать Spring Data MongoDB репозитории, а если не хватает функциональности, то и *Operations
-- Тесты можно реализовать с помощью Flapdoodle Embedded MongoDB
-- Hibernate, равно, как и JPA, и spring-boot-starter-data-jpa не должно остаться в зависимостях, если ДЗ выполняется на основе предыдущего.
-- Как хранить книги, авторов, жанры и комментарии решать Вам. Но перенесённая с реляционной базы структура не всегда будет подходить для MongoDB.
-
+- Use Spring Data MongoDB repositories, and if functionality is lacking, use *Operations
+- Tests can be implemented using Flapdoodle Embedded MongoDB
+- Hibernate, JPA, and spring-boot-starter-data-jpa should not remain as dependencies if this homework is based on the previous one
+- How to store books, authors, genres, and comments is up to you. However, structures carried over from relational databases are not always suitable for MongoDB.

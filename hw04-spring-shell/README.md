@@ -1,23 +1,23 @@
-Перевести приложение для проведения опросов на Spring Shell
+Migrate the survey application to Spring Shell
 
-## Цель
+## Goal
 
-После выполнения ДЗ вы сможете использовать Spring Shell, чтобы писать интерфейс приложения без Web.
+After completing this assignment, you will be able to use Spring Shell to build application interfaces without using Web.
 
-## Результат
+## Result
 
-Приложение на Spring Shell
+Application using Spring Shell
 
-## Описание
+## Description
 
-- Подключить Spring Shell, используя spring-starter
-- Написать набор команд, позволяющий проводить опрос
-- Перенести тесты на @SpringBootTest
-  - Компоненты и моки взять из тестового контекста
-  - В остальном это должны быть юнит-тесты
-  - Учесть, что Spring Shell в тестах нужно отключить
-- Набор команд зависит только от Вашего желания
-  - Вы можете сделать одну команду, запускающую тестирование
-  - А можете построить полноценный интерфейс на Spring Shell
-- Локализовывать команды Spring Shell не нужно (хотя можно, но это долго и непросто)
-- Данная работа не подразумевает использования Spring Application Events. Особенно это касается написания на них бизнес логики
+- Integrate Spring Shell using the spring-starter
+- Create a set of commands that allow conducting the survey
+- Migrate tests to @SpringBootTest
+  - Components and mocks should be taken from the test context
+  - These should otherwise be unit tests
+  - Keep in mind that Spring Shell should be disabled during tests
+- The set of commands is entirely up to you
+  - You can implement a single command to start the survey
+  - Or build a full-featured interface using Spring Shell
+- Localization of Spring Shell commands is not required (though possible, it is lengthy and complex)
+- This assignment does not require using Spring Application Events, especially not for implementing business logic

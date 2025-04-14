@@ -1,16 +1,16 @@
-Переписать приложение для хранения книг на Spring Data JPA
+Rewrite the application for book storage using Spring Data JPA
 
-## Цель
+## Goal
 
-Максимально просто писать слой репозиториев с применением современных подходов
+Simplify writing the repository layer using modern approaches
 
-## Результат
+## Result
 
-Приложение со слоем репозиториев на Spring Data JPA
+Application with a repository layer based on Spring Data JPA
 
-## Описание
+## Description
 
-- Переписать все репозитории по работе с книгами на Spring Data JPA репозитории
-- Используйте spring-boot-starter-data-jpa
-- Кастомные методы репозиториев (или с хитрым @Query) покрыть тестами, используя H2
-- @Transactional рекомендуется ставить на методы сервисов, а не репозиториев
+- Rewrite all repositories related to book management using Spring Data JPA repositories
+- Use spring-boot-starter-data-jpa
+- Cover custom repository methods (or those with complex @Query) with tests using H2
+- It is recommended to place @Transactional on service methods rather than repository methods

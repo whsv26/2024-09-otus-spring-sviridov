@@ -1,15 +1,15 @@
-Реализовать обработку доменной сущности через каналы Spring Integration
+Implement Domain Entity Processing via Spring Integration Channels
 
-## Цель
+## Goal
 
-Участники смогут осуществлять "интеграцию" частей приложения с помощью EIP
+Participants will be able to "integrate" parts of the application using EIP
 
-## Результат
+## Result
 
-Приложение c применением EIP на Spring Integration
+Application using EIP with Spring Integration
 
-## Описание
+## Description
 
-- Выберите другую доменную область и сущности. Пример: превращение гусеницы в бабочку.
-- Опишите/сконфигурируйте процесс (IntegrationFlow) с помощью инструментария предоставляемого Spring Integration.
-- Желательно использование MessagingGateway и subfolw (при необходимости).
+- Choose a different domain area and entities. Example: transforming a caterpillar into a butterfly.
+- Describe/configure the process (IntegrationFlow) using the tools provided by Spring Integration.
+- It is recommended to use MessagingGateway and subflow (if necessary).

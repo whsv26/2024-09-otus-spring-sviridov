@@ -1,21 +1,20 @@
-В CRUD Web-приложение добавить механизм аутентификации
+Add Authentication Mechanism to a CRUD Web Application
 
-## Цель
+## Goal
 
-Защитить Web-приложение аутентификацией и простой авторизацией
+Secure the Web application with authentication and simple authorization
 
-## Результат
+## Result
 
-Приложение с использованием Spring Security
+Application using Spring Security
 
-## Описание
+## Description
 
-Задание выполняется на основе нереактивного приложения Spring MVC.
+The task is based on a non-reactive Spring MVC application.
 
-- Добавить в приложение новую сущность - пользователь. 
-  Не обязательно реализовывать методы по созданию пользователей - допустимо добавить пользователей только через БД-скрипты.
-- В существующее CRUD-приложение добавить механизм Form-based аутентификации.
-- UserDetailsService реализовать самостоятельно.
-- Авторизация на всех страницах - для всех аутентифицированных. Форма логина - доступна для всех.
-- Написать тесты контроллеров, которые проверяют, что все необходимые ресурсы действительно защищены.
-
+- Add a new entity to the application – user.
+  It is not required to implement methods for user creation – it's acceptable to add users only via database scripts.
+- Add Form-based authentication to the existing CRUD application.
+- Implement UserDetailsService manually.
+- Authorization on all pages should be restricted to authenticated users only. The login form should be accessible to everyone.
+- Write controller tests that verify all required resources are properly secured.

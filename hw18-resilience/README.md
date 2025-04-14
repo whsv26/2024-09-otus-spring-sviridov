@@ -1,62 +1,62 @@
-Обернуть внешние вызовы в Hystrix
+Wrap External Calls in Hystrix
 
-## Цель
+## Goal
 
-Сделать внешние вызовы приложения устойчивыми к ошибкам
+Make external calls of the application resilient to failures
 
-## Результат
+## Result
 
-Приложение с изолированными с помощью Hystrix внешними вызовами
+Application with external calls isolated using Hystrix
 
-## Описание
+## Description
 
-- Обернуть все внешние вызовы в Hystrix, Hystrix Javanica.
-- Возможно использование Resilent4j
-- Возможно использование Feign Client
+- Wrap all external calls using Hystrix, Hystrix Javanica.
+- Using Resilient4j is also acceptable
+- Using Feign Client is also acceptable
 
-Опционально: Поднять Turbine Dashboard для мониторинга.
+Optional: Set up Turbine Dashboard for monitoring.
 
-## Установка
+## Setup
 
-### В Kubernetes кластере (Minikube)
+### In Kubernetes Cluster (Minikube)
 
-Запуск Minikube 
+Start Minikube
 ```shell
 minikube start
 ```
 
-Настройка Nginx Ingress. 
-Без тонелля Ingress может быть недоступен с хост-машины.
+Configure Nginx Ingress.
+Without the tunnel, Ingress might be inaccessible from the host machine.
 ```shell
 minikube addons enable ingress
 minikube tunnel
 ```
 
-Этот вариант не использует заранее подготовленный Dockerfile и собирает образ внутри Minikube с помощью плагина Jib.
+This option does not use a prebuilt Dockerfile and builds the image inside Minikube using the Jib plugin.
 ```shell
 eval $(minikube docker-env)
 ../mvnw compile jib:dockerBuild
 ```
 
-Деплой приложения в Minikube (потребуется Helm)
+Deploy the application to Minikube (Helm is required)
 ```shell
 helmfile apply -e local -f deploy/helmfile.yaml
 ```
 
-Старт фронта
+Start frontend
 ```shell
 npm run-script dev
 ```
 
-### В Docker Compose
+### In Docker Compose
 
-Для этого варианта установки подготовлен Dockerfile приложения 
+A Dockerfile is prepared for this installation option
 
 ```shell
 docker compose up
 ```
 
-Старт фронта
+Start frontend
 ```shell
 npm run-script dev
 ```

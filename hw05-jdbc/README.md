@@ -1,33 +1,33 @@
-Создать приложение, каталог книг в библиотеке
+Create an application – a catalog of books in a library
 
-## Цель
+## Goal
 
-Использовать возможности Spring JDBC и spring-boot-starter-jdbc для подключения к реляционным базам данных
+Use Spring JDBC and spring-boot-starter-jdbc to connect to relational databases
 
-## Результат
+## Result
 
-Приложение с хранением данных в реляционной БД, которое в дальнейшем будем развивать
+An application with data stored in a relational database, which will be further developed
 
-## Описание
+## Description
 
-Это домашнее задание выполняется НЕ на основе предыдущего.
+This homework is NOT based on the previous one.
 
-- Использовать Spring JDBC и реляционную базу H2
-- Предусмотреть сущности авторов, книг и жанров. Каждая должна храниться в своей таблице
-- Предполагаются отношения многие-к-одному (у книги один автор, но у автора может быть несколько книг, то же касается книг и жанров)
-- Интерфейс выполняется на Spring Shell (CRUD книги плюс, как минимум, операции вывода всех авторов и жанров)
-- Создание и инициализация схемы БД должно происходить через schema.sql + data.sql или через систему миграций (Liquibase/Flyway)
-- С помощью @JdbcTest сделать интеграционные тесты всех методов дао книг (со встроенной БД)
+- Use Spring JDBC and the H2 relational database
+- Define entities for authors, books, and genres. Each should be stored in its own table
+- Relationships are expected to be many-to-one (a book has one author, but an author can have multiple books; same for books and genres)
+- The interface should be implemented using Spring Shell (CRUD for books plus, at minimum, commands to list all authors and genres)
+- Schema creation and initialization should be done using schema.sql + data.sql or a migration system (Liquibase/Flyway)
+- Use @JdbcTest to write integration tests for all DAO methods for books (with an embedded database)
 
-Дополнительные требования к выполнению работы:
-- Проблема N+1 должна быть решена
-- Использовать NamedParametersJdbcTemplate
-- Не делать абстрактных или обобщенных Dao
-- Не делать абстрактных или обобщенных сущностей
-- Не делать двунаправленных связей (в книге автор, в авторе книги)
-- Отношения многие-ко-многим для одной сущности (опциональное усложнение)
+Additional requirements for this assignment:
+- The N+1 query problem must be resolved
+- Use NamedParameterJdbcTemplate
+- Do not create abstract or generic DAOs
+- Do not create abstract or generic entities
+- Do not create bidirectional relationships (a book has an author, but an author should not contain books)
+- Optional complexity: many-to-many relationships for a single entity
 
-Ссылки на заготовки:
+Template links:
 
-- Базовый вариант: https://github.com/OtusTeam/Spring/tree/master/templates/hw05-jdbc-simple
-- Вариант с опциональным усложнением: https://github.com/OtusTeam/Spring/tree/master/templates/hw05-jdbc-hard
+- Basic version: https://github.com/OtusTeam/Spring/tree/master/templates/hw05-jdbc-simple
+- Version with optional complexity: https://github.com/OtusTeam/Spring/tree/master/templates/hw05-jdbc-hard

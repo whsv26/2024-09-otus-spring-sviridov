@@ -1,67 +1,67 @@
-Обернуть приложение в docker-контейнер
+Wrap the Application in a Docker Container
 
-## Цель
+## Goal
 
-Деплоить приложение в современном DevOps-стеке
+Deploy the application using a modern DevOps stack
 
-## Результат
+## Result
 
-Обёртка приложения в Docker
+Application wrapped in Docker
 
-## Описание
+## Description
 
-Задание выполняется на основе любого сделанного Web-приложения
+The task is based on any existing web application
 
-- Обернуть приложение в docker-контейнер. 
-  - Dockerfile принято располагать в корне репозитория. 
-  - В image должна попадать JAR-приложения. 
-  - Сборка в контейнере рекомендуется, но не обязательна.
-- БД в собственный контейнер оборачивать не нужно (если только Вы не используете кастомные плагины)
-- Настроить связь между контейнерами, с помощью docker-compose
-- Опционально: сделать это в локальном кубе.
-- Приложение желательно реализовать с помощью всех Best Practices Docker (логгирование в stdout и т.д.)
+- Wrap the application in a Docker container.
+  - The Dockerfile is conventionally placed at the root of the repository.
+  - The image should contain the JAR application.
+  - Building the application inside the container is recommended but optional.
+- No need to wrap the database in its own container (unless you're using custom plugins)
+- Set up networking between containers using docker-compose
+- Optional: do this in a local Kubernetes cluster (Minikube)
+- Ideally, the application should follow all Docker best practices (logging to stdout, etc.)
 
-## Установка
+## Setup
 
-### В Kubernetes кластере (Minikube)
+### In a Kubernetes Cluster (Minikube)
 
-Запуск Minikube 
+Start Minikube
 ```shell
 minikube start
 ```
 
-Настройка Nginx Ingress. 
-Без тонелля Ingress может быть недоступен с хост-машины.
+Configure Nginx Ingress.
+Without a tunnel, Ingress might be inaccessible from the host machine.
 ```shell
 minikube addons enable ingress
 minikube tunnel
 ```
 
-Этот вариант не использует заранее подготовленный Dockerfile и собирает образ внутри Minikube с помощью плагина Jib.
+This option does not use a prebuilt Dockerfile and builds the image inside Minikube using the Jib plugin.
 ```shell
 eval $(minikube docker-env)
 ../mvnw compile jib:dockerBuild
 ```
 
-Деплой приложения в Minikube (потребуется Helm)
+Deploy the application to Minikube (Helm is required)
 ```shell
 helmfile apply -e local -f deploy/helmfile.yaml
 ```
 
-Старт фронта
+Start the frontend
 ```shell
 npm run-script dev
 ```
 
-### В Docker Compose
+### In Docker Compose
 
-Для этого варианта установки подготовлен Dockerfile приложения 
+A Dockerfile for the application is prepared for this installation option
 
 ```shell
 docker compose up
 ```
 
-Старт фронта
+Start the frontend
 ```shell
 npm run-script dev
 ```

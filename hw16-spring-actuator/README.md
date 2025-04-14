@@ -1,19 +1,19 @@
-Использовать метрики, healthchecks и logfile
+Use Metrics, Health Checks, and Logfile
 
-## Цель
+## Goal
 
-Реализовать production-grade мониторинг и прозрачность в приложении
+Implement production-grade monitoring and transparency in the application
 
-## Результат
+## Result
 
-Приложение с применением Spring Boot Actuator
+Application using Spring Boot Actuator
 
-## Описание
+## Description
 
-Данное задание выполняется на основе одного из реализованных Web-приложений
+This task is based on one of the implemented web applications
 
-- Подключить Spring Boot Actuator в приложение.
-- Включить метрики, healthchecks и logfile.
-- Реализовать свой собственный HealthCheck индикатор
-- UI для данных от Spring Boot Actuator реализовывать не нужно.
-- Опционально: переписать приложение на HATEOAS принципах с помощью Spring Data REST Repository
+- Integrate Spring Boot Actuator into the application.
+- Enable metrics, health checks, and logfile endpoints.
+- Implement a custom HealthCheck indicator.
+- No need to implement a UI for the Spring Boot Actuator data.
+- Optional: Refactor the application using HATEOAS principles with Spring Data REST Repository

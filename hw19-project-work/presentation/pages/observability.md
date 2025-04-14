@@ -2,19 +2,19 @@
 transition: slide-up
 ---
 
-## Логирование
+## Logging
 <br>
 
-- Все Spring-сервисы логируют в **stdout** в формате **JSON**, добавляя **traceId** из **MDC**
-- **Promtail** собирает и преобразует логи со всех сервисов в кластере
-- **Loki** хранит преобразованные логи
-- **Grafana** позволяет использовать Loki в качестве источника данных для поиска по логам
+- All Spring services log to **stdout** in **JSON** format, adding a **traceId** from the **MDC**
+- **Promtail** collects and transforms logs from all services in the cluster
+- **Loki** stores the transformed logs
+- **Grafana** enables log search by using Loki as a data source
 
 ---
 transition: slide-up
 ---
 
-## Логирование
+## Logging
 <br>
 
 <img src="/loki.png" style="height: 430px;">
@@ -23,19 +23,19 @@ transition: slide-up
 transition: slide-up
 ---
 
-## Трейсинг
+## Tracing
 <br>
 
-- Во всех Spring-сервисах настроен трейсинг
-- Для интеграции трейсинга в Spring-приложение используется бридж между Micrometer и OpenTelemetry
-- Трейсы экспортируются в формате OpenTelemetry
-- В качестве коллектора трейсов используется Jaeger
+- Tracing is configured in all Spring services
+- A bridge between Micrometer and OpenTelemetry is used to integrate tracing into Spring applications
+- Traces are exported in the OpenTelemetry format
+- **Jaeger** is used as the trace collector
 
 ---
 transition: slide-up
 ---
 
-## Трейсинг
+## Tracing
 
 <br>
 <img src="/jaeger-ui.png">
@@ -45,16 +45,16 @@ transition: slide-up
 transition: slide-up
 ---
 
-## Метрики
+## Metrics
 <br>
 
-- Во всех Spring-сервисах настроена отдача метрик в формате **Prometheus** через эндпоинт актуатора
-- В качестве коллектора метрик используется **Prometheus**
-- Для анализа и визуализации метрик используется **Grafana**
+- Metrics export in **Prometheus** format is configured in all Spring services via the actuator endpoint
+- **Prometheus** is used as the metrics collector
+- **Grafana** is used for metrics analysis and visualization
 
 ---
 
-## Метрики
+## Metrics
 
 <br>
 <img src="/prometheus.png">

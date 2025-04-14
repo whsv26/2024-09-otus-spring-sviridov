@@ -1,24 +1,21 @@
-Ввести авторизацию на основе URL и/или доменных сущностей
+Implement Authorization Based on URL and/or Domain Entities
 
-## Цель
+## Goal
 
-Научиться защищать приложение с помощью полноценной авторизации и разграничением прав доступа
+Learn to secure an application with proper authorization and access control
 
-## Результат
+## Result
 
-Полноценное приложение с безопасностью на основе Spring Security
+A fully secured application using Spring Security
 
-## Описание
+## Description
 
-Задание выполняется на основе нереактивного приложения Sping MVC
+The task is based on a non-reactive Spring MVC application
 
-- Минимум: настроить в приложении авторизацию на уровне URL.
-- Максимум: настроить в приложении авторизацию на основе доменных сущностей и методов сервиса.
+- Minimum: configure URL-based authorization in the application.
+- Maximum: configure authorization based on domain entities and service methods.
 
-Рекомендации по выполнению:
-- Не рекомендуется выделять пользователей с разными правами в разные классы - т.е. просто один класс пользователя.
-- В случае авторизации на основе доменных сущностей и PostgreSQL не используйте GUID для сущностей.
-- Написать тесты контроллеров, которые проверяют, что все необходимые ресурсы действительно защищены
-
-
-
+Recommendations:
+- It's not recommended to separate users with different roles into different classes – use a single user class.
+- When implementing domain entity-based authorization with PostgreSQL, do not use GUIDs for entities.
+- Write controller tests to verify that all necessary resources are indeed protected.

@@ -1,29 +1,29 @@
-Приложение по проведению тестирования студентов - только вывод вопросов и вариантов ответа (если имеются)
+Student Testing Application – Only Displaying Questions and Answer Options (if available)
 
-## Цель
+## Goal
 
-Создать приложение с помощью Spring IoC, чтобы познакомиться с основной функциональностью IoC, на которой строится весь Spring.
+Create an application using Spring IoC to get acquainted with the core functionality of IoC, which is the foundation of all Spring applications.
 
-## Результат
+## Result
 
-Простое приложение, сконфигурированное XML-контекстом.
+A simple application configured with an XML context.
 
-## Описание
+## Description
 
-- В ресурсах хранятся вопросы и различные ответы к ним в виде CSV файла (5 вопросов).
-- Вопросы могут быть с выбором из нескольких вариантов или со свободным ответом - на Ваше желание и усмотрение.
-- Приложение должно просто вывести вопросы теста из CSV-файла с возможными вариантами ответа (если имеются).
+- The resources contain questions and their possible answers in a CSV file (5 questions).
+- Questions can be multiple choice or open-ended — as you prefer.
+- The application should simply display the test questions from the CSV file along with any available answer options.
 
-## Требования
+## Requirements
 
-- Приложении должно быть основано на [заготовке](https://github.com/OtusTeam/Spring/tree/master/templates/hw01-xml-config) домашней работы.
-- В приложении должна присутствовать объектная модель (отдаём предпочтение объектам и классам, а не строчкам и массивам/спискам строчек).
-- Все классы в приложении должны решать строго определённую задачу (см. п. 18-19 "Правила оформления кода.pdf", прикреплённые к материалам занятия).
-- Контекст описывается XML-файлом.
-- Все зависимости должны быть настроены в IoC контейнере.
-- Имя ресурса с вопросами (CSV-файла) необходимо захардкодить строчкой в XML-файле с контекстом.
-- CSV с вопросами читается именно как ресурс, а не как файл.
-- Scanner, PrintStream и другие стандартные типы в контекст класть не нужно!
-- Весь ввод-вывод осуществляется на английском языке.
-- Написать юнит-тест какого-нибудь сервиса.
-- Приложение должно корректно запускаться с помощью "java -jar" (Опционально)
+- The application should be based on the [homework template](https://github.com/OtusTeam/Spring/tree/master/templates/hw01-xml-config).
+- The application must include an object model (favor objects and classes over strings and arrays/lists of strings).
+- All classes in the application must serve a specific, clearly defined purpose (see points 18–19 in the "Code Style Guidelines.pdf" attached to the course materials).
+- The context should be defined in an XML file.
+- All dependencies must be configured in the IoC container.
+- The name of the resource file (CSV) with the questions must be hardcoded as a string in the XML context file.
+- The CSV file must be read as a resource, not as a file.
+- Do not place Scanner, PrintStream, or other standard types into the application context!
+- All input/output should be in English.
+- Write a unit test for one of the services.
+- The application should correctly launch with "java -jar" (Optional)

@@ -1,18 +1,17 @@
-На основе Spring Batch разработать процедуру миграции данных из реляционного хранилища в NoSQL или наоборот
+Develop a Data Migration Procedure from a Relational Store to NoSQL or Vice Versa Using Spring Batch
 
-## Цель
+## Goal
 
-Мигрировать данные с помощью Spring Batch
+Migrate data using Spring Batch
 
-## Результат
+## Result
 
-Приложение для пакетных обработок данных на Spring Batch
+Application for batch data processing with Spring Batch
 
-## Описание
+## Description
 
-- Задание может быть выполнено в отдельном приложении, с сущностями из ДЗ JPA и MongoDB.
-- Вы можете выбрать другую доменную модель
-- Не обязательно добавлять процесс миграции в веб-приложение. Приложение может быть оформлено в виде отдельной утилиты.
-- Используя Spring Batch, следите, чтобы связи сущностей сохранились.
-- Опционально: Сделать restart задачи с помощью Spring Shell.
-
+- The task can be implemented in a standalone application using entities from the JPA and MongoDB homework.
+- You can choose a different domain model.
+- It is not necessary to include the migration process in a web application. It can be a separate utility.
+- Using Spring Batch, ensure that entity relationships are preserved.
+- Optional: Enable task restart using Spring Shell.
